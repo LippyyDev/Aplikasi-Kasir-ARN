@@ -21,5 +21,8 @@ Kotlin, Jetpack Compose (Material 3), Room, DataStore, Hilt, Coroutines/Flow, Wo
 ## Struktur Repo
 
 ```
-docs/PRD.md   Product Requirements Document
+CLAUDE.md                     Panduan dan aturan domain untuk Claude Code
+docs/PRD.md                   Product Requirements Document
+docs/TEST_CASES_TAKARAN.md    Kasus uji logika takaran, stok, dan biaya
+docs/BACKLOG.md               Daftar pekerjaan berurutan (siap jadi GitHub Issues)
 ```

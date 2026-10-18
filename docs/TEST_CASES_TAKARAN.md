@@ -1,8 +1,8 @@
 # Kasus Uji Logika Takaran
 
-Kasus uji untuk logika inti di lapisan `domain/` (lihat `CLAUDE.md`). Setiap baris dapat langsung menjadi satu uji unit JUnit. Semua angka sudah dihitung tangan; bila uji gagal, periksa implementasi lebih dulu.
+Kasus uji untuk logika inti di lapisan `domain/` (lihat `CLAUDE.md`). Setiap baris dapat langsung menjadi satu uji unit `flutter_test`. Semua angka sudah dihitung tangan; bila uji gagal, periksa implementasi lebih dulu.
 
-Aturan umum: stok, resep, dan uang adalah `Long`; konversi memakai `BigDecimal` dengan pembulatan `HALF_UP` ke `Long`.
+Aturan umum: stok, resep, dan uang adalah `int`; konversi memakai aritmetika pecahan bilangan bulat (tanpa `double`) dengan pembulatan `HALF_UP` ke `int`.
 
 ## A. Konversi Satuan
 
@@ -17,6 +17,8 @@ Aturan umum: stok, resep, dan uang adalah `Long`; konversi memakai `BigDecimal` 
 | A7 | Bahan bermassa (gula) | Input "liter" (satuan volume) | **Ditolak** (antardimensi) |
 | A8 | Bahan apa pun | Jumlah 0 atau negatif | **Ditolak** |
 | A9 | Gula, input 0,04 g | Dibulatkan menjadi 0; **ditolak** untuk resep (jumlah resep harus lebih dari 0 satuan dasar) |
+| A10 | Gula, 1 sendok makan = 12 g | Teks "2,5" dan teks "2.5" | Keduanya diparse sebagai 5/2 dan menghasilkan **30 g** |
+| A11 | Bahan apa pun | Teks "abc", "2,,5", "", "1e3" | **Ditolak** (bukan angka desimal valid) |
 
 ## B. Fixture A (dipakai kasus C sampai G)
 
@@ -122,13 +124,13 @@ Data: penjualan bersih E4 = 48.600; HPP E3 = 14.880; restok bahan G7 = 30.000; l
 | J4 | Hapus kategori berisi menu | Pengguna memilih pindah ke kategori lain atau "Tanpa kategori"; menu tidak ikut terhapus |
 | J5 | Ubah faktor satuan kustom | Stok tersimpan (satuan dasar) **tidak berubah**, hanya tampilan |
 
-## K. Cadangan dan Pemulihan (uji instrumentasi)
+## K. Cadangan dan Pemulihan (uji integrasi)
 
 | ID | Skenario | Hasil |
 |---|---|---|
 | K1 | Cadangan lalu pulihkan di instalasi bersih | Jumlah baris **tiap tabel** sama; semua gambar tampil |
 | K2 | Satu bita pada berkas cadangan diubah | **Ditolak** oleh *checksum*; data lama utuh |
 | K3 | Cadangan dari versi skema lebih baru | **Ditolak** dengan pesan memperbarui aplikasi |
-| K4 | Cadangan dari versi skema lebih lama | Migrasi Room dijalankan, data utuh |
+| K4 | Cadangan dari versi skema lebih lama | Migrasi Drift dijalankan, data utuh |
 | K5 | Proses dihentikan di tengah pemulihan | Data lama **tidak rusak** (dikembalikan dari cadangan pengaman) |
 | K6 | Cadangan saat database sedang menerima tulisan | Berkas cadangan **konsisten** (tidak setengah tertulis) |

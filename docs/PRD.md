@@ -3,9 +3,9 @@
 | Atribut | Isi |
 |---|---|
 | Nama produk | ARN Kasir |
-| Platform | Android (Kotlin) |
+| Platform | Android (Flutter, Dart) |
 | Penyimpanan data | Lokal di memori ponsel (tanpa server) |
-| Versi dokumen | 0.1 (draf awal) |
+| Versi dokumen | 0.2 (tumpukan teknologi diganti dari Kotlin native ke Flutter) |
 | Tanggal | 17 Oktober 2026 |
 | Status | Menunggu konfirmasi pertanyaan terbuka (bagian 15) |
 
@@ -39,7 +39,7 @@ ARN Kasir adalah aplikasi kasir untuk usaha makanan atau minuman skala kecil. Se
 * Banyak akun kasir atau hak akses bertingkat.
 * Integrasi pembayaran digital (QRIS dinamis, EDC).
 * Cetak struk lewat printer *Bluetooth* (dimasukkan ke versi 1.1, lihat bagian 14).
-* Versi iOS.
+* Versi iOS. Flutter memungkinkannya di masa depan, tetapi cadangan, pemilih berkas, dan notifikasi terjadwal perlu ditinjau ulang.
 
 ## 3. Pengguna
 
@@ -54,18 +54,21 @@ Versi 1 mengasumsikan **satu perangkat dan satu pengguna aktif**.
 
 | Lapisan | Pilihan | Alasan |
 |---|---|---|
-| Bahasa | Kotlin | Sesuai permintaan |
-| UI | Jetpack Compose dengan Material 3 | Tema terang/gelap dan *dynamic color* lebih mudah |
-| Arsitektur | MVVM dengan *repository*, satu aktivitas, Navigation Compose | Sederhana dan mudah diuji |
-| *Database* | Room di atas SQLite | Migrasi skema terkelola, mendukung *transaction* atomik |
-| Pengaturan | DataStore (Preferences) | Tema, bahasa, status notifikasi |
-| DI | Hilt | Standar Android |
-| Asinkron | Coroutines dan Flow | Layar reaktif terhadap perubahan data |
-| Gambar menu | Coil, berkas disimpan di penyimpanan internal aplikasi | Tanpa izin penyimpanan |
-| Cadangan | Storage Access Framework (SAF) | Pengguna memilih lokasi, tanpa izin penyimpanan luas |
-| Notifikasi dan jadwal | NotificationManager dan WorkManager | Peringatan stok dan pengingat cadangan |
-| *Splash screen* | API `androidx.core:core-splashscreen` | Cara resmi, tanpa penundaan buatan |
+| Kerangka kerja | Flutter (kanal stabil), Dart; target Android saja pada v1 | Sesuai permintaan; satu basis kode, dan iOS terbuka untuk masa depan |
+| UI | Flutter dengan Material 3 | Tema terang/gelap; *dynamic color* lewat `dynamic_color` |
+| Arsitektur | Berlapis (`domain`, `data`, `ui`), Riverpod, `go_router` | Logika inti di Dart murni sehingga mudah diuji tanpa emulator |
+| *Database* | Drift di atas SQLite (`sqlite3_flutter_libs`) | Kueri bertipe, migrasi terkelola dan dapat diuji, mendukung *transaction* atomik |
+| Pengaturan | `shared_preferences` | Tema, bahasa, status notifikasi |
+| Asinkron | `Future` dan `Stream` Dart | Layar reaktif terhadap perubahan data (kueri `watch` Drift) |
+| Gambar menu | `image_picker`, `flutter_image_compress`, `path_provider`; berkas di penyimpanan internal aplikasi | Tanpa izin penyimpanan luas |
+| Cadangan | `archive` (ZIP), `crypto` (SHA 256), `file_picker` (pemilih lokasi sistem) | Pengguna memilih lokasi; perilaku pada Android perlu diverifikasi di perangkat nyata |
+| Notifikasi dan jadwal | `flutter_local_notifications` dan `workmanager` | Peringatan stok dan pengingat cadangan |
+| *Splash screen* | `flutter_native_splash` | *Splash* native tanpa kedipan putih, ditahan selama inisialisasi |
+| Lokalisasi | `flutter_localizations` dan `intl` (berkas ARB) | Indonesia dan Inggris |
+| Grafik | `fl_chart` | Grafik laporan |
 | Versi Android | minSdk 26, targetSdk terbaru | Jangkauan perangkat luas |
+
+Daftar paket adalah usulan; versi dikunci saat proyek dibuat. Dart tidak punya `BigDecimal` bawaan, sehingga konversi takaran memakai aritmetika pecahan bilangan bulat buatan sendiri di lapisan `domain` (lihat 7.1).
 
 ## 5. Alur Navigasi
 
@@ -99,7 +102,7 @@ Ikon ARN diketuk
 * Aplikasi tidak memiliki layar *login* pada versi 1.
 
 **Kriteria penerimaan**
-* Pada Android 12 atau lebih baru memakai API *splash* bawaan sistem; pada versi lebih lama memakai kompatibilitas dari pustaka.
+* *Splash* native dibuat dengan `flutter_native_splash` (termasuk perilaku Android 12 ke atas), ditahan selama inisialisasi lalu dilepas sebelum layar Flutter pertama tampil.
 * Tidak ada layar putih sebelum logo tampil.
 
 ### 6.2 Halaman Utama
@@ -145,20 +148,20 @@ Terdiri dari tiga bagian sesuai permintaan, ditambah keranjang karena ini aplika
   2. Bahan habis.
   3. Pengingat cadangan (bila terakhir *backup* lebih dari N hari, bawaan 7).
   4. Hasil cadangan atau pemulihan (berhasil/gagal).
-* Pengaturan: aktif/nonaktif per jenis, serta izin notifikasi sistem (Android 13 ke atas meminta izin `POST_NOTIFICATIONS` saat pertama kali pengguna mengaktifkan).
+* Pengaturan: aktif/nonaktif per jenis, serta izin notifikasi sistem (Android 13 ke atas meminta izin `POST_NOTIFICATIONS` saat pertama kali pengguna mengaktifkan, diminta lewat `flutter_local_notifications`).
 * Notifikasi stok dibuat saat transaksi disimpan, dan hanya sekali per bahan per kondisi (tidak berulang pada setiap transaksi sampai stok dipulihkan di atas batas).
 
 #### 6.3.2 Tema
 
 * Pilihan: Terang, Gelap, Ikuti Sistem (bawaan).
 * Opsi *dynamic color* (Android 12 ke atas), bawaan nonaktif agar warna merek ARN konsisten.
-* Berlaku seketika tanpa memulai ulang aplikasi. Disimpan di DataStore.
+* Berlaku seketika tanpa memulai ulang aplikasi. Disimpan di `shared_preferences`.
 
 #### 6.3.3 Bahasa
 
 * Bahasa awal: Indonesia (bawaan) dan Inggris.
-* Memakai *per-app language* (`LocaleManager` pada Android 13 ke atas, `AppCompatDelegate.setApplicationLocales` untuk versi lebih lama).
-* Seluruh teks di sumber daya `strings.xml`; tidak ada teks yang ditulis langsung di kode.
+* Bahasa dipilih di dalam aplikasi (`locale` pada `MaterialApp`) dan disimpan di `shared_preferences`; pengaturan bahasa per aplikasi milik sistem tidak dipakai pada v1.
+* Seluruh teks di berkas ARB (`lib/l10n/`), dihasilkan lewat `flutter gen-l10n`; tidak ada teks yang ditulis langsung di kode.
 * Format angka dan tanggal mengikuti bahasa terpilih; mata uang tetap Rupiah kecuali diubah di profil.
 
 #### 6.3.4 Penyetelan Menu
@@ -202,7 +205,7 @@ Pusat pengelolaan data penjualan, terdiri dari tiga sub bagian.
 * Kartu ringkasan: total penjualan kotor, diskon, penjualan bersih, jumlah transaksi, rata rata per transaksi, **HPP**, **laba kotor**.
 * Grafik: tren per hari/jam, menu terlaris (jumlah dan pendapatan), pembagian per kategori dan per metode bayar.
 * Daftar transaksi dapat diketuk untuk melihat rincian. Pada rincian tersedia **Batalkan transaksi** (*void*) yang mengembalikan stok dan menandai transaksi dibatalkan (tidak dihapus, demi jejak audit).
-* Ekspor ringkasan ke CSV melalui SAF (usulan, prioritas sedang).
+* Ekspor ringkasan ke CSV lewat pemilih lokasi sistem (`file_picker`) (usulan, prioritas sedang).
 
 #### 6.3.7 Info Pengeluaran
 
@@ -228,8 +231,8 @@ Diminta pengguna; ditempatkan sebagai item tersendiri di burger menu. Rincian pa
 ### 7.1 Satuan Dasar dan Konversi
 
 * Setiap bahan memiliki satu **satuan dasar** menurut dimensinya: gram (massa), mililiter (volume), buah (hitungan).
-* Semua stok dan semua resep disimpan sebagai **bilangan bulat dalam satuan dasar** (tipe `Long`). Ini menghindari galat pembulatan bilangan pecahan yang akan menumpuk pada ribuan transaksi.
-* Satuan lain (kg, liter, sendok makan, cup) hanya lapisan tampilan dan input: nilai dikalikan faktor konversi lalu dibulatkan ke satuan dasar saat disimpan.
+* Semua stok dan semua resep disimpan sebagai **bilangan bulat dalam satuan dasar** (tipe `int` Dart, 64 bit pada Android). Ini menghindari galat pembulatan bilangan pecahan yang akan menumpuk pada ribuan transaksi. Dilarang memakai `double` untuk stok, resep, atau uang.
+* Satuan lain (kg, liter, sendok makan, cup) hanya lapisan tampilan dan input: nilai dikalikan faktor konversi lalu dibulatkan ke satuan dasar saat disimpan. Faktor disimpan sebagai pecahan bilangan bulat (2,5 g = 5/2), input teks pengguna ("2,5" atau "2.5") diparse persis menjadi pecahan, dan pembulatan memakai *half up*.
 * Konversi **antardimensi tidak otomatis**. Gula dalam "sendok makan" membutuhkan faktor yang ditentukan pengguna per bahan karena massa jenis berbeda tiap bahan.
 
 ### 7.2 Resep dan Pengurangan Stok
@@ -249,20 +252,20 @@ Diminta pengguna; ditempatkan sebagai item tersendiri di burger menu. Rincian pa
 
 ### 7.4 Biaya dan HPP
 
-* Metode: **rata rata tertimbang bergerak**. Tiap bahan menyimpan `jumlah stok` dan `nilai stok` (Rupiah, `Long`). Saat restok: nilai dan jumlah ditambahkan. Saat pemakaian: nilai berkurang proporsional terhadap rata rata saat itu.
+* Metode: **rata rata tertimbang bergerak**. Tiap bahan menyimpan `jumlah stok` dan `nilai stok` (Rupiah, `int`). Saat restok: nilai dan jumlah ditambahkan. Saat pemakaian: nilai berkurang proporsional terhadap rata rata saat itu.
 * HPP per porsi menu = jumlah biaya semua bahan resep pada saat transaksi. Nilai ini **disimpan pada baris transaksi** agar laporan laba tidak berubah bila harga bahan kemudian naik atau turun.
 * Menu dengan bahan yang belum pernah dibeli (rata rata belum ada) ditandai "HPP belum lengkap".
 
-## 8. Model Data (Room)
+## 8. Model Data (Drift/SQLite)
 
-Seluruh uang disimpan sebagai `Long` dalam Rupiah (tanpa desimal). Seluruh waktu disimpan sebagai `Long` *epoch* milidetik UTC dan ditampilkan sesuai zona waktu perangkat.
+Seluruh uang disimpan sebagai `int` (INTEGER 64 bit) dalam Rupiah (tanpa desimal). Seluruh waktu disimpan sebagai `int` *epoch* milidetik UTC dan ditampilkan sesuai zona waktu perangkat.
 
 | Tabel | Kolom utama | Catatan |
 |---|---|---|
 | `kategori_menu` | id, nama (unik), urutan | |
 | `menu` | id, nama, kategori_id (boleh kosong), harga_jual, foto_path, aktif, catatan, dibuat, diubah | Hapus lunak (`dihapus_pada`) |
 | `bahan_baku` | id, nama (unik), dimensi, satuan_dasar, satuan_beli, stok_dasar, nilai_stok, stok_minimum, dihapus_pada | |
-| `takaran_bahan` | id, bahan_id, nama_satuan, faktor_ke_dasar | Untuk satuan kustom dan satuan beli |
+| `takaran_bahan` | id, bahan_id, nama_satuan, faktor_pembilang, faktor_penyebut | Untuk satuan kustom dan satuan beli. Faktor berupa pecahan bilangan bulat (2,5 g = 5/2), tanpa `double` |
 | `resep_item` | id, menu_id, bahan_id, jumlah_dasar | Kunci unik (menu_id, bahan_id) |
 | `transaksi` | id, nomor, waktu, subtotal, diskon, total, metode_bayar, dibayar, kembalian, status (selesai/batal), catatan | Nomor urut harian |
 | `transaksi_item` | id, transaksi_id, menu_id, nama_menu, harga_satuan, kuantitas, hpp_satuan, catatan | Nama dan harga disalin sebagai *snapshot* |
@@ -273,7 +276,7 @@ Seluruh uang disimpan sebagai `Long` dalam Rupiah (tanpa desimal). Seluruh waktu
 | `notifikasi` | id, jenis, judul, isi, waktu, dibaca, referensi_id | |
 | `profil_usaha` | id (tetap 1), nama, logo_path, alamat, telepon, mata_uang | |
 
-Pengaturan ringan (tema, bahasa, kebijakan stok, jadwal cadangan, waktu cadangan terakhir) di DataStore. Bila ingin seluruh pengaturan ikut dalam cadangan, simpan juga ke berkas `settings.json` di dalam arsip (lihat 10.2).
+Pengaturan ringan (tema, bahasa, kebijakan stok, jadwal cadangan, waktu cadangan terakhir) di `shared_preferences`. Bila ingin seluruh pengaturan ikut dalam cadangan, simpan juga ke berkas `settings.json` di dalam arsip (lihat 10.2).
 
 Indeks yang disarankan: `transaksi(waktu)`, `transaksi_item(transaksi_id)`, `pergerakan_stok(bahan_id, waktu)`, `menu(kategori_id)`.
 
@@ -327,14 +330,14 @@ Berekstensi `.arnbak`, berupa arsip ZIP berisi:
 ### 10.3 Cadangan Manual
 
 1. Pengguna membuka Cadangan dan Pulihkan lalu mengetuk **Buat cadangan**.
-2. Sistem membuka pemilih lokasi SAF (`CreateDocument`), nama bawaan `ARN_Backup_<tanggal>_<jam>.arnbak`.
+2. Sistem membuka pemilih lokasi simpan (`file_picker`; pada Android memakai *Storage Access Framework*, perilaku diverifikasi pada versi paket yang dipakai), nama bawaan `ARN_Backup_<tanggal>_<jam>.arnbak`.
 3. Aplikasi membuat arsip di berkas sementara, memverifikasi (membuka ulang dan mencocokkan *checksum*), lalu menyalin ke lokasi pilihan.
 4. Hasil ditampilkan, waktu cadangan terakhir diperbarui.
 
 ### 10.4 Cadangan Terjadwal (Opsional, Prioritas Sedang)
 
 * Pengguna memilih folder tujuan sekali lewat `OpenDocumentTree`; izin URI dipertahankan (*persistable permission*).
-* Jadwal harian atau mingguan melalui WorkManager; menyimpan paling banyak N berkas terakhir (bawaan 5) dan menghapus yang lebih lama.
+* Jadwal harian atau mingguan melalui `workmanager`; menyimpan paling banyak N berkas terakhir (bawaan 5) dan menghapus yang lebih lama.
 * Bila folder tidak lagi dapat diakses, kirim notifikasi dan minta pengguna memilih ulang.
 
 ### 10.5 Pulihkan
@@ -343,7 +346,7 @@ Berekstensi `.arnbak`, berupa arsip ZIP berisi:
 2. Validasi berurutan; gagal pada salah satu langkah berarti pemulihan dibatalkan tanpa mengubah data yang ada:
    * Berkas arsip valid dan `manifest.json` terbaca.
    * *Checksum* semua berkas cocok.
-   * Versi skema di berkas **kurang dari atau sama dengan** versi skema aplikasi (cadangan dari versi lebih baru ditolak dengan pesan meminta pembaruan aplikasi). Bila lebih lama, jalankan migrasi Room.
+   * Versi skema di berkas **kurang dari atau sama dengan** versi skema aplikasi (cadangan dari versi lebih baru ditolak dengan pesan meminta pembaruan aplikasi). Bila lebih lama, jalankan migrasi Drift.
 3. Tampilkan ringkasan (tanggal cadangan, jumlah menu, bahan, transaksi) dan **peringatan bahwa data saat ini akan diganti**; pengguna harus mengonfirmasi.
 4. Aplikasi membuat **cadangan pengaman otomatis** dari data saat ini di penyimpanan internal (disimpan untuk pemulihan darurat).
 5. Database dan gambar diganti secara atomik (tulis ke direktori sementara lalu tukar), kemudian aplikasi dimulai ulang.
@@ -367,13 +370,13 @@ Berekstensi `.arnbak`, berupa arsip ZIP berisi:
 |---|---|
 | *Offline* | Seluruh fitur berfungsi tanpa internet. Aplikasi tidak meminta izin `INTERNET` pada versi 1 |
 | Kinerja | Daftar menu dan laporan memakai paginasi atau *query* teragregasi di SQL; layar tetap lancar dengan 50 ribu transaksi |
-| Keandalan | Setiap operasi yang mengubah beberapa tabel memakai satu *transaction* Room. Migrasi skema memiliki uji otomatis |
+| Keandalan | Setiap operasi yang mengubah beberapa tabel memakai satu *transaction* Drift. Migrasi skema memiliki uji otomatis |
 | Keamanan dan privasi | Data hanya di perangkat, ruang penyimpanan privat aplikasi. Opsi kunci aplikasi (PIN atau biometrik) dicatat sebagai pertanyaan terbuka |
 | Aksesibilitas | Target sentuh minimal 48 dp, kontras sesuai WCAG AA, dukungan *TalkBack*, ukuran huruf mengikuti sistem |
 | Lokalisasi | Indonesia dan Inggris; tanpa teks tertanam di kode |
 | Orientasi | Potret wajib; lanskap dan tablet pada versi berikutnya |
-| Ukuran aplikasi | Target di bawah 25 MB |
-| Pengujian | Uji unit untuk konversi takaran, pengurangan stok, HPP, dan pembatalan; uji instrumentasi untuk migrasi dan pulihkan |
+| Ukuran aplikasi | Target di bawah 25 MB per APK (`--split-per-abi`). Flutter menambah ukuran dasar; tinjau ulang setelah build rilis pertama |
+| Pengujian | Uji unit untuk konversi takaran, pengurangan stok, HPP, dan pembatalan; uji integrasi (`integration_test`) untuk migrasi dan pulihkan |
 
 ## 12. Desain Antarmuka (Garis Besar)
 
@@ -391,6 +394,8 @@ Berekstensi `.arnbak`, berupa arsip ZIP berisi:
 | Beban input awal besar (banyak bahan dan resep) | Pengguna menyerah sebelum mulai | Penambahan cepat, duplikat menu, templat satuan umum; impor CSV dipertimbangkan versi 1.1 |
 | Migrasi skema gagal pada pembaruan | Data korup | Uji migrasi otomatis, cadangan pengaman otomatis sebelum migrasi besar |
 | Ponsel kelas bawah | Lambat | Gambar dikompres dan di-*cache*, *query* beragregasi di SQL |
+| Plugin pihak ketiga (pemilih berkas, notifikasi terjadwal, `workmanager`) berperilaku berbeda antarversi Android | Cadangan atau pengingat gagal diam diam | Kunci versi paket, uji di perangkat nyata (Android 8, 13, dan terbaru), uji integrasi untuk alur cadangan |
+| Aritmetika pecahan buatan sendiri salah | Stok atau HPP meleset | Dikunci oleh `docs/TEST_CASES_TAKARAN.md` sebagai uji unit sebelum implementasi |
 
 ## 14. Rencana Rilis
 
@@ -403,7 +408,7 @@ Berekstensi `.arnbak`, berupa arsip ZIP berisi:
 ### Urutan Pengerjaan Teknis yang Disarankan
 
 1. Proyek, tema, navigasi, *splash*.
-2. Room: entitas, DAO, migrasi dan uji.
+2. Drift: tabel, DAO, migrasi dan uji.
 3. Bahan baku dan konversi takaran (inti domain; uji unit lebih dulu).
 4. Kategori, menu, resep, perhitungan HPP.
 5. Halaman Utama, keranjang, pembayaran, pengurangan stok atomik.

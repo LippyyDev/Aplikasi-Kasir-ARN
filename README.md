@@ -1,6 +1,6 @@
 # Aplikasi Kasir ARN
 
-Aplikasi kasir Android (Kotlin) dengan database lokal untuk manajemen bahan baku berbasis takaran. Seluruh data tersimpan di memori ponsel dan aplikasi berjalan sepenuhnya *offline*.
+Aplikasi kasir Android (Flutter) dengan database lokal untuk manajemen bahan baku berbasis takaran. Seluruh data tersimpan di memori ponsel dan aplikasi berjalan sepenuhnya *offline*.
 
 ## Status
 
@@ -16,7 +16,7 @@ Tahap perencanaan. Spesifikasi lengkap ada di [docs/PRD.md](docs/PRD.md).
 
 ## Stack (Usulan)
 
-Kotlin, Jetpack Compose (Material 3), Room, DataStore, Hilt, Coroutines/Flow, WorkManager, minSdk 26.
+Flutter (Dart, Material 3), Drift/SQLite, Riverpod, go_router, `workmanager`, minSdk 26. Android saja pada v1.
 
 ## Struktur Repo
 

@@ -1,0 +1,31 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Keystore dan rahasia
+*.jks
+*.keystore
+keystore.properties
+google-services.json
+
+# APK / AAB
+*.apk
+*.aab
+*.ap_
+
+# Log dan berkas OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Berkas cadangan lokal
+*.arnbak

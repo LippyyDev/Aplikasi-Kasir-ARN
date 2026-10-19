@@ -28,4 +28,16 @@ final class AppPaths {
 
   /// Folder kerja sementara untuk membuat dan memulihkan cadangan.
   Directory get workDir => Directory(p.join(tempDir.path, 'arn_work'));
+
+  /// Area penahapan pemulihan. Berada di volume yang sama dengan data aplikasi supaya
+  /// penukaran berkas berupa `rename` atomik, bukan salin.
+  Directory get restoreStagingDir =>
+      Directory(p.join(supportDir.path, 'restore_staging'));
+
+  /// Penanda bahwa penukaran data sedang berlangsung. Bila ada saat aplikasi dibuka,
+  /// proses sebelumnya terputus di tengah pemulihan (TC K5).
+  File get restoreJournal => File(p.join(supportDir.path, 'restore.journal'));
+
+  /// Nama cadangan data lama selama penukaran.
+  static const String oldSuffix = '.old';
 }

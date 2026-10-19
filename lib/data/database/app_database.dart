@@ -78,6 +78,12 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  /// Membuat salinan konsisten database ke [target] dengan `VACUUM INTO` (CLAUDE.md aturan
+  /// 9). Salinan diambil dari satu pembacaan snapshot, jadi tulisan yang sedang berjalan
+  /// tidak menghasilkan berkas setengah jadi (TC K6). [target] tidak boleh sudah ada.
+  Future<void> vacuumInto(String targetPath) =>
+      customStatement('VACUUM INTO ?', <Object?>[targetPath]);
+
   /// Aliran hasil [load] yang dimuat ulang setiap kali salah satu [tables] berubah.
   ///
   /// Dipakai untuk tampilan yang menggabungkan beberapa tabel (menu dan resep, bahan dan

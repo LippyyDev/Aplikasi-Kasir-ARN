@@ -220,3 +220,19 @@ final class EmptyName extends DomainFailure {
 final class ProtectedRecord extends DomainFailure {
   const ProtectedRecord();
 }
+
+/// Dimensi bahan tidak dapat diubah setelah bahan punya riwayat atau dipakai resep,
+/// karena satuan dasar tempat stok dan resep disimpan akan berubah makna.
+final class DimensionLocked extends DomainFailure {
+  const DimensionLocked();
+}
+
+/// Kategori pengeluaran masih dipakai catatan pengeluaran dan tidak dapat dihapus.
+final class CategoryInUse extends DomainFailure {
+  const CategoryInUse();
+}
+
+/// Data tidak ditemukan (id tidak ada atau sudah dihapus).
+final class RecordNotFound extends DomainFailure {
+  const RecordNotFound();
+}

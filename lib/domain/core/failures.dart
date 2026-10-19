@@ -196,7 +196,7 @@ final class IngredientInUse extends DomainFailure {
   String toString() => 'IngredientInUse($menuNames)';
 }
 
-enum NameSubject { ingredient, menuCategory, expenseCategory, unit }
+enum NameSubject { ingredient, menu, menuCategory, expenseCategory, unit }
 
 /// Nama harus unik (bahan, kategori menu, kategori pengeluaran, satuan).
 final class DuplicateName extends DomainFailure {

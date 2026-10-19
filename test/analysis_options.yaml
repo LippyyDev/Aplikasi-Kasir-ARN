@@ -1,0 +1,6 @@
+include: ../analysis_options.yaml
+
+linter:
+  rules:
+    # Berkas pendukung uji memakai impor relatif.
+    always_use_package_imports: false

@@ -1,0 +1,9 @@
+# Dihasilkan oleh: dart run flutter_launcher_icons
+# Ikon sementara; ganti berkas di assets/branding/ dengan aset ARN resmi.
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/branding/arn_icon.png"
+  min_sdk_android: 26
+  adaptive_icon_background: "#6B4226"
+  adaptive_icon_foreground: "assets/branding/arn_icon_foreground.png"

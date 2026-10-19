@@ -1,0 +1,23 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "lib/l10n/generated/**"
+    - "build/**"
+  errors:
+    invalid_annotation_target: ignore
+
+linter:
+  rules:
+    - always_use_package_imports
+    - avoid_print
+    - prefer_single_quotes
+    - prefer_final_locals
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - unawaited_futures
+    - cancel_subscriptions
+    - close_sinks
+    - use_super_parameters
+    - sort_child_properties_last

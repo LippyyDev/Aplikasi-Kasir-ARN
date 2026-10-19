@@ -1,0 +1,15 @@
+# Dihasilkan oleh: dart run flutter_native_splash:create
+# Logo sementara; ganti assets/branding/arn_logo.png dengan logo ARN resmi (PRD 15, butir 9).
+flutter_native_splash:
+  color: "#FBF6F1"
+  image: assets/branding/arn_logo.png
+  color_dark: "#1C1411"
+  image_dark: assets/branding/arn_logo.png
+  android: true
+  ios: false
+  web: false
+  android_12:
+    color: "#FBF6F1"
+    image: assets/branding/arn_logo.png
+    color_dark: "#1C1411"
+    image_dark: assets/branding/arn_logo.png

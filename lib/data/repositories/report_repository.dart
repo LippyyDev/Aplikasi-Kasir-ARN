@@ -30,6 +30,47 @@ final class ReportRepository {
         Variable.withInt(toDbTime(range.to)),
       ];
 
+  /// Periode satu hari dikelompokkan per jam, selain itu per hari.
+  static bool isSingleDay(DateRange range) =>
+      range.to.difference(range.from) <= const Duration(hours: 25);
+
+  Stream<IncomeOverview> watchIncome(DateRange range) {
+    return _db.watchLoad<IncomeOverview>(
+      <ResultSetImplementation<dynamic, dynamic>>[
+        ..._salesTables,
+        _db.expenses,
+      ],
+      () => loadIncome(range),
+    );
+  }
+
+  Future<IncomeOverview> loadIncome(DateRange range) async {
+    final hourly = isSingleDay(range);
+    return IncomeOverview(
+      report: await report(range),
+      trend: await trend(range, hourly: hourly),
+      hourly: hourly,
+      topMenus: await topMenus(range),
+      byCategory: await salesByCategory(range),
+      byMethod: await salesByMethod(range),
+      sales: await salesList(range),
+    );
+  }
+
+  Stream<ExpenseOverview> watchExpenses(DateRange range) {
+    return _db.watchLoad<ExpenseOverview>(
+      <ResultSetImplementation<dynamic, dynamic>>[
+        ..._salesTables,
+        _db.expenses,
+        _db.expenseCategories,
+      ],
+      () async => ExpenseOverview(
+        report: await report(range),
+        byCategory: await expensesByCategory(range),
+      ),
+    );
+  }
+
   Stream<PeriodReport> watchReport(DateRange range) {
     return _db.watchLoad<PeriodReport>(
       <ResultSetImplementation<dynamic, dynamic>>[

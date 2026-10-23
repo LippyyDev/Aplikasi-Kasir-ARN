@@ -1,3 +1,4 @@
+import 'package:arn_kasir/domain/models/sale_summary.dart';
 import 'package:arn_kasir/domain/reports/period_figures.dart';
 
 /// Rentang waktu setengah terbuka `[from, to)` dalam UTC.
@@ -85,4 +86,35 @@ final class PeriodReport {
   final SalesSummary summary;
   final PeriodTotals totals;
   final PeriodFigures figures;
+}
+
+/// Semua angka layar Info Pemasukan untuk satu periode (PRD 6.3.6).
+final class IncomeOverview {
+  const IncomeOverview({
+    required this.report,
+    required this.trend,
+    required this.topMenus,
+    required this.byCategory,
+    required this.byMethod,
+    required this.sales,
+    required this.hourly,
+  });
+
+  final PeriodReport report;
+
+  /// Penjualan bersih per hari, atau per jam bila [hourly].
+  final List<TrendPoint> trend;
+  final bool hourly;
+  final List<TopMenuEntry> topMenus;
+  final List<BreakdownEntry> byCategory;
+  final List<BreakdownEntry> byMethod;
+  final List<SaleSummary> sales;
+}
+
+/// Semua angka layar Info Pengeluaran untuk satu periode (PRD 6.3.7).
+final class ExpenseOverview {
+  const ExpenseOverview({required this.report, required this.byCategory});
+
+  final PeriodReport report;
+  final List<BreakdownEntry> byCategory;
 }

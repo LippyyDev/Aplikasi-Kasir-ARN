@@ -24,7 +24,7 @@ final class SettingsRepository {
     final days = _prefs.getInt(_reminderDays);
     return AppSettings(
       theme: ThemePreference.fromStorage(_prefs.getString(_theme)),
-      useDynamicColor: _prefs.getBool(_dynamicColor) ?? true,
+      useDynamicColor: _prefs.getBool(_dynamicColor) ?? false,
       languageCode: _validLanguage(_prefs.getString(_language)),
       stockPolicy: StockPolicy.fromDb(_prefs.getString(_stockPolicy)),
       shrinkageEnabled: _prefs.getBool(_shrinkage) ?? true,

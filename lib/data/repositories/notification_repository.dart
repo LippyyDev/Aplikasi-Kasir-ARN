@@ -69,6 +69,21 @@ final class NotificationRepository {
         );
   }
 
+  /// Waktu notifikasi terbaru berjenis [type], atau `null` bila belum pernah ada.
+  Future<DateTime?> latestTimeOf(NotificationType type) async {
+    final row = await _db
+        .customSelect(
+          'SELECT MAX(waktu) AS t FROM notifikasi WHERE jenis = ?',
+          variables: <Variable<Object>>[Variable.withString(type.dbValue)],
+          readsFrom: <ResultSetImplementation<dynamic, dynamic>>{
+            _db.appNotifications,
+          },
+        )
+        .getSingle();
+    final millis = row.readNullable<int>('t');
+    return millis == null ? null : fromDbTime(millis);
+  }
+
   Future<void> markRead(int id) =>
       (_db.update(_db.appNotifications)..where((t) => t.id.equals(id)))
           .write(const AppNotificationsCompanion(isRead: Value(true)));

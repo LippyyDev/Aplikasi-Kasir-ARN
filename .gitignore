@@ -47,3 +47,7 @@ Thumbs.db
 
 # Berkas cadangan lokal
 *.arnbak
+
+# Hasil generator (dibuat ulang oleh `dart tool/bootstrap.dart` dan CI)
+*.g.dart
+lib/l10n/generated/

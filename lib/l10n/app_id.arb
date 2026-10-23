@@ -1,0 +1,671 @@
+{
+  "@@locale": "id",
+  "appName": "ARN Kasir",
+  "notifOutOfStockTitle": "Stok habis",
+  "notifLowStockTitle": "Stok menipis",
+  "notifOutOfStockBody": "Stok {name} habis. Menu yang memakainya tidak bisa dijual.",
+  "@notifOutOfStockBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifLowStockBody": "Stok {name} tinggal sedikit. Segera restok.",
+  "@notifLowStockBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRestoreSuccessTitle": "Pemulihan berhasil",
+  "notifRestoreFailedTitle": "Pemulihan gagal",
+  "notifBackupSuccessTitle": "Cadangan berhasil",
+  "notifBackupFailedTitle": "Cadangan gagal",
+  "notifBackupReminderNever": "Anda belum pernah mencadangkan data. Buat cadangan agar data tetap aman bila ponsel hilang atau rusak.",
+  "notifBackupReminderBody": "Cadangan terakhir {days} hari lalu. Buat cadangan baru agar data tetap aman.",
+  "@notifBackupReminderBody": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "notifBackupReminderTitle": "Saatnya mencadangkan data",
+  "backupTitle": "Cadangan dan pulihkan",
+  "backupLastLabel": "Cadangan terakhir",
+  "backupNever": "Belum pernah",
+  "backupCreateTitle": "Buat cadangan",
+  "backupCreateBody": "Seluruh menu, bahan, resep, transaksi, dan pengaturan disimpan dalam satu berkas .arnbak. Pilih lokasi penyimpanan, misalnya penyimpanan internal atau layanan awan di ponsel Anda.",
+  "backupCreateAction": "Buat cadangan sekarang",
+  "backupUnencryptedWarning": "Berkas cadangan tidak dienkripsi. Simpan di tempat yang aman dan jangan bagikan kepada orang yang tidak berwenang.",
+  "backupPickTitle": "Simpan cadangan ke",
+  "backupDone": "Cadangan tersimpan: {fileName}",
+  "@backupDone": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreTitle": "Pulihkan data",
+  "restoreBody": "Ganti data di aplikasi ini dengan isi berkas .arnbak, misalnya setelah berganti ponsel.",
+  "restoreAction": "Pilih berkas cadangan",
+  "restoreSafetyNote": "Sebelum data diganti, aplikasi membuat cadangan pengaman secara otomatis. Bila penggantian gagal, data lama dikembalikan.",
+  "restorePickTitle": "Pilih berkas cadangan",
+  "restoreWrongExtension": "Pilih berkas dengan ekstensi .arnbak.",
+  "restorePreviewTitle": "Pulihkan dari cadangan ini?",
+  "restorePreviewCreated": "Dibuat: {date}",
+  "@restorePreviewCreated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "restorePreviewCounts": "{menus} menu, {ingredients} bahan, {sales} transaksi, {images} gambar",
+  "@restorePreviewCounts": {
+    "placeholders": {
+      "menus": {
+        "type": "int"
+      },
+      "ingredients": {
+        "type": "int"
+      },
+      "sales": {
+        "type": "int"
+      },
+      "images": {
+        "type": "int"
+      }
+    }
+  },
+  "restorePreviewVersion": "Versi aplikasi {appVersion}, skema database {schema}",
+  "@restorePreviewVersion": {
+    "placeholders": {
+      "appVersion": {
+        "type": "String"
+      },
+      "schema": {
+        "type": "int"
+      }
+    }
+  },
+  "restoreMigrationNote": "Cadangan ini dibuat oleh versi yang lebih lama. Data disesuaikan otomatis saat aplikasi dibuka.",
+  "restoreWarning": "Seluruh data saat ini akan diganti dengan isi cadangan. Cadangan pengaman dari data saat ini dibuat otomatis lebih dulu.",
+  "restoreConfirm": "Pulihkan",
+  "restoreDoneTitle": "Pemulihan selesai",
+  "restoreDoneBody": "Data berhasil dipulihkan. Aplikasi perlu dimulai ulang untuk memuat data baru.",
+  "restoreRolledBackTitle": "Pemulihan dibatalkan",
+  "restoreRolledBackBody": "Pemulihan gagal di tengah jalan, tetapi data lama sudah dikembalikan seperti semula. Mulai ulang aplikasi untuk melanjutkan.",
+  "restoreRestartAction": "Mulai ulang aplikasi",
+  "actionCancel": "Batal",
+  "actionSave": "Simpan",
+  "actionEdit": "Ubah",
+  "actionDelete": "Hapus",
+  "actionApply": "Terapkan",
+  "actionClose": "Tutup",
+  "actionRename": "Ganti nama",
+  "actionAdd": "Tambah",
+  "cartItemCount": "{count} item",
+  "@cartItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cartTitle": "Keranjang",
+  "cartClear": "Kosongkan",
+  "cartClearTitle": "Kosongkan keranjang?",
+  "cartClearMessage": "Semua item di keranjang akan dihapus.",
+  "cartSubtotal": "Subtotal",
+  "cartDiscount": "Diskon",
+  "cartTotal": "Total",
+  "cartPay": "Bayar",
+  "cartAddNote": "Tambah catatan",
+  "cartEditNote": "Ubah catatan",
+  "cartNoteLabel": "Catatan",
+  "cartDecrease": "Kurangi",
+  "cartIncrease": "Tambah",
+  "discountAmount": "Nominal",
+  "discountPercent": "Persen",
+  "discountPercentLabel": "Diskon (%)",
+  "discountAmountLabel": "Diskon (nominal)",
+  "discountRemove": "Hapus diskon",
+  "checkoutTitle": "Pembayaran",
+  "checkoutEmptyCart": "Keranjang kosong. Pilih menu terlebih dahulu.",
+  "paymentCash": "Tunai",
+  "paymentNonCash": "Non tunai",
+  "checkoutAmountPaid": "Uang diterima",
+  "checkoutPaidHelper": "Kosongkan bila uang pas",
+  "checkoutExactAmount": "Uang pas",
+  "checkoutShortBy": "Kurang",
+  "checkoutChange": "Kembalian",
+  "checkoutNonCashHint": "Pembayaran non tunai hanya dicatat sebagai metode bayar, misalnya transfer, QRIS, atau kartu.",
+  "checkoutNoteLabel": "Catatan transaksi (opsional)",
+  "checkoutConfirm": "Konfirmasi pembayaran",
+  "receiptNumber": "No.",
+  "receiptDate": "Tanggal",
+  "receiptVoided": "DIBATALKAN",
+  "receiptMethod": "Metode bayar",
+  "receiptThanks": "Terima kasih",
+  "receiptSuccessTitle": "Pembayaran berhasil",
+  "receiptTitle": "Struk",
+  "receiptPaid": "Lunas",
+  "receiptShareText": "Bagikan teks",
+  "receiptShareImage": "Bagikan gambar",
+  "receiptNewSale": "Transaksi baru",
+  "homeOpenMenu": "Buka menu navigasi",
+  "homeBusinessProfile": "Profil usaha",
+  "homeNoCategoryTitle": "Belum ada kategori",
+  "homeNoCategoryMessage": "Buat kategori dan menu lebih dulu agar bisa mulai berjualan.",
+  "homeAllCategories": "Semua",
+  "homeSearchHint": "Cari menu",
+  "homeNoSearchResult": "Tidak ada hasil.",
+  "homeNoMenuTitle": "Belum ada menu",
+  "homeNoMenuMessage": "Tambahkan menu beserta resepnya di Atur menu.",
+  "homeOutOfStock": "Habis",
+  "homePortionsLeft": "Sisa {count}",
+  "@homePortionsLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ingredientStockValue": "Nilai stok",
+  "ingredientAverageCost": "Biaya rata-rata",
+  "ingredientAverageCostValue": "{cost} per {per}",
+  "@ingredientAverageCostValue": {
+    "placeholders": {
+      "cost": {
+        "type": "String"
+      },
+      "per": {
+        "type": "String"
+      }
+    }
+  },
+  "ingredientMinStockLabel": "Batas stok menipis",
+  "ingredientNegativeStockHint": "Stok tercatat negatif karena penjualan melewati stok. Lakukan opname untuk mencocokkan dengan stok fisik.",
+  "errIngredientNotFound": "Bahan tidak ditemukan.",
+  "restockAction": "Restok",
+  "adjustAction": "Opname",
+  "movementHistory": "Riwayat stok",
+  "movementClearFilter": "Hapus filter",
+  "movementFilter": "Filter tanggal",
+  "movementEmpty": "Belum ada riwayat stok.",
+  "movementRestock": "Restok",
+  "movementSale": "Penjualan",
+  "movementVoid": "Pembatalan penjualan",
+  "movementAdjustment": "Opname",
+  "ingredientDeleteTitle": "Hapus bahan?",
+  "ingredientDeleteMessage": "{name} akan dihapus. Bila sudah punya riwayat stok atau pernah dipakai di resep, bahan hanya diarsipkan agar riwayatnya tetap utuh.",
+  "@ingredientDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "restockTitle": "Restok {name}",
+  "@restockTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "restockAmount": "Jumlah dibeli",
+  "recipeStoredAs": "Disimpan sebagai {amount}",
+  "@recipeStoredAs": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "restockTotalPrice": "Total harga beli",
+  "restockPriceHelper": "Harga seluruh pembelian, bukan harga satuan.",
+  "restockNote": "Catatan (opsional)",
+  "restockConfirm": "Simpan restok",
+  "restockDone": "Restok tersimpan.",
+  "adjustTitle": "Opname {name}",
+  "@adjustTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustSystemStock": "Stok di sistem: {stock}",
+  "@adjustSystemStock": {
+    "placeholders": {
+      "stock": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustPhysicalStock": "Stok fisik",
+  "adjustNoDifference": "Tidak ada selisih.",
+  "adjustDifference": "Selisih {delta}, senilai {value}",
+  "@adjustDifference": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustShrinkageNote": "Selisih kurang dicatat sebagai susut senilai {value} pada pengeluaran.",
+  "@adjustShrinkageNote": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustReasonSpoiled": "Rusak atau basi",
+  "adjustReasonSpilled": "Tumpah atau terbuang",
+  "adjustReasonMiscount": "Salah hitung",
+  "adjustReasonLabel": "Alasan (opsional)",
+  "adjustConfirm": "Simpan opname",
+  "adjustDone": "Opname tersimpan.",
+  "ingredientAdd": "Tambah bahan",
+  "ingredientEditTitle": "Ubah bahan",
+  "ingredientNameLabel": "Nama bahan",
+  "ingredientDimensionLabel": "Jenis takaran",
+  "dimensionMass": "Berat (gram)",
+  "dimensionVolume": "Volume (mililiter)",
+  "dimensionCount": "Jumlah (buah)",
+  "ingredientBaseUnitHint": "Stok disimpan dalam {unit}. Satuan lain hanya untuk input dan tampilan.",
+  "@ingredientBaseUnitHint": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "ingredientPurchaseUnitLabel": "Satuan beli bawaan",
+  "categoryNone": "Tanpa kategori",
+  "ingredientOpeningStock": "Stok awal",
+  "ingredientOpeningHint": "Isi bila bahan sudah ada di tangan. Nilainya menjadi dasar biaya rata-rata.",
+  "ingredientOpeningQuantity": "Jumlah awal",
+  "ingredientOpeningValue": "Nilai stok awal",
+  "customUnitsTitle": "Satuan kustom",
+  "customUnitsAdd": "Tambah satuan",
+  "customUnitsHint": "Contoh: 1 sendok makan = 15 {unit}. Faktor boleh berupa desimal.",
+  "@customUnitsHint": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "customUnitName": "Nama satuan",
+  "customUnitFactor": "Setara dengan",
+  "stockLevelOk": "Aman",
+  "stockLevelLow": "Menipis",
+  "stockLevelOut": "Habis",
+  "drawerIngredients": "Bahan baku",
+  "stockSettingsTitle": "Pengaturan stok",
+  "ingredientShowArchived": "Tampilkan bahan terarsip",
+  "ingredientEmptyTitle": "Belum ada bahan baku",
+  "ingredientEmptyMessage": "Tambahkan bahan baku agar stok dan biaya per menu terhitung otomatis.",
+  "ingredientSearchHint": "Cari bahan",
+  "ingredientArchivedTag": "Terarsip",
+  "ingredientStockLine": "{stock}, senilai {value}",
+  "@ingredientStockLine": {
+    "placeholders": {
+      "stock": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "stockPolicyTitle": "Bila stok bahan kurang",
+  "stockPolicyBlock": "Blokir",
+  "stockPolicyWarn": "Beri peringatan",
+  "stockPolicyBlockHint": "Penjualan ditolak bila stok bahan tidak cukup.",
+  "stockPolicyWarnHint": "Penjualan tetap berjalan dan stok boleh menjadi negatif.",
+  "shrinkageSetting": "Catat susut opname",
+  "shrinkageSettingHint": "Selisih kurang saat opname dicatat sebagai pengeluaran susut.",
+  "drawerMenuSetup": "Atur menu",
+  "menuAdd": "Tambah menu",
+  "menuEditTitle": "Ubah menu",
+  "menuNameLabel": "Nama menu",
+  "menuPriceLabel": "Harga jual",
+  "menuCategoryLabel": "Kategori",
+  "menuCategoryHelper": "Menu tanpa kategori tidak tampil di beranda.",
+  "menuActiveLabel": "Aktif dijual",
+  "menuNoteLabel": "Catatan menu (opsional)",
+  "photoGallery": "Galeri",
+  "photoCamera": "Kamera",
+  "photoAdd": "Tambah foto",
+  "photoChange": "Ganti foto",
+  "photoRemove": "Hapus foto",
+  "recipeTitle": "Resep per porsi",
+  "recipeAddIngredient": "Tambah bahan",
+  "recipeEmptyHint": "Belum ada resep. Tanpa resep, penjualan tidak mengurangi stok dan biaya tidak dihitung.",
+  "recipeCostPerPortion": "HPP per porsi",
+  "recipeMargin": "Laba kotor per porsi",
+  "recipeMarginPercent": "Margin",
+  "menuCostIncompleteHint": "Sebagian bahan belum punya biaya (stok awal tanpa nilai atau belum pernah direstok), jadi HPP belum lengkap.",
+  "recipeMissingIngredient": "Bahan tidak ditemukan",
+  "recipeNoCostYet": "Biaya belum ada",
+  "recipeLineTitle": "Bahan resep",
+  "recipeIngredientLabel": "Bahan",
+  "recipeAmountLabel": "Takaran per porsi",
+  "setupTabCategories": "Kategori",
+  "setupTabMenus": "Menu",
+  "categoryEmptyTitle": "Belum ada kategori",
+  "categoryEmptyMessage": "Kategori mengelompokkan menu di beranda, misalnya Kopi atau Makanan.",
+  "categoryAdd": "Tambah kategori",
+  "categoryNameLabel": "Nama kategori",
+  "categoryDeleteTitle": "Hapus kategori?",
+  "categoryDeleteEmpty": "Kategori {name} akan dihapus.",
+  "@categoryDeleteEmpty": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryDeleteWithMenus": "Kategori {name} dipakai {count} menu. Pindahkan menu tersebut ke kategori lain sebelum menghapus.",
+  "@categoryDeleteWithMenus": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "categoryMoveTo": "Pindahkan menu ke",
+  "menuEmptyTitle": "Belum ada menu",
+  "menuEmptyMessage": "Tambahkan menu pertama Anda.",
+  "menuCostIncomplete": "HPP belum lengkap",
+  "menuCostLine": "HPP {cost}, margin {margin}",
+  "@menuCostLine": {
+    "placeholders": {
+      "cost": {
+        "type": "String"
+      },
+      "margin": {
+        "type": "String"
+      }
+    }
+  },
+  "menuNoCategoryWarning": "Belum berkategori, tidak tampil di beranda",
+  "menuInactive": "Nonaktif",
+  "menuDuplicate": "Duplikat",
+  "menuDeactivate": "Nonaktifkan",
+  "menuActivate": "Aktifkan",
+  "menuDeleteTitle": "Hapus menu?",
+  "menuDeleteMessage": "{name} akan dihapus dari daftar. Riwayat transaksi lama tetap utuh.",
+  "@menuDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutTitle": "Tentang",
+  "aboutVersion": "Versi aplikasi",
+  "aboutSchema": "Versi skema database",
+  "aboutLicenses": "Lisensi sumber terbuka",
+  "aboutPrivacy": "Seluruh data tersimpan hanya di perangkat ini. Aplikasi tidak memakai server dan tidak meminta izin internet.",
+  "profileTitle": "Profil usaha",
+  "profileSaved": "Profil tersimpan.",
+  "profileLogoChoose": "Pilih logo",
+  "profileLogoRemove": "Hapus logo",
+  "profileName": "Nama usaha",
+  "profileAddress": "Alamat",
+  "profilePhone": "Telepon",
+  "profileCurrency": "Simbol mata uang",
+  "profileCurrencyHelp": "Hanya mengubah tampilan, bukan nilai.",
+  "expenseTitle": "Info pengeluaran",
+  "expenseAddAction": "Catat pengeluaran",
+  "expenseAddTitle": "Tambah pengeluaran",
+  "expenseEditTitle": "Ubah pengeluaran",
+  "expenseDate": "Tanggal",
+  "expenseCategory": "Kategori",
+  "expenseAmount": "Nominal",
+  "expenseNote": "Catatan (opsional)",
+  "expenseCategoryRequired": "Pilih kategori.",
+  "expenseAmountRequired": "Isi nominal lebih dari nol.",
+  "expenseDeleteTitle": "Hapus pengeluaran?",
+  "expenseDeleteMessage": "Catatan pengeluaran ini akan dihapus permanen.",
+  "expenseCategoryIngredients": "Pembelian bahan baku",
+  "expenseCategoryShrinkage": "Susut bahan",
+  "expenseCategoriesTitle": "Kategori pengeluaran",
+  "expenseCategorySystemHint": "Kategori sistem, tidak dapat diubah.",
+  "expenseCategoryAdd": "Tambah kategori",
+  "expenseCategoryName": "Nama kategori",
+  "expenseCategoryDeleteTitle": "Hapus kategori {name}?",
+  "@expenseCategoryDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseCategoryDeleteMessage": "Kategori yang masih dipakai catatan pengeluaran tidak dapat dihapus.",
+  "expenseOperatingProfit": "Laba operasional",
+  "expenseOperatingProfitHint": "Laba kotor dikurangi pengeluaran manual dan susut",
+  "expenseCashFlow": "Arus kas",
+  "expenseCashFlowHint": "Penjualan dikurangi pembelian bahan dan pengeluaran manual",
+  "expenseWhyDifferentTitle": "Mengapa laba dan arus kas berbeda?",
+  "expenseWhyDifferentBody": "Laba operasional menghitung bahan baku sebagai HPP, yaitu hanya bahan yang terpakai untuk barang terjual. Arus kas menghitung uang yang benar-benar keluar, yaitu seluruh pembelian bahan termasuk yang masih tersimpan di gudang. Karena itu saat Anda banyak restok, arus kas bisa kecil atau negatif padahal laba tetap sehat. Pembelian bahan tidak pernah dihitung dua kali.",
+  "expenseComponents": "Rincian perhitungan",
+  "expenseCogsNote": "Biaya bahan dari transaksi selesai",
+  "expenseManual": "Pengeluaran manual",
+  "expenseShrinkage": "Susut opname",
+  "expenseShrinkageNote": "Kerugian nilai stok, bukan uang keluar",
+  "expenseIngredientPurchases": "Pembelian bahan baku",
+  "expensePurchasesNote": "Uang keluar untuk restok, tidak mengurangi laba operasional",
+  "expenseByCategory": "Pengeluaran per kategori",
+  "expenseList": "Daftar pengeluaran",
+  "expenseFilterAll": "Semua",
+  "expenseEmpty": "Belum ada pengeluaran pada periode ini.",
+  "expenseSourceRestock": "Dari restok",
+  "expenseSourceShrinkage": "Dari opname",
+  "incomeTitle": "Info pemasukan",
+  "incomeEmptyTitle": "Belum ada transaksi",
+  "incomeEmptyMessage": "Tidak ada penjualan pada periode ini.",
+  "incomeNetSales": "Penjualan bersih",
+  "incomeCogs": "HPP (bahan terpakai)",
+  "incomeGrossProfit": "Laba kotor",
+  "incomeTransactions": "Jumlah transaksi",
+  "incomeDiscountHint": "Setelah diskon {amount}",
+  "@incomeDiscountHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeAverageHint": "Rata-rata {amount} per transaksi",
+  "@incomeAverageHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeTrendHourly": "Penjualan per jam",
+  "incomeTrendDaily": "Penjualan per hari",
+  "incomeTopMenus": "Menu terlaris",
+  "incomeNoData": "Belum ada data.",
+  "incomePortions": "{count} porsi",
+  "@incomePortions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "incomeByCategory": "Per kategori menu",
+  "incomeByMethod": "Per metode bayar",
+  "incomeSaleList": "Daftar transaksi",
+  "saleVoidedBadge": "Batal",
+  "periodToday": "Hari ini",
+  "periodWeek": "7 hari",
+  "periodMonth": "Bulan ini",
+  "periodCustom": "Pilih tanggal",
+  "saleDetailTitle": "Rincian transaksi",
+  "saleVoidAction": "Batalkan transaksi",
+  "saleVoidConfirmTitle": "Batalkan {number}?",
+  "@saleVoidConfirmTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "saleVoidConfirmMessage": "Stok bahan dikembalikan sesuai pemakaian saat transaksi, dan transaksi tidak dihitung lagi di laporan. Tindakan ini tidak dapat diurungkan.",
+  "saleVoidDone": "Transaksi dibatalkan.",
+  "saleVoidedBanner": "Transaksi ini sudah dibatalkan.",
+  "drawerTheme": "Tema",
+  "themeSystem": "Ikuti sistem",
+  "themeLight": "Terang",
+  "themeDark": "Gelap",
+  "themeDynamicColor": "Warna dinamis",
+  "themeDynamicColorHint": "Memakai warna dari wallpaper (Android 12 ke atas).",
+  "drawerLanguage": "Bahasa",
+  "languageSystem": "Ikuti sistem",
+  "languageIndonesian": "Bahasa Indonesia",
+  "languageEnglish": "English",
+  "errInvalidNumber": "Angka tidak valid. Gunakan format seperti 2,5.",
+  "errInvalidMoney": "Nominal tidak valid.",
+  "errNonPositiveQuantity": "Jumlah harus lebih dari nol.",
+  "errQuantityRoundsToZero": "Jumlah terlalu kecil sehingga dibulatkan menjadi nol pada satuan dasar.",
+  "errDimensionMismatch": "Satuan {unit} tidak cocok dengan jenis bahan ini.",
+  "@errDimensionMismatch": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "errUnknownUnit": "Satuan {unit} tidak dikenal.",
+  "@errUnknownUnit": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "errUnitEmptyName": "Nama satuan tidak boleh kosong.",
+  "errUnitDuplicate": "Satuan {unit} sudah ada.",
+  "@errUnitDuplicate": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "errUnitFactor": "Faktor satuan {unit} harus lebih dari nol.",
+  "@errUnitFactor": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "errTooLarge": "Angka terlalu besar.",
+  "errRecipeQuantity": "Takaran resep harus lebih dari nol.",
+  "errRecipeDuplicate": "Bahan yang sama sudah ada di resep.",
+  "errInsufficientStock": "Stok bahan tidak cukup.",
+  "errInsufficientStockFor": "Stok {name} tidak cukup.",
+  "@errInsufficientStockFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errMenuUnavailable": "Menu tidak tersedia.",
+  "errEmptyCart": "Keranjang kosong.",
+  "errInvalidDiscount": "Diskon tidak valid untuk total saat ini.",
+  "errInsufficientPayment": "Total {total}, tetapi uang diterima hanya {paid}.",
+  "@errInsufficientPayment": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      },
+      "paid": {
+        "type": "String"
+      }
+    }
+  },
+  "errSaleNotFound": "Transaksi tidak ditemukan.",
+  "errSaleAlreadyVoided": "Transaksi sudah dibatalkan.",
+  "errIngredientInUse": "Bahan masih dipakai pada resep: {menus}. Hapus dari resep itu lebih dulu.",
+  "@errIngredientInUse": {
+    "placeholders": {
+      "menus": {
+        "type": "String"
+      }
+    }
+  },
+  "errDuplicateName": "Nama {name} sudah dipakai.",
+  "@errDuplicateName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errEmptyName": "Nama tidak boleh kosong.",
+  "errProtectedRecord": "Data ini bawaan sistem dan tidak dapat diubah.",
+  "errDimensionLocked": "Jenis takaran tidak dapat diubah karena bahan sudah punya stok atau riwayat.",
+  "errCategoryInUse": "Kategori masih dipakai dan tidak dapat dihapus.",
+  "errRecordNotFound": "Data tidak ditemukan.",
+  "errBackupInvalid": "Berkas bukan cadangan ARN yang valid.",
+  "errBackupFormat": "Format cadangan lebih baru daripada yang dipahami aplikasi ini. Perbarui aplikasi.",
+  "errBackupChecksum": "Isi cadangan rusak atau berubah (checksum tidak cocok). Gunakan berkas cadangan lain.",
+  "errBackupSchemaTooNew": "Cadangan dibuat oleh versi aplikasi yang lebih baru. Perbarui aplikasi lebih dulu.",
+  "errBackupDatabase": "Database di dalam cadangan rusak.",
+  "errBackupIo": "Gagal membaca atau menulis berkas. Periksa ruang penyimpanan.",
+  "errRestoreRolledBack": "Pemulihan gagal dan data lama dikembalikan.",
+  "errUnexpected": "Terjadi kesalahan. Coba lagi.",
+  "drawerNotifications": "Notifikasi",
+  "drawerIncome": "Info pemasukan",
+  "drawerExpense": "Info pengeluaran",
+  "drawerBackup": "Cadangan dan pulihkan",
+  "drawerBackupNever": "Belum pernah dicadangkan",
+  "drawerBackupLast": "Terakhir {date}",
+  "@drawerBackupLast": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "drawerAbout": "Tentang",
+  "notifMarkAllRead": "Tandai semua dibaca",
+  "notifClearTitle": "Hapus semua notifikasi?",
+  "notifClearMessage": "Semua notifikasi akan dihapus.",
+  "notifClear": "Hapus semua",
+  "notifSettings": "Pengaturan notifikasi",
+  "notifEmptyTitle": "Belum ada notifikasi",
+  "notifEmptyMessage": "Peringatan stok dan pengingat cadangan akan muncul di sini.",
+  "notifSettingStock": "Peringatan stok",
+  "notifSettingBackup": "Pengingat cadangan",
+  "notifSettingBackupDays": "Bila belum dicadangkan {days} hari",
+  "@notifSettingBackupDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  }
+}

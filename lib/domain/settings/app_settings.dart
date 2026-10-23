@@ -27,7 +27,7 @@ abstract final class SupportedLanguages {
 final class AppSettings {
   const AppSettings({
     this.theme = ThemePreference.system,
-    this.useDynamicColor = true,
+    this.useDynamicColor = false,
     this.languageCode,
     this.stockPolicy = StockPolicy.block,
     this.shrinkageEnabled = true,

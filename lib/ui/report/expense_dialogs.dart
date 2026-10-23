@@ -326,7 +326,6 @@ class _ExpenseCategoriesSheet extends ConsumerWidget {
         ],
       ),
     );
-    controller.dispose();
     if (name == null || !context.mounted) return;
     final repository = ref.read(expenseRepositoryProvider);
     try {

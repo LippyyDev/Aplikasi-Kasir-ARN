@@ -207,6 +207,5 @@ Future<void> editCartNote(
       ],
     ),
   );
-  textController.dispose();
   if (saved != null) ref.read(cartProvider.notifier).setNote(menuId, saved);
 }

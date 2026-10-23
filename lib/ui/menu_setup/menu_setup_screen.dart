@@ -101,6 +101,8 @@ class _CategoriesTab extends ConsumerWidget {
   }
 
   Future<String?> _askName(BuildContext context, {String? initial}) {
+    // Pengendali sengaja tidak di-dispose di sini: dialog masih beranimasi keluar saat
+    // Future selesai, dan dispose lebih awal memicu galat "used after being disposed".
     final controller = TextEditingController(text: initial);
     return showDialog<String>(
       context: context,
@@ -124,7 +126,7 @@ class _CategoriesTab extends ConsumerWidget {
           ),
         ],
       ),
-    ).whenComplete(controller.dispose);
+    );
   }
 
   Future<void> _add(BuildContext context, WidgetRef ref) async {

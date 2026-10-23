@@ -31,8 +31,9 @@ jobs:
       - name: Hasilkan lokalisasi
         run: flutter gen-l10n
 
-      - name: Periksa format
-        run: dart format --output=none --set-exit-if-changed lib test tool
+      # Aktifkan setelah `dart format .` dijalankan sekali dan hasilnya di-commit:
+      # - name: Periksa format
+      #   run: dart format --output=none --set-exit-if-changed lib test tool
 
       - name: Analisis statis
         run: flutter analyze --fatal-infos

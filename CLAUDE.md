@@ -15,7 +15,7 @@ Sumber kebenaran:
 
 ## Status
 
-Belum ada proyek Flutter. Tugas pertama adalah backlog E0 (inisialisasi proyek). Perintah di bawah berlaku setelah proyek dibuat.
+Seluruh fitur MVP sudah ditulis, tetapi **belum pernah dikompilasi atau dijalankan** (ditulis tanpa SDK). Baca `docs/STATUS.md` lebih dulu: berisi langkah pertama, deviasi dari PRD, dan risiko versi paket. Setelah clone jalankan `dart tool/bootstrap.dart`, lalu `flutter gen-l10n`.
 
 ## Stack
 
@@ -29,7 +29,7 @@ Flutter (kanal stabil) dengan Dart, Material 3. Paket yang diusulkan, versi diku
 | Pengaturan | `shared_preferences` |
 | Gambar | `image_picker`, `flutter_image_compress`, `path_provider` |
 | Cadangan | `archive` (ZIP), `crypto` (SHA 256), `file_picker` |
-| Notifikasi dan jadwal | `flutter_local_notifications`, `workmanager` |
+| Notifikasi | `flutter_local_notifications` (`workmanager` tidak dipakai; pengingat cadangan dicek saat aplikasi dibuka, lihat `docs/STATUS.md`) |
 | *Splash* | `flutter_native_splash` |
 | Lokalisasi | `flutter_localizations`, `intl` (berkas ARB) |
 | Grafik | `fl_chart` |
@@ -41,10 +41,12 @@ minSdk 26 diatur di `android/app/build.gradle`.
 
 ```
 lib/
+  main.dart Titik masuk: splash, bootstrap, RestartScope.
+  app/      Komposisi aplikasi: bootstrap, provider Riverpod, router, tema, layanan lintas fitur.
   domain/   Dart murni, TANPA import package:flutter. Model, aturan takaran, use case.
-  data/     Drift (tabel, DAO, migrasi), repository, pengaturan, cadangan.
-  ui/       Layar per fitur: home, cart, menu, ingredient, report, settings.
-  l10n/     Berkas ARB (id, en).
+  data/     Drift (tabel, repositori, migrasi), pengaturan, gambar, cadangan, notifikasi sistem.
+  ui/       Layar per fitur: home, cart, menu_setup, ingredient, report, profile, backup, shell, shared.
+  l10n/     Berkas ARB (id, en); hasil generator ada di l10n/generated (tidak di-commit).
 test/              Uji unit (domain dan data dengan database dalam memori).
 integration_test/  Uji integrasi di perangkat (migrasi, cadangan, pulihkan).
 drift_schemas/     Ekspor skema Drift per versi (di-commit).
@@ -78,12 +80,14 @@ Logika takaran, biaya, dan ketersediaan menu hidup di `lib/domain/` agar bisa di
 ## Perintah (setelah proyek dibuat)
 
 ```
+dart tool/bootstrap.dart                 sekali setelah clone (android/, pub get, generator, ikon, splash)
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs   generate kode Drift
+flutter gen-l10n                         generate AppLocalizations dari lib/l10n/*.arb
 flutter analyze                          analisis statis
 flutter test                             uji unit (domain dan data)
 flutter test integration_test            uji integrasi (butuh perangkat/emulator)
-dart run drift_dev schema dump lib/data/app_database.dart drift_schemas/   ekspor skema
+dart run drift_dev schema dump lib/data/database/app_database.dart drift_schemas/   ekspor skema
 flutter build apk --debug                build debug
 flutter build apk --split-per-abi        build rilis per ABI (cek ukuran)
 ```

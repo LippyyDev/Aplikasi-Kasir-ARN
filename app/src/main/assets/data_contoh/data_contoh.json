@@ -1,0 +1,2986 @@
+{
+ "versi": 1,
+ "keterangan": "Data contoh ARN Kasir (sedang): 14 hari, 11 bahan, 12 menu. Dibangkitkan oleh tools/generate_data_contoh.py (seed 20261024).",
+ "profil": {
+  "nama": "Kedai Arang Kopi",
+  "alamat": "Jl. Melati No. 12, Bandung",
+  "telepon": "0812-3456-7890",
+  "mataUang": "Rp"
+ },
+ "kategori": [
+  "Kopi",
+  "Non kopi",
+  "Roti dan camilan"
+ ],
+ "bahan": [
+  {
+   "nama": "Biji kopi arabika",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "500",
+   "takaran": []
+  },
+  {
+   "nama": "Susu cair",
+   "dimensi": "VOLUME",
+   "satuanBeli": "liter",
+   "stokMinimum": "2000",
+   "takaran": []
+  },
+  {
+   "nama": "Gula aren cair",
+   "dimensi": "VOLUME",
+   "satuanBeli": "liter",
+   "stokMinimum": "500",
+   "takaran": [
+    {
+     "nama": "sendok makan",
+     "setara": "15"
+    }
+   ]
+  },
+  {
+   "nama": "Gula pasir",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "500",
+   "takaran": [
+    {
+     "nama": "sendok makan",
+     "setara": "12"
+    },
+    {
+     "nama": "sendok teh",
+     "setara": "4"
+    }
+   ],
+   "stokAwal": {
+    "jumlah": "2",
+    "satuan": "kg",
+    "nilai": 34000
+   }
+  },
+  {
+   "nama": "Bubuk cokelat",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "300",
+   "takaran": [
+    {
+     "nama": "sendok makan",
+     "setara": "7"
+    }
+   ]
+  },
+  {
+   "nama": "Teh celup",
+   "dimensi": "COUNT",
+   "satuanBeli": "dus",
+   "stokMinimum": "20",
+   "takaran": [
+    {
+     "nama": "dus",
+     "setara": "50"
+    }
+   ]
+  },
+  {
+   "nama": "Cup plastik 16 oz",
+   "dimensi": "COUNT",
+   "satuanBeli": "buah",
+   "stokMinimum": "50",
+   "takaran": [
+    {
+     "nama": "sleeve",
+     "setara": "50"
+    }
+   ]
+  },
+  {
+   "nama": "Es batu",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "3000",
+   "takaran": []
+  },
+  {
+   "nama": "Roti tawar",
+   "dimensi": "COUNT",
+   "satuanBeli": "bungkus",
+   "stokMinimum": "12",
+   "takaran": [
+    {
+     "nama": "bungkus",
+     "setara": "12"
+    }
+   ]
+  },
+  {
+   "nama": "Selai cokelat",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "200",
+   "takaran": []
+  },
+  {
+   "nama": "Mentega",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "200",
+   "takaran": [],
+   "stokAwal": {
+    "jumlah": "400",
+    "satuan": "g",
+    "nilai": 28000
+   }
+  }
+ ],
+ "menu": [
+  {
+   "nama": "Americano",
+   "kategori": "Kopi",
+   "harga": 18000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Biji kopi arabika",
+     "jumlah": "18",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "120",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Kopi susu gula aren",
+   "kategori": "Kopi",
+   "harga": 22000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Biji kopi arabika",
+     "jumlah": "18",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Susu cair",
+     "jumlah": "120",
+     "satuan": "ml"
+    },
+    {
+     "bahan": "Gula aren cair",
+     "jumlah": "2",
+     "satuan": "sendok makan"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "100",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Latte",
+   "kategori": "Kopi",
+   "harga": 24000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Biji kopi arabika",
+     "jumlah": "18",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Susu cair",
+     "jumlah": "180",
+     "satuan": "ml"
+    },
+    {
+     "bahan": "Gula pasir",
+     "jumlah": "2",
+     "satuan": "sendok teh"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "80",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Cappuccino",
+   "kategori": "Kopi",
+   "harga": 24000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Biji kopi arabika",
+     "jumlah": "18",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Susu cair",
+     "jumlah": "150",
+     "satuan": "ml"
+    },
+    {
+     "bahan": "Bubuk cokelat",
+     "jumlah": "2",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "80",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Cokelat dingin",
+   "kategori": "Non kopi",
+   "harga": 22000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Bubuk cokelat",
+     "jumlah": "2",
+     "satuan": "sendok makan"
+    },
+    {
+     "bahan": "Susu cair",
+     "jumlah": "200",
+     "satuan": "ml"
+    },
+    {
+     "bahan": "Gula pasir",
+     "jumlah": "1",
+     "satuan": "sendok makan"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "100",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Teh manis dingin",
+   "kategori": "Non kopi",
+   "harga": 10000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Teh celup",
+     "jumlah": "1",
+     "satuan": "buah"
+    },
+    {
+     "bahan": "Gula pasir",
+     "jumlah": "2",
+     "satuan": "sendok makan"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "120",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Susu manis dingin",
+   "kategori": "Non kopi",
+   "harga": 15000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Susu cair",
+     "jumlah": "200",
+     "satuan": "ml"
+    },
+    {
+     "bahan": "Gula pasir",
+     "jumlah": "1",
+     "satuan": "sendok makan"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "100",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Roti bakar cokelat",
+   "kategori": "Roti dan camilan",
+   "harga": 16000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Roti tawar",
+     "jumlah": "3",
+     "satuan": "buah"
+    },
+    {
+     "bahan": "Selai cokelat",
+     "jumlah": "30",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Mentega",
+     "jumlah": "10",
+     "satuan": "g"
+    }
+   ]
+  },
+  {
+   "nama": "Roti bakar mentega gula",
+   "kategori": "Roti dan camilan",
+   "harga": 14000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Roti tawar",
+     "jumlah": "3",
+     "satuan": "buah"
+    },
+    {
+     "bahan": "Mentega",
+     "jumlah": "15",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Gula pasir",
+     "jumlah": "10",
+     "satuan": "g"
+    }
+   ]
+  },
+  {
+   "nama": "Air mineral (titipan)",
+   "kategori": "Non kopi",
+   "harga": 6000,
+   "aktif": true,
+   "catatan": "",
+   "resep": []
+  },
+  {
+   "nama": "Kopi tubruk (musiman)",
+   "kategori": "Kopi",
+   "harga": 12000,
+   "aktif": false,
+   "catatan": "Dijual saat musim hujan.",
+   "resep": [
+    {
+     "bahan": "Biji kopi arabika",
+     "jumlah": "15",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Gula pasir",
+     "jumlah": "1",
+     "satuan": "sendok makan"
+    }
+   ]
+  },
+  {
+   "nama": "Es krim vanila (belum dikategorikan)",
+   "kategori": null,
+   "harga": 13000,
+   "aktif": true,
+   "catatan": "Belum ditempatkan di kategori, jadi tidak tampil di Halaman Utama.",
+   "resep": []
+  }
+ ],
+ "pengeluaran": [
+  {
+   "hariLalu": 12,
+   "kategori": "Sewa",
+   "nominal": 800000,
+   "catatan": "Sewa lapak bulan ini"
+  },
+  {
+   "hariLalu": 9,
+   "kategori": "Gaji",
+   "nominal": 600000,
+   "catatan": "Gaji satu karyawan paruh waktu"
+  },
+  {
+   "hariLalu": 7,
+   "kategori": "Listrik dan air",
+   "nominal": 275000,
+   "catatan": "Tagihan listrik"
+  },
+  {
+   "hariLalu": 5,
+   "kategori": "Kemasan",
+   "nominal": 45000,
+   "catatan": "Sedotan dan kantong kertas"
+  },
+  {
+   "hariLalu": 2,
+   "kategori": "Lain-lain",
+   "nominal": 25000,
+   "catatan": "Parkir dan kebersihan"
+  }
+ ],
+ "kejadian": [
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 0,
+   "jenis": "restok",
+   "bahan": "Biji kopi arabika",
+   "jumlah": "3",
+   "satuan": "kg",
+   "harga": 562200
+  },
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 2,
+   "jenis": "restok",
+   "bahan": "Susu cair",
+   "jumlah": "9",
+   "satuan": "liter",
+   "harga": 170700
+  },
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 4,
+   "jenis": "restok",
+   "bahan": "Gula aren cair",
+   "jumlah": "2",
+   "satuan": "liter",
+   "harga": 90900
+  },
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 6,
+   "jenis": "restok",
+   "bahan": "Bubuk cokelat",
+   "jumlah": "1500",
+   "satuan": "g",
+   "harga": 178900
+  },
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 8,
+   "jenis": "restok",
+   "bahan": "Teh celup",
+   "jumlah": "2",
+   "satuan": "dus",
+   "harga": 48400
+  },
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 10,
+   "jenis": "restok",
+   "bahan": "Cup plastik 16 oz",
+   "jumlah": "300",
+   "satuan": "buah",
+   "harga": 222300
+  },
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 12,
+   "jenis": "restok",
+   "bahan": "Es batu",
+   "jumlah": "20",
+   "satuan": "kg",
+   "harga": 32900
+  },
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 14,
+   "jenis": "restok",
+   "bahan": "Roti tawar",
+   "jumlah": "4",
+   "satuan": "bungkus",
+   "harga": 60600
+  },
+  {
+   "hariLalu": 13,
+   "jam": 7,
+   "menit": 16,
+   "jenis": "restok",
+   "bahan": "Selai cokelat",
+   "jumlah": "350",
+   "satuan": "g",
+   "harga": 37600
+  },
+  {
+   "hariLalu": 13,
+   "jam": 11,
+   "menit": 4,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 2
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 13,
+   "jam": 11,
+   "menit": 15,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    },
+    {
+     "menu": "Cappuccino",
+     "qty": 2,
+     "catatan": "tanpa es"
+    }
+   ],
+   "diskon": {
+    "jenis": "NOMINAL",
+    "nilai": "5000"
+   },
+   "bayar": "TUNAI",
+   "uang": 65000
+  },
+  {
+   "hariLalu": 13,
+   "jam": 13,
+   "menit": 3,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    },
+    {
+     "menu": "Teh manis dingin",
+     "qty": 3,
+     "catatan": "kurang manis"
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 13,
+   "jam": 13,
+   "menit": 14,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  },
+  {
+   "hariLalu": 13,
+   "jam": 13,
+   "menit": 55,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 13,
+   "jam": 14,
+   "menit": 35,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 13,
+   "jam": 15,
+   "menit": 30,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 45000
+  },
+  {
+   "hariLalu": 13,
+   "jam": 15,
+   "menit": 54,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Americano",
+     "qty": 1
+    },
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 39600
+  },
+  {
+   "hariLalu": 13,
+   "jam": 16,
+   "menit": 0,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 25000
+  },
+  {
+   "hariLalu": 13,
+   "jam": 16,
+   "menit": 55,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 13,
+   "jam": 17,
+   "menit": 9,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 13,
+   "jam": 17,
+   "menit": 33,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 3
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 70000
+  },
+  {
+   "hariLalu": 13,
+   "jam": 18,
+   "menit": 0,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 13,
+   "jam": 18,
+   "menit": 41,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 13,
+   "jam": 20,
+   "menit": 59,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 12,
+   "jam": 8,
+   "menit": 5,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 12,
+   "jam": 8,
+   "menit": 34,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1,
+     "catatan": "tanpa es"
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 12,
+   "jam": 9,
+   "menit": 20,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 10000
+  },
+  {
+   "hariLalu": 12,
+   "jam": 9,
+   "menit": 47,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 12,
+   "jam": 12,
+   "menit": 40,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    },
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 35000
+  },
+  {
+   "hariLalu": 12,
+   "jam": 12,
+   "menit": 41,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 25000
+  },
+  {
+   "hariLalu": 12,
+   "jam": 17,
+   "menit": 47,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 12,
+   "jam": 18,
+   "menit": 19,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 2
+    },
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 60000
+  },
+  {
+   "hariLalu": 12,
+   "jam": 20,
+   "menit": 43,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    },
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1
+    },
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1,
+     "catatan": "es sedikit"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 60000
+  },
+  {
+   "hariLalu": 12,
+   "jam": 20,
+   "menit": 47,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 11,
+   "jam": 8,
+   "menit": 10,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 11,
+   "jam": 9,
+   "menit": 49,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 11,
+   "jam": 11,
+   "menit": 1,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 11,
+   "jam": 13,
+   "menit": 28,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    },
+    {
+     "menu": "Cappuccino",
+     "qty": 3
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 11,
+   "jam": 13,
+   "menit": 30,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    },
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 11,
+   "jam": 14,
+   "menit": 6,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 11,
+   "jam": 16,
+   "menit": 33,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    },
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 11,
+   "jam": 17,
+   "menit": 23,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 11,
+   "jam": 18,
+   "menit": 44,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 10,
+   "jam": 9,
+   "menit": 39,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 10,
+   "jam": 10,
+   "menit": 27,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 16000
+  },
+  {
+   "hariLalu": 10,
+   "jam": 10,
+   "menit": 27,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 10,
+   "jam": 12,
+   "menit": 7,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 10,
+   "jam": 12,
+   "menit": 8,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 10,
+   "jam": 12,
+   "menit": 34,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 10,
+   "jam": 13,
+   "menit": 19,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  },
+  {
+   "hariLalu": 10,
+   "jam": 15,
+   "menit": 35,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    },
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 3
+    }
+   ],
+   "diskon": {
+    "jenis": "NOMINAL",
+    "nilai": "5000"
+   },
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 10,
+   "jam": 16,
+   "menit": 15,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar cokelat",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 10,
+   "jam": 17,
+   "menit": 9,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    },
+    {
+     "menu": "Latte",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 75000
+  },
+  {
+   "hariLalu": 10,
+   "jam": 17,
+   "menit": 51,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1,
+     "catatan": "extra panas"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 10,
+   "jam": 18,
+   "menit": 26,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 10,
+   "jam": 20,
+   "menit": 20,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    },
+    {
+     "menu": "Latte",
+     "qty": 2,
+     "catatan": "kurang manis"
+    },
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 120000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 7,
+   "menit": 0,
+   "jenis": "restok",
+   "bahan": "Susu cair",
+   "jumlah": "7",
+   "satuan": "liter",
+   "harga": 129600
+  },
+  {
+   "hariLalu": 9,
+   "jam": 7,
+   "menit": 2,
+   "jenis": "restok",
+   "bahan": "Roti tawar",
+   "jumlah": "4",
+   "satuan": "bungkus",
+   "harga": 57800
+  },
+  {
+   "hariLalu": 9,
+   "jam": 8,
+   "menit": 39,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 12,
+   "menit": 1,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000,
+   "dibatalkan": true
+  },
+  {
+   "hariLalu": 9,
+   "jam": 12,
+   "menit": 40,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1,
+     "catatan": "dibungkus"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 13,
+   "menit": 24,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 14,
+   "menit": 33,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 14000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 16,
+   "menit": 29,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 16,
+   "menit": 32,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 16,
+   "menit": 47,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 25000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 17,
+   "menit": 33,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "NOMINAL",
+    "nilai": "5000"
+   },
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 18,
+   "menit": 37,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 19,
+   "menit": 33,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1,
+     "catatan": "tanpa es"
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1,
+     "catatan": "tanpa es"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 9,
+   "jam": 19,
+   "menit": 58,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 8,
+   "jam": 8,
+   "menit": 42,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  },
+  {
+   "hariLalu": 8,
+   "jam": 9,
+   "menit": 3,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 22000
+  },
+  {
+   "hariLalu": 8,
+   "jam": 9,
+   "menit": 5,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    },
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 8,
+   "jam": 10,
+   "menit": 2,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Americano",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 60000
+  },
+  {
+   "hariLalu": 8,
+   "jam": 11,
+   "menit": 33,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 8,
+   "jam": 12,
+   "menit": 34,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1,
+     "catatan": "dibungkus"
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 8,
+   "jam": 13,
+   "menit": 43,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 8,
+   "jam": 13,
+   "menit": 59,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1,
+     "catatan": "extra panas"
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 8,
+   "jam": 16,
+   "menit": 5,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 25000
+  },
+  {
+   "hariLalu": 8,
+   "jam": 16,
+   "menit": 18,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 8,
+   "jam": 17,
+   "menit": 27,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    },
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1,
+     "catatan": "tanpa es"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 8,
+   "jam": 17,
+   "menit": 29,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1,
+     "catatan": "kurang manis"
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 7,
+   "jam": 7,
+   "menit": 0,
+   "jenis": "restok",
+   "bahan": "Mentega",
+   "jumlah": "800",
+   "satuan": "g",
+   "harga": 53800
+  },
+  {
+   "hariLalu": 7,
+   "jam": 8,
+   "menit": 4,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1,
+     "catatan": "tanpa es"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 25000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 8,
+   "menit": 41,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 9,
+   "menit": 31,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1,
+     "catatan": "extra panas"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 10,
+   "menit": 18,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 3
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 60000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 10,
+   "menit": 53,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1,
+     "catatan": "tanpa es"
+    },
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 13,
+   "menit": 18,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1,
+     "catatan": "extra panas"
+    },
+    {
+     "menu": "Americano",
+     "qty": 1,
+     "catatan": "tambah susu"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 28000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 15,
+   "menit": 58,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    },
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 32000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 16,
+   "menit": 51,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 2
+    },
+    {
+     "menu": "Teh manis dingin",
+     "qty": 2
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 60000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 17,
+   "menit": 27,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 19,
+   "menit": 26,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1,
+     "catatan": "tambah susu"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 22000
+  },
+  {
+   "hariLalu": 7,
+   "jam": 19,
+   "menit": 30,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 44000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 8,
+   "menit": 8,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 6,
+   "jam": 8,
+   "menit": 43,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 6,
+   "jam": 9,
+   "menit": 31,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 6,
+   "jam": 11,
+   "menit": 33,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 12,
+   "menit": 12,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 6,
+   "jam": 13,
+   "menit": 10,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 22000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 13,
+   "menit": 46,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 17,
+   "menit": 18,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    },
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 38000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 17,
+   "menit": 19,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1,
+     "catatan": "tanpa es"
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 6,
+   "jam": 18,
+   "menit": 30,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    },
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 18,
+   "menit": 34,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 6,
+   "jam": 19,
+   "menit": 48,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 20,
+   "menit": 45,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 20,
+   "menit": 53,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 6,
+   "jam": 21,
+   "menit": 30,
+   "jenis": "opname",
+   "bahan": "Susu cair",
+   "fisik": "1630",
+   "satuan": "ml",
+   "alasan": "TUMPAH",
+   "catatSusut": true
+  },
+  {
+   "hariLalu": 5,
+   "jam": 7,
+   "menit": 0,
+   "jenis": "restok",
+   "bahan": "Susu cair",
+   "jumlah": "8",
+   "satuan": "liter",
+   "harga": 142800
+  },
+  {
+   "hariLalu": 5,
+   "jam": 8,
+   "menit": 31,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI",
+   "dibatalkan": true
+  },
+  {
+   "hariLalu": 5,
+   "jam": 8,
+   "menit": 46,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 5,
+   "jam": 9,
+   "menit": 47,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 60000
+  },
+  {
+   "hariLalu": 5,
+   "jam": 12,
+   "menit": 4,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 44000
+  },
+  {
+   "hariLalu": 5,
+   "jam": 12,
+   "menit": 35,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "NOMINAL",
+    "nilai": "5000"
+   },
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 5,
+   "jam": 13,
+   "menit": 39,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 24000
+  },
+  {
+   "hariLalu": 5,
+   "jam": 16,
+   "menit": 51,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 28000
+  },
+  {
+   "hariLalu": 5,
+   "jam": 18,
+   "menit": 40,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "NOMINAL",
+    "nilai": "5000"
+   },
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 5,
+   "jam": 20,
+   "menit": 38,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 4,
+   "jam": 8,
+   "menit": 29,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 8,
+   "menit": 40,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 13,
+   "menit": 36,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 25000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 14,
+   "menit": 2,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 28000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 14,
+   "menit": 44,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 2,
+     "catatan": "tanpa es"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 15,
+   "menit": 8,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 15,
+   "menit": 30,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 18000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 15,
+   "menit": 32,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 16,
+   "menit": 3,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1,
+     "catatan": "dibungkus"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 4,
+   "jam": 19,
+   "menit": 57,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 2
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 3,
+   "jam": 9,
+   "menit": 2,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 3,
+   "jam": 9,
+   "menit": 21,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1,
+     "catatan": "kurang manis"
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 60000
+  },
+  {
+   "hariLalu": 3,
+   "jam": 10,
+   "menit": 59,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 3,
+   "jam": 12,
+   "menit": 24,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 3,
+   "jam": 13,
+   "menit": 5,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 10000
+  },
+  {
+   "hariLalu": 3,
+   "jam": 15,
+   "menit": 15,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 3,
+   "jam": 15,
+   "menit": 55,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  },
+  {
+   "hariLalu": 3,
+   "jam": 16,
+   "menit": 14,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 3,
+   "jam": 17,
+   "menit": 31,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 45000
+  },
+  {
+   "hariLalu": 3,
+   "jam": 17,
+   "menit": 48,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1,
+     "catatan": "extra panas"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 3,
+   "jam": 18,
+   "menit": 22,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    },
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 50000
+  },
+  {
+   "hariLalu": 3,
+   "jam": 21,
+   "menit": 30,
+   "jenis": "opname",
+   "bahan": "Es batu",
+   "fisik": "3360",
+   "satuan": "g",
+   "alasan": "SALAH_HITUNG",
+   "catatSusut": false
+  },
+  {
+   "hariLalu": 2,
+   "jam": 7,
+   "menit": 0,
+   "jenis": "restok",
+   "bahan": "Gula aren cair",
+   "jumlah": "2",
+   "satuan": "liter",
+   "harga": 94600
+  },
+  {
+   "hariLalu": 2,
+   "jam": 7,
+   "menit": 2,
+   "jenis": "restok",
+   "bahan": "Es batu",
+   "jumlah": "20",
+   "satuan": "kg",
+   "harga": 32000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 9,
+   "menit": 3,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 9,
+   "menit": 6,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1,
+     "catatan": "tanpa es"
+    },
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000,
+   "dibatalkan": true
+  },
+  {
+   "hariLalu": 2,
+   "jam": 9,
+   "menit": 20,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    },
+    {
+     "menu": "Teh manis dingin",
+     "qty": 2,
+     "catatan": "es sedikit"
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 45000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 9,
+   "menit": 45,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 12,
+   "menit": 19,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Roti bakar mentega gula",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 20000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 12,
+   "menit": 28,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 18000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 15,
+   "menit": 26,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Latte",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 80000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 18,
+   "menit": 15,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Susu manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 7,
+   "menit": 0,
+   "jenis": "restok",
+   "bahan": "Roti tawar",
+   "jumlah": "4",
+   "satuan": "bungkus",
+   "harga": 59900
+  },
+  {
+   "hariLalu": 1,
+   "jam": 8,
+   "menit": 38,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 22000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 9,
+   "menit": 26,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 11,
+   "menit": 24,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cokelat dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 22000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 13,
+   "menit": 2,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Latte",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 60000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 14,
+   "menit": 19,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 22000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 14,
+   "menit": 30,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 1,
+   "jam": 17,
+   "menit": 42,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Cappuccino",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 21600
+  },
+  {
+   "hariLalu": 1,
+   "jam": 19,
+   "menit": 23,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 20,
+   "menit": 57,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 0,
+   "jam": 7,
+   "menit": 0,
+   "jenis": "restok",
+   "bahan": "Biji kopi arabika",
+   "jumlah": "3",
+   "satuan": "kg",
+   "harga": 534400
+  },
+  {
+   "hariLalu": 0,
+   "jam": 7,
+   "menit": 5,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    },
+    {
+     "menu": "Latte",
+     "qty": 2
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 0,
+   "jam": 7,
+   "menit": 20,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1,
+     "catatan": "extra panas"
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 0,
+   "jam": 8,
+   "menit": 40,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Teh manis dingin",
+     "qty": 1,
+     "catatan": "extra panas"
+    },
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 30000
+  }
+ ]
+}

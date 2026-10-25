@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.KasirARN" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/arn_ink_dark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.KasirARN.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/arn_ink_dark</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_mark</item>
+        <item name="postSplashScreenTheme">@style/Theme.KasirARN</item>
+    </style>
+</resources>

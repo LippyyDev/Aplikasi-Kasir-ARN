@@ -1,0 +1,452 @@
+{
+ "versi": 1,
+ "keterangan": "Data contoh ARN Kasir (sedikit): 3 hari, 6 bahan, 4 menu. Dibangkitkan oleh tools/generate_data_contoh.py (seed 20261025).",
+ "profil": {
+  "nama": "Kedai Contoh Mini",
+  "alamat": "Jl. Kenanga No. 3, Bandung",
+  "telepon": "0811-2222-3333",
+  "mataUang": "Rp"
+ },
+ "kategori": [
+  "Kopi",
+  "Non kopi"
+ ],
+ "bahan": [
+  {
+   "nama": "Biji kopi arabika",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "500",
+   "takaran": []
+  },
+  {
+   "nama": "Susu cair",
+   "dimensi": "VOLUME",
+   "satuanBeli": "liter",
+   "stokMinimum": "2000",
+   "takaran": []
+  },
+  {
+   "nama": "Gula aren cair",
+   "dimensi": "VOLUME",
+   "satuanBeli": "liter",
+   "stokMinimum": "500",
+   "takaran": [
+    {
+     "nama": "sendok makan",
+     "setara": "15"
+    }
+   ]
+  },
+  {
+   "nama": "Gula pasir",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "500",
+   "takaran": [
+    {
+     "nama": "sendok makan",
+     "setara": "12"
+    },
+    {
+     "nama": "sendok teh",
+     "setara": "4"
+    }
+   ],
+   "stokAwal": {
+    "jumlah": "2",
+    "satuan": "kg",
+    "nilai": 34000
+   }
+  },
+  {
+   "nama": "Es batu",
+   "dimensi": "MASS",
+   "satuanBeli": "kg",
+   "stokMinimum": "3000",
+   "takaran": []
+  },
+  {
+   "nama": "Cup plastik 16 oz",
+   "dimensi": "COUNT",
+   "satuanBeli": "buah",
+   "stokMinimum": "50",
+   "takaran": [
+    {
+     "nama": "sleeve",
+     "setara": "50"
+    }
+   ]
+  }
+ ],
+ "menu": [
+  {
+   "nama": "Americano",
+   "kategori": "Kopi",
+   "harga": 18000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Biji kopi arabika",
+     "jumlah": "18",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "120",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Kopi susu gula aren",
+   "kategori": "Kopi",
+   "harga": 22000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Biji kopi arabika",
+     "jumlah": "18",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Susu cair",
+     "jumlah": "120",
+     "satuan": "ml"
+    },
+    {
+     "bahan": "Gula aren cair",
+     "jumlah": "2",
+     "satuan": "sendok makan"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "100",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Latte",
+   "kategori": "Kopi",
+   "harga": 24000,
+   "aktif": true,
+   "catatan": "",
+   "resep": [
+    {
+     "bahan": "Biji kopi arabika",
+     "jumlah": "18",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Susu cair",
+     "jumlah": "180",
+     "satuan": "ml"
+    },
+    {
+     "bahan": "Gula pasir",
+     "jumlah": "2",
+     "satuan": "sendok teh"
+    },
+    {
+     "bahan": "Es batu",
+     "jumlah": "80",
+     "satuan": "g"
+    },
+    {
+     "bahan": "Cup plastik 16 oz",
+     "jumlah": "1",
+     "satuan": "buah"
+    }
+   ]
+  },
+  {
+   "nama": "Air mineral (titipan)",
+   "kategori": "Non kopi",
+   "harga": 6000,
+   "aktif": true,
+   "catatan": "",
+   "resep": []
+  }
+ ],
+ "pengeluaran": [
+  {
+   "hariLalu": 2,
+   "kategori": "Lain-lain",
+   "nominal": 25000,
+   "catatan": "Parkir dan kebersihan"
+  }
+ ],
+ "kejadian": [
+  {
+   "hariLalu": 2,
+   "jam": 7,
+   "menit": 0,
+   "jenis": "restok",
+   "bahan": "Biji kopi arabika",
+   "jumlah": "3",
+   "satuan": "kg",
+   "harga": 554000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 7,
+   "menit": 2,
+   "jenis": "restok",
+   "bahan": "Susu cair",
+   "jumlah": "9",
+   "satuan": "liter",
+   "harga": 171500
+  },
+  {
+   "hariLalu": 2,
+   "jam": 7,
+   "menit": 4,
+   "jenis": "restok",
+   "bahan": "Gula aren cair",
+   "jumlah": "2",
+   "satuan": "liter",
+   "harga": 89900
+  },
+  {
+   "hariLalu": 2,
+   "jam": 7,
+   "menit": 6,
+   "jenis": "restok",
+   "bahan": "Es batu",
+   "jumlah": "20",
+   "satuan": "kg",
+   "harga": 32800
+  },
+  {
+   "hariLalu": 2,
+   "jam": 7,
+   "menit": 8,
+   "jenis": "restok",
+   "bahan": "Cup plastik 16 oz",
+   "jumlah": "300",
+   "satuan": "buah",
+   "harga": 224400
+  },
+  {
+   "hariLalu": 2,
+   "jam": 10,
+   "menit": 3,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 2,
+   "jam": 10,
+   "menit": 30,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    },
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 25000
+  },
+  {
+   "hariLalu": 2,
+   "jam": 15,
+   "menit": 37,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 2,
+   "jam": 16,
+   "menit": 43,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 3
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 70000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 8,
+   "menit": 24,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 1,
+   "jam": 8,
+   "menit": 48,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 40000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 9,
+   "menit": 14,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 25000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 9,
+   "menit": 39,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 1,
+   "jam": 10,
+   "menit": 28,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 3
+    },
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 1,
+   "jam": 16,
+   "menit": 32,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Latte",
+     "qty": 1
+    },
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "TUNAI",
+   "uang": 100000
+  },
+  {
+   "hariLalu": 0,
+   "jam": 7,
+   "menit": 5,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Kopi susu gula aren",
+     "qty": 2
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "NON_TUNAI"
+  },
+  {
+   "hariLalu": 0,
+   "jam": 7,
+   "menit": 20,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Americano",
+     "qty": 2
+    }
+   ],
+   "diskon": {
+    "jenis": "PERSEN",
+    "nilai": "10"
+   },
+   "bayar": "TUNAI",
+   "uang": 35000
+  },
+  {
+   "hariLalu": 0,
+   "jam": 8,
+   "menit": 40,
+   "jenis": "jual",
+   "item": [
+    {
+     "menu": "Air mineral (titipan)",
+     "qty": 1
+    }
+   ],
+   "bayar": "NON_TUNAI"
+  }
+ ]
+}

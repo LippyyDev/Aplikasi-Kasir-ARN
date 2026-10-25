@@ -1,6 +1,6 @@
 # Kasus Uji Logika Takaran
 
-Kasus uji untuk logika inti di lapisan `domain/` (lihat `CLAUDE.md`). Setiap baris dapat langsung menjadi satu uji unit `flutter_test`. Semua angka sudah dihitung tangan; bila uji gagal, periksa implementasi lebih dulu.
+Kasus uji untuk logika inti di lapisan `domain/` (lihat `CLAUDE.md`; implementasi di `app/src/test/.../domain` dan `app/src/androidTest`). Setiap baris dapat langsung menjadi satu uji unit JUnit (`app/src/test`). Semua angka sudah dihitung tangan; bila uji gagal, periksa implementasi lebih dulu.
 
 Aturan umum: stok, resep, dan uang adalah `int`; konversi memakai aritmetika pecahan bilangan bulat (tanpa `double`) dengan pembulatan `HALF_UP` ke `int`.
 
@@ -131,6 +131,6 @@ Data: penjualan bersih E4 = 48.600; HPP E3 = 14.880; restok bahan G7 = 30.000; l
 | K1 | Cadangan lalu pulihkan di instalasi bersih | Jumlah baris **tiap tabel** sama; semua gambar tampil |
 | K2 | Satu bita pada berkas cadangan diubah | **Ditolak** oleh *checksum*; data lama utuh |
 | K3 | Cadangan dari versi skema lebih baru | **Ditolak** dengan pesan memperbarui aplikasi |
-| K4 | Cadangan dari versi skema lebih lama | Migrasi Drift dijalankan, data utuh |
+| K4 | Cadangan dari versi skema lebih lama | Migrasi Room dijalankan, data utuh |
 | K5 | Proses dihentikan di tengah pemulihan | Data lama **tidak rusak** (dikembalikan dari cadangan pengaman) |
 | K6 | Cadangan saat database sedang menerima tulisan | Berkas cadangan **konsisten** (tidak setengah tertulis) |

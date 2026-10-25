@@ -4,36 +4,38 @@ Daftar pekerjaan berurutan, diturunkan dari `docs/PRD.md` bagian 14. Setiap buti
 
 Label usulan: `setup`, `domain`, `data`, `ui`, `laporan`, `backup`, `qa`. Milestone: `MVP v1.0`.
 
+**Status (Oktober 2026):** semua epik E0 sampai E9 sudah dikerjakan di Kotlin native, kecuali CI (#3) dan uji di perangkat fisik serta Android 8 sampai 12 (#30), yang masih terbuka. Rincian per tahap ada di [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md).
+
 Ringkasan urutan: E0 → E1 → E2 → E3 → E4 → E5 → E6 → E7 → E8 → E9. E8 sebagian bisa paralel setelah E5.
 
 ---
 
 ## E0. Fondasi Proyek
 
-### #1 Inisialisasi proyek Android
+### #1 Inisialisasi proyek Android (selesai)
 `setup` · tanpa dependensi
-* Buat proyek Flutter hanya untuk Android (`flutter create --platforms=android`), Material 3, minSdk 26 di `android/app/build.gradle`, `flutter_lints` pada `analysis_options.yaml`.
-* Pasang `flutter_riverpod`, `go_router`, `drift` (+ `drift_dev`, `build_runner`, `sqlite3_flutter_libs`), `shared_preferences`, `image_picker`, `flutter_image_compress`, `path_provider`, `archive`, `crypto`, `file_picker`, `flutter_local_notifications`, `workmanager`, `flutter_native_splash`, `fl_chart`, `dynamic_color`, `intl`.
-* Struktur `lib/domain`, `lib/data`, `lib/ui`, `lib/l10n`. Kunci versi lewat `pubspec.lock`.
+* Buat proyek Android Studio (Kotlin, Jetpack Compose), Material 3, minSdk 26 di `app/build.gradle.kts`, Android Lint aktif.
+* Pasang Room (+ KSP), DataStore, Navigation Compose, WorkManager, `core-splashscreen`. Tanpa pustaka tambahan untuk cadangan, gambar, grafik, dan notifikasi.
+* Struktur paket `domain`, `data`, `ui`. Kunci versi lewat `gradle/libs.versions.toml`.
 * Atur `allowBackup` secara eksplisit; tanpa izin `INTERNET`.
 
-Kriteria penerimaan: `flutter analyze`, `flutter test`, dan `flutter build apk --debug` berhasil pada proyek kosong.
+Kriteria penerimaan: `./gradlew lintDebug`, `testDebugUnitTest`, dan `assembleDebug` berhasil pada proyek kosong.
 
 ### #2 Tema, navigasi, dan *splash screen*
 `setup`, `ui` · butuh #1
 * Tema terang, gelap, ikuti sistem (PRD 6.3.2) dengan warna merek sementara.
-* Kerangka navigasi: Halaman Utama dan laci burger dengan semua tujuan sebagai layar kosong.
-* *Splash* native dengan `flutter_native_splash`, ditahan hanya selama inisialisasi lalu dilepas (PRD 6.1). Logo ARN sementara bila aset belum ada.
+* Kerangka navigasi: Halaman Utama dan semua tujuan sebagai layar kosong (di implementasi akhir: empat mode Kasir, Kelola, Laporan, Lainnya).
+* *Splash* native dengan `core-splashscreen`, ditahan hanya selama inisialisasi lalu dilepas (PRD 6.1). Logo ARN sementara bila aset belum ada.
 
-Kriteria penerimaan: aplikasi terbuka ke Halaman Utama tanpa layar putih; semua entri burger menu dapat dibuka.
+Kriteria penerimaan: aplikasi terbuka ke Halaman Utama tanpa layar putih; semua tujuan navigasi dapat dibuka.
 
-### #3 CI dasar (opsional di awal)
+### #3 CI dasar (belum dikerjakan)
 `setup` · butuh #1
-* GitHub Actions: `flutter analyze` dan `flutter test` pada setiap *push* dan *pull request* (termasuk `build_runner` bila berkas hasil generator tidak di-*commit*).
+* GitHub Actions: `./gradlew lintDebug testDebugUnitTest` pada setiap *push* dan *pull request*.
 
 ---
 
-## E1. Inti Domain Takaran (Dart murni, TDD)
+## E1. Inti Domain Takaran (Kotlin murni, TDD)
 
 ### #4 Model dan konversi satuan
 `domain` · butuh #1
@@ -62,22 +64,22 @@ Kriteria penerimaan: TC E1 sampai E10 dan F1 sampai F5 lulus terhadap repositori
 
 ---
 
-## E2. Lapisan Data (Drift)
+## E2. Lapisan Data (Room)
 
-### #8 Tabel, DAO, dan migrasi awal
+### #8 Entitas, DAO, dan migrasi awal
 `data` · butuh #1
 * Semua tabel PRD bagian 8, indeks yang disarankan, kunci unik (nama bahan, nama kategori, `menu_id + bahan_id` pada resep).
-* Uang `int`, waktu `int` epoch UTC, faktor satuan sebagai pembilang dan penyebut, hapus lunak.
+* Uang `Long`, waktu `Long` epoch UTC, faktor satuan sebagai pembilang dan penyebut, hapus lunak.
 
-Kriteria penerimaan: skema terekspor ke `drift_schemas/`; uji dengan database dalam memori memasukkan dan membaca setiap tabel.
+Kriteria penerimaan: skema terekspor ke `app/schemas/`; uji dengan database dalam memori memasukkan dan membaca setiap tabel.
 
 ### #9 Repositori dan transaksi atomik penjualan
 `data` · butuh #7, #8
-* Implementasi repositori dengan satu `database.transaction(...)` untuk penjualan dan *void*.
+* Implementasi repositori dengan satu `db.withTransaction { ... }` untuk penjualan dan *void*.
 
-Kriteria penerimaan: TC E8 (atomisitas) lulus pada Drift (SQLite) sungguhan; TC E1 sampai F5 lulus ulang di lapisan data.
+Kriteria penerimaan: TC E8 (atomisitas) lulus pada Room (SQLite) sungguhan; TC E1 sampai F5 lulus ulang di lapisan data.
 
-### #10 Pengaturan (`shared_preferences`)
+### #10 Pengaturan (DataStore)
 `data` · butuh #1
 * Tema, bahasa, kebijakan stok, jadwal cadangan, waktu cadangan terakhir, preferensi notifikasi.
 
@@ -167,7 +169,7 @@ Kriteria penerimaan: TC I2 dan I3 lulus.
 
 ### #22 Pembuat berkas `.arnbak`
 `backup` · butuh #8, #10
-* ZIP berisi `manifest.json`, `arn.db` (salinan konsisten), `images/`, `settings.json`; *checksum* SHA 256; verifikasi sebelum menyalin ke lokasi pilihan lewat pemilih lokasi sistem (`file_picker`) (PRD 10.2 dan 10.3).
+* ZIP berisi `manifest.json`, `arn.db` (salinan konsisten), `images/`, `settings.json`; *checksum* SHA 256; verifikasi sebelum menyalin ke lokasi pilihan lewat pemilih lokasi sistem (Storage Access Framework) (PRD 10.2 dan 10.3).
 
 Kriteria penerimaan: TC K1 dan K6 lulus.
 
@@ -187,11 +189,11 @@ Kriteria penerimaan: TC K1 sampai K5 lulus.
 
 ### #25 Notifikasi
 `ui`, `data` · butuh #12, #24
-* Riwayat dalam aplikasi, pemicu bahan hampir habis dan habis (sekali per kondisi), pengingat cadangan lewat `workmanager`, izin `POST_NOTIFICATIONS` di Android 13 ke atas (PRD 6.3.1).
+* Riwayat dalam aplikasi, pemicu bahan hampir habis dan habis (sekali per kondisi), pengingat cadangan lewat WorkManager, izin `POST_NOTIFICATIONS` di Android 13 ke atas (PRD 6.3.1).
 
 ### #26 Bahasa Indonesia dan Inggris
 `ui` · butuh #2
-* *Per-app language*, seluruh teks di berkas ARB, format angka dan tanggal mengikuti bahasa (PRD 6.3.3).
+* Bahasa dipilih di dalam aplikasi, seluruh teks di `strings.xml` (id dan en), format angka dan tanggal mengikuti bahasa (PRD 6.3.3).
 
 ### #27 Tentang aplikasi
 `ui` · butuh #19
@@ -203,7 +205,7 @@ Kriteria penerimaan: TC K1 sampai K5 lulus.
 
 ### #28 Uji migrasi dan uji integrasi menyeluruh
 `qa` · butuh #23
-* Uji migrasi Drift untuk setiap kenaikan versi (skema tersimpan di `drift_schemas/`); uji alur lengkap: bahan, resep, penjualan, *void*, laporan, cadangan, pulihkan.
+* Uji migrasi Room untuk setiap kenaikan versi (skema tersimpan di `app/schemas/`); uji alur lengkap: bahan, resep, penjualan, *void*, laporan, cadangan, pulihkan.
 
 ### #29 Aksesibilitas dan kinerja
 `qa` · butuh #20
@@ -211,4 +213,4 @@ Kriteria penerimaan: TC K1 sampai K5 lulus.
 
 ### #30 Uji di perangkat nyata dan rilis internal
 `qa` · butuh semua
-* Uji di ponsel kelas menengah dan Android 8; periksa ukuran aplikasi di bawah 25 MB per APK (`flutter build apk --split-per-abi`); APK/AAB rilis bertanda tangan (kunci tidak boleh masuk repo).
+* Uji di ponsel kelas menengah dan Android 8; periksa ukuran aplikasi di bawah 25 MB per APK (`./gradlew bundleRelease`); APK/AAB rilis bertanda tangan (kunci tidak boleh masuk repo).

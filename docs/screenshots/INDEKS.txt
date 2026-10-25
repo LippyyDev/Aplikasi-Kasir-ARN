@@ -1,0 +1,21 @@
+ARN Kasir - Tangkapan layar seluruh antarmuka
+==============================================
+Sumber: emulator Android 15 (aslinya 1344x2992, di sini diperkecil JPEG), build debug versi 1.0.0 (1), data contoh kedai kopi.
+Tiap layar tersedia dalam dua tema: *_terang.jpg dan *_gelap.jpg (warna merek terra-cotta).
+
+01-06  Kasir: grid menu, keranjang terisi, lembar keranjang, pembayaran, uang pas, sukses
+07-09  Kelola: tab Menu, Bahan baku, Kategori
+10-11  Editor menu (foto, kategori, resep, modal dan margin)
+12-15  Detail bahan baku, riwayat stok, editor bahan, dialog restok
+16-17  Laporan pemasukan: Hari ini (3 bagian) dan 7 hari (2 bagian)
+18     Rincian transaksi
+19-21  Laporan pengeluaran, catat pengeluaran, kategori pengeluaran
+22-27  Lainnya: menu utama, notifikasi, profil usaha, cadangan dan pulihkan, dialog bahasa, tentang
+30-35  Ponsel lanskap (rail navigasi, Kasir dua panel, pembayaran dua kolom)
+40-47  Tablet 1600x2560 dp-setara: potret (40-44) dan lanskap (44b-47)
+50-54  Warna dinamis (dari wallpaper) terang dan gelap
+dlg_*  Dialog tema, hapus semua data, isi data contoh
+kasir_kosong_gelap  Kondisi awal sebelum ada data (panduan "Mulai dari sini")
+
+Catatan: 30_lanskap_kasir hanya versi terang; kasir_kosong hanya versi gelap.
+Ukuran huruf 2,0 dan bahasa Inggris sudah diuji saat pengembangan tetapi tidak disertakan di sini.

@@ -1,25 +1,14 @@
-# Flutter / Dart
-.dart_tool/
-.packages
-.pub-cache/
-.pub/
+# Gradle dan build
+.gradle/
 build/
-.flutter-plugins
-.flutter-plugins-dependencies
-coverage/
-
-# Android (di dalam android/)
-android/.gradle/
-android/captures/
-android/local.properties
-android/gradlew
-android/gradlew.bat
-android/gradle/wrapper/gradle-wrapper.jar
-android/app/debug/
-android/app/profile/
-android/app/release/
+/captures
 .externalNativeBuild/
 .cxx/
+.kotlin/
+
+# Berkas lokal
+local.properties
+*.log
 
 # IDE
 .idea/
@@ -32,7 +21,6 @@ android/app/release/
 *.jks
 *.keystore
 key.properties
-android/key.properties
 google-services.json
 
 # APK / AAB
@@ -40,8 +28,7 @@ google-services.json
 *.aab
 *.ap_
 
-# Log dan berkas OS
-*.log
+# Berkas OS
 .DS_Store
 Thumbs.db
 

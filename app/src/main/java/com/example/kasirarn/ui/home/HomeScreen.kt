@@ -109,6 +109,8 @@ import com.example.kasirarn.ui.nav.Routes
 import com.example.kasirarn.ui.nav.rememberWindowInfo
 import com.example.kasirarn.ui.nav.containerViewModel
 import com.example.kasirarn.ui.theme.MoneyStyle
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.launch
 
@@ -303,7 +305,7 @@ private fun HomeTopBar(
         horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
     ) {
         Surface(
-            modifier = Modifier.weight(1f).heightIn(min = 48.dp),
+            modifier = Modifier.weight(1f).heightIn(min = 48.dp).coachTarget(CoachId.HOME_SEARCH),
             shape = RoundedCornerShape(50),
             color = scheme.surfaceContainerHigh,
         ) {
@@ -371,7 +373,7 @@ private fun CategoryRow(ui: HomeUi, onSelect: (Long?) -> Unit) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = Spacing.lg),
         horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
-        modifier = Modifier.fillMaxWidth().padding(bottom = Spacing.sm),
+        modifier = Modifier.fillMaxWidth().coachTarget(CoachId.HOME_CATEGORIES).padding(bottom = Spacing.sm),
     ) {
         item(key = "all") {
             CategoryChip(stringResource(R.string.home_all), ui.selectedCategory == null) { onSelect(null) }
@@ -464,6 +466,7 @@ private fun HomeContent(
         }
         items(ui.items, key = { it.menu.id }) { item ->
             MenuCard(
+                modifier = if (item.menu.id == ui.items.first().menu.id) Modifier.coachTarget(CoachId.HOME_MENU) else Modifier,
                 item = item,
                 quantity = ui.cartQty[item.menu.id] ?: 0,
                 policy = ui.policy,
@@ -478,6 +481,7 @@ private fun HomeContent(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MenuCard(
+    modifier: Modifier = Modifier,
     item: CatalogItem,
     quantity: Int,
     policy: StockPolicy,
@@ -507,7 +511,7 @@ private fun MenuCard(
         else -> BorderStroke(1.dp, scheme.outlineVariant.copy(alpha = 0.7f))
     }
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .semantics {
                 contentDescription = description

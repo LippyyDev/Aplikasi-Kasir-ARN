@@ -41,6 +41,8 @@ data class AppSettings(
     /** Epoch ms cadangan terakhir; 0 berarti belum pernah. Khusus perangkat ini, tidak ikut cadangan. */
     val lastBackupAt: Long = 0,
     val guideDismissed: Boolean = false,
+    /** 0 belum mulai (sambutan), 1 tinggal tutorial sorot, 2 selesai. Khusus perangkat ini, tidak ikut cadangan. */
+    val onboardingStage: Int = 0,
 )
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "arn_settings")
@@ -59,6 +61,7 @@ class SettingsRepository(private val context: Context) {
         val REMINDER_DAYS = intPreferencesKey("backup_reminder_days")
         val LAST_BACKUP = longPreferencesKey("last_backup_at")
         val GUIDE_DISMISSED = booleanPreferencesKey("guide_dismissed")
+        val ONBOARDING_STAGE = intPreferencesKey("onboarding_stage")
     }
 
     val settings: Flow<AppSettings> = context.dataStore.data.map { it.toSettings() }
@@ -76,6 +79,7 @@ class SettingsRepository(private val context: Context) {
     suspend fun setReminderDays(days: Int) = edit { it[Keys.REMINDER_DAYS] = days.coerceIn(1, 90) }
     suspend fun setLastBackup(time: Long) = edit { it[Keys.LAST_BACKUP] = time }
     suspend fun setGuideDismissed(on: Boolean) = edit { it[Keys.GUIDE_DISMISSED] = on }
+    suspend fun setOnboardingStage(stage: Int) = edit { it[Keys.ONBOARDING_STAGE] = stage.coerceIn(0, 2) }
 
     /** Pengaturan yang ikut dalam cadangan (`settings.json`). */
     suspend fun exportJson(): JSONObject {
@@ -126,5 +130,6 @@ class SettingsRepository(private val context: Context) {
         backupReminderDays = this[Keys.REMINDER_DAYS] ?: 7,
         lastBackupAt = this[Keys.LAST_BACKUP] ?: 0L,
         guideDismissed = this[Keys.GUIDE_DISMISSED] ?: false,
+        onboardingStage = this[Keys.ONBOARDING_STAGE] ?: 0,
     )
 }

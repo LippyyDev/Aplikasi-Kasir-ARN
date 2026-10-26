@@ -26,6 +26,8 @@ import com.example.kasirarn.data.settings.ThemeMode
 import com.example.kasirarn.ui.components.LocalImageStore
 import com.example.kasirarn.ui.format.ProvideFmt
 import com.example.kasirarn.ui.nav.ArnNavHost
+import com.example.kasirarn.ui.onboarding.OnboardingFlow
+import com.example.kasirarn.ui.onboarding.OnboardingStage
 import com.example.kasirarn.ui.theme.ArnTheme
 import kotlinx.coroutines.flow.map
 
@@ -76,7 +78,8 @@ private fun ArnRoot(container: AppContainer) {
         ArnTheme(mode = settings.theme, dynamicColor = settings.dynamicColor) {
             ProvideFmt(language = settings.language, currency = profile) {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    ArnNavHost()
+                    // Pertama kali dipasang: sambutan dan profil dulu, baru aplikasi utama dengan tutorial sorot.
+                    if (settings.onboardingStage == OnboardingStage.WELCOME) OnboardingFlow() else ArnNavHost()
                 }
             }
         }

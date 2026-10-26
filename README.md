@@ -18,6 +18,7 @@ Versi 1.0.0 (build debug) sudah berjalan lengkap di emulator. Belum diuji di per
 * **Cadangan dan pulihkan** lewat berkas `.arnbak` (ZIP dengan checksum SHA-256, salinan pengaman, penggantian atomik).
 * **Profil usaha**, **tema** terang/gelap/ikuti sistem (plus warna dinamis), **bahasa** Indonesia dan Inggris.
 * **Data contoh** dalam tiga ukuran (sedikit, sedang, banyak) untuk mencoba semua fitur.
+* **Pengenalan pertama kali**: sambutan, profil toko, penjelasan fitur, dan tutorial sorot di layar asli (ada tombol Lewati). Panduan penggunaan berisi 11 tutorial per fitur dan bisa dibuka kapan saja.
 * Navigasi empat mode (Kasir, Kelola, Laporan, Lainnya); tata letak ponsel potret dan lanskap serta tablet.
 
 ## Teknologi
@@ -37,7 +38,7 @@ Butuh Android Studio (atau JDK 17+ dan Android SDK 36).
 ./gradlew lintDebug                     Android Lint
 ```
 
-Data contoh: buka aplikasi saat masih kosong, lalu ketuk "Coba dengan data contoh" di Halaman Utama (atau Lainnya, Cadangan dan pulihkan) dan pilih ukurannya. Berkas dibangkitkan oleh `python tools/generate_data_contoh.py`.
+Data contoh: buka aplikasi saat masih kosong, lalu ketuk "Coba dengan data contoh" di Halaman Utama (atau Lainnya, Cadangan dan pulihkan) dan pilih ukurannya. Berkas dibangkitkan oleh `python tools/generate_data_contoh.py`. Teks panduan dibangkitkan oleh `python tools/gen_guide.py`.
 
 ## Struktur Repo
 

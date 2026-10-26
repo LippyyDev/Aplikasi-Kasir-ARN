@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -35,7 +36,10 @@ import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -68,6 +72,15 @@ import com.example.kasirarn.ui.misc.AboutScreen
 import com.example.kasirarn.ui.misc.MoreScreen
 import com.example.kasirarn.ui.misc.NotificationsScreen
 import com.example.kasirarn.ui.misc.ProfileScreen
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.CoachOverlay
+import com.example.kasirarn.ui.onboarding.CoachRegistry
+import com.example.kasirarn.ui.onboarding.GuideListScreen
+import com.example.kasirarn.ui.onboarding.GuideTopicScreen
+import com.example.kasirarn.ui.onboarding.LocalCoachRegistry
+import com.example.kasirarn.ui.onboarding.OnboardingStage
+import com.example.kasirarn.ui.onboarding.OnboardingViewModel
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.report.ExpenseCategoriesScreen
 import com.example.kasirarn.ui.report.ReportsScreen
 import com.example.kasirarn.ui.report.TransactionDetailScreen
@@ -89,6 +102,13 @@ enum class TopTab(
     MANAGE(Routes.manage(), Routes.MANAGE, R.string.nav_manage, Icons.Outlined.Inventory2, Icons.Filled.Inventory2),
     REPORTS(Routes.reports(), Routes.REPORTS, R.string.nav_reports, Icons.Outlined.BarChart, Icons.Filled.BarChart),
     MORE(Routes.MORE, Routes.MORE, R.string.nav_more, Icons.Outlined.MoreHoriz, Icons.Outlined.MoreHoriz),
+}
+
+private fun TopTab.coachId() = when (this) {
+    TopTab.CASHIER -> CoachId.TAB_CASHIER
+    TopTab.MANAGE -> CoachId.TAB_MANAGE
+    TopTab.REPORTS -> CoachId.TAB_REPORTS
+    TopTab.MORE -> CoachId.TAB_MORE
 }
 
 /** Penanda kecil di tab: bahan yang perlu perhatian di Kelola, notifikasi belum dibaca di Lainnya. */
@@ -122,11 +142,12 @@ private val tabArg = listOf(
     },
 )
 
-private fun NavController.goToTab(tab: TopTab) {
+/** [fresh] membuka tab dari layar utamanya, tanpa memulihkan layar turunan yang terakhir dibuka di tab itu. */
+private fun NavController.goToTab(tab: TopTab, fresh: Boolean = false) {
     navigate(tab.route) {
         popUpTo(graph.findStartDestination().id) { saveState = true }
         launchSingleTop = true
-        restoreState = true
+        restoreState = !fresh
     }
 }
 
@@ -141,26 +162,40 @@ fun ArnNavHost() {
     val badges by shell.badges.collectAsStateWithLifecycle()
     val onTab: (TopTab) -> Unit = { nav.goToTab(it) }
 
-    if (window.isWide) {
-        Row(Modifier.padding(0.dp)) {
-            AnimatedVisibility(visible = current != null) {
-                ArnRail(current, badges, onTab)
+    val onboarding = containerViewModel { OnboardingViewModel(it) }
+    val stage by onboarding.stage.collectAsStateWithLifecycle()
+    val coach = remember { CoachRegistry() }
+    val touring = stage == OnboardingStage.TOUR
+    // Tutorial selalu mulai dari mode Kasir, apa pun layar yang sedang terbuka.
+    LaunchedEffect(touring) { if (touring && current != TopTab.CASHIER) nav.goToTab(TopTab.CASHIER) }
+
+    CompositionLocalProvider(LocalCoachRegistry provides coach) {
+        Box(Modifier.fillMaxSize()) {
+            if (window.isWide) {
+                Row(Modifier.padding(0.dp)) {
+                    AnimatedVisibility(visible = current != null) {
+                        ArnRail(current, badges, onTab)
+                    }
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .consumeWindowInsets(WindowInsets.safeDrawing.only(WindowInsetsSides.Start)),
+                    ) { ArnGraph(nav) }
+                }
+            } else {
+                Scaffold(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentWindowInsets = WindowInsets(0),
+                    bottomBar = {
+                        AnimatedVisibility(visible = current != null) { ArnBottomBar(current, badges, onTab) }
+                    },
+                ) { padding ->
+                    Box(Modifier.padding(padding).consumeWindowInsets(padding)) { ArnGraph(nav) }
+                }
             }
-            Box(
-                Modifier
-                    .weight(1f)
-                    .consumeWindowInsets(WindowInsets.safeDrawing.only(WindowInsetsSides.Start)),
-            ) { ArnGraph(nav) }
-        }
-    } else {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.background,
-            contentWindowInsets = WindowInsets(0),
-            bottomBar = {
-                AnimatedVisibility(visible = current != null) { ArnBottomBar(current, badges, onTab) }
-            },
-        ) { padding ->
-            Box(Modifier.padding(padding).consumeWindowInsets(padding)) { ArnGraph(nav) }
+            if (touring && (current == TopTab.CASHIER || current == TopTab.MORE)) {
+                CoachOverlay(coach, current, onNavigate = { nav.goToTab(it, fresh = true) }, onFinish = { onboarding.setStage(OnboardingStage.DONE) })
+            }
         }
     }
 }
@@ -179,6 +214,7 @@ private fun ArnBottomBar(current: TopTab?, badges: TabBadges, onTab: (TopTab) ->
         TopTab.entries.forEach { tab ->
             val selected = tab == current
             NavigationBarItem(
+                modifier = Modifier.coachTarget(tab.coachId()),
                 selected = selected,
                 onClick = { onTab(tab) },
                 icon = { TabIcon(tab, selected, badges.of(tab)) },
@@ -207,6 +243,7 @@ private fun ArnRail(current: TopTab?, badges: TabBadges, onTab: (TopTab) -> Unit
             TopTab.entries.forEach { tab ->
                 val selected = tab == current
                 NavigationRailItem(
+                    modifier = Modifier.coachTarget(tab.coachId()),
                     selected = selected,
                     onClick = { onTab(tab) },
                     icon = { TabIcon(tab, selected, badges.of(tab)) },
@@ -276,6 +313,27 @@ private fun ArnGraph(nav: androidx.navigation.NavHostController) {
         composable(Routes.PROFILE) { ConstrainedScreen { ProfileScreen(onBack = back) } }
         composable(Routes.NOTIFICATIONS) { ConstrainedScreen { NotificationsScreen(onBack = back) } }
         composable(Routes.ABOUT) { ConstrainedScreen { AboutScreen(onBack = back) } }
+        composable(Routes.GUIDE) {
+            ConstrainedScreen(maxWidth = 640.dp) {
+                GuideListScreen(
+                    onBack = back,
+                    onOpenTopic = { nav.navigate(Routes.guideTopic(it)) },
+                    onStartTour = { nav.goToTab(TopTab.CASHIER) },
+                )
+            }
+        }
+        composable(Routes.GUIDE_TOPIC, listOf(navArgument("topic") { type = NavType.StringType })) { entry ->
+            ConstrainedScreen(maxWidth = 640.dp) {
+                GuideTopicScreen(
+                    topicId = entry.arguments?.getString("topic").orEmpty(),
+                    onBack = back,
+                    onTry = { route ->
+                        val tab = TopTab.entries.firstOrNull { it.route == route }
+                        if (tab != null) nav.goToTab(tab) else nav.navigate(route)
+                    },
+                )
+            }
+        }
         composable(Routes.BACKUP) { ConstrainedScreen { BackupScreen(onBack = back) } }
         composable(Routes.EXPENSE_CATEGORIES) { ConstrainedScreen { ExpenseCategoriesScreen(onBack = back) } }
 

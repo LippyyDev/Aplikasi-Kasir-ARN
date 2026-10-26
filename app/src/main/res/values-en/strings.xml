@@ -455,4 +455,239 @@
         <item quantity="one">%d transaction</item>
         <item quantity="other">%d transactions</item>
     </plurals>
+    <!-- Sambutan, panduan, tutorial (dibangkitkan oleh tools gen_guide) -->
+    <string name="ob_skip">Skip</string>
+    <string name="ob_skip_all">Skip all</string>
+    <string name="ob_next">Next</string>
+    <string name="ob_start">Get started</string>
+    <string name="ob_done">Done</string>
+    <string name="ob_start_tour">Start tutorial</string>
+    <string name="ob_brand_a">ARN</string>
+    <string name="ob_brand_b">Kasir</string>
+    <string name="ob_head_1">Sell first,</string>
+    <string name="ob_head_2">stock follows.</string>
+    <string name="ob_welcome_body">An offline cashier for food and drink businesses. Every sale automatically reduces ingredient stock and works out your cost.</string>
+    <string name="ob_demo_title">One sale, for example</string>
+    <string name="ob_demo_pay">Cash</string>
+    <string name="ob_demo_line">2× Palm sugar iced latte</string>
+    <string name="ob_demo_total">Rp 44,000</string>
+    <string name="ob_demo_stock">Stock goes down by itself</string>
+    <string name="ob_demo_s1">Fresh milk</string>
+    <string name="ob_demo_s1v">−240 ml</string>
+    <string name="ob_demo_s2">Palm sugar syrup</string>
+    <string name="ob_demo_s2v">−60 ml</string>
+    <string name="ob_demo_s3">Arabica beans</string>
+    <string name="ob_demo_s3v">−36 g</string>
+    <string name="ob_demo_cost">Cost Rp 15,402</string>
+    <string name="ob_demo_profit">Profit Rp 28,598</string>
+    <string name="ob_step_of">Step %1$d of %2$d</string>
+    <string name="ob_profile_title">Introduce your shop</string>
+    <string name="ob_profile_body">This name and address are printed on receipts and shown on the home screen. You can change them any time under More.</string>
+    <string name="ob_profile_save">Save and continue</string>
+    <string name="ob_profile_later">Fill in later</string>
+    <string name="ob_profile_need_name">Enter the shop name to continue.</string>
+    <string name="ob_features_kicker">FEATURE %1$d OF %2$d</string>
+    <string name="ob_features_hint">More detailed explanations per feature are under More, User guide.</string>
+    <string name="userguide_title">User guide</string>
+    <string name="guide_summary">Per-feature tutorials and the interactive tour</string>
+    <string name="guide_interactive_title">Interactive tour</string>
+    <string name="guide_interactive_body">The screen dims and key parts are highlighted one by one. About a minute.</string>
+    <string name="guide_topics_label">Tutorials by feature</string>
+    <string name="guide_steps_label">Steps</string>
+    <string name="guide_tips_label">Tips</string>
+    <string name="guide_try">Try it now</string>
+    <string name="guide_topic_steps">%1$d steps</string>
+    <string name="guide_sec_sell">Selling</string>
+    <string name="guide_sec_manage">Running the business</string>
+    <string name="guide_sec_reports">Reports</string>
+    <string name="guide_sec_system">Data and settings</string>
+    <string name="tour_step">%1$d of %2$d</string>
+    <string name="tour_cashier_title">Cashier mode</string>
+    <string name="tour_cashier_text">This is where you serve customers. Everything you need while selling is here.</string>
+    <string name="tour_search_title">Search menus</string>
+    <string name="tour_search_text">Type a menu name to find it quickly.</string>
+    <string name="tour_categories_title">Categories</string>
+    <string name="tour_categories_text">Tap a category to filter menus. All shows every menu.</string>
+    <string name="tour_menu_title">Menu list</string>
+    <string name="tour_menu_text">Tap + to add a menu to the cart. The cart bar appears below; tap it to pay.</string>
+    <string name="tour_manage_title">Manage</string>
+    <string name="tour_manage_text">Set up menus, recipes, ingredients and stock. A red dot means an ingredient needs attention.</string>
+    <string name="tour_reports_title">Reports</string>
+    <string name="tour_reports_text">Income, profit and expenses by period.</string>
+    <string name="tour_more_title">More</string>
+    <string name="tour_more_text">Shop profile, notifications, data backup, theme and language are here. Let us open it for a moment.</string>
+    <string name="tour_guide_title">User guide</string>
+    <string name="tour_guide_text">You are ready to sell! For more detailed tutorials per feature, open the User guide any time.</string>
+    <string name="gp1_title">Cashier: sell quickly</string>
+    <string name="gp1_sum">Tap a menu to add it to the cart, then pay.</string>
+    <string-array name="gp1_steps">
+        <item>Tap + on a menu to add it, or find it with the search box.</item>
+        <item>Open the cart to change quantities, add notes or give a discount.</item>
+        <item>Tap Pay, choose cash or non-cash, then share the receipt.</item>
+    </string-array>
+    <string name="gp2_title">Menus and recipes</string>
+    <string name="gp2_sum">Every menu has a recipe, so cost and margin are calculated automatically.</string>
+    <string-array name="gp2_steps">
+        <item>Open Manage, the Menus tab, then tap Add menu.</item>
+        <item>Enter the name, price, category and a photo if you have one.</item>
+        <item>Add ingredients and amounts per serving; the cost per serving shows right away.</item>
+    </string-array>
+    <string name="gp3_title">Ingredients and stock</string>
+    <string name="gp3_sum">Ingredient stock goes down by itself with every sale.</string>
+    <string-array name="gp3_steps">
+        <item>In Manage, the Ingredients tab, add each ingredient with its purchase unit.</item>
+        <item>Record purchases with Restock so average price and cost stay accurate.</item>
+        <item>Match physical stock with Stock count. You are notified when an ingredient runs low.</item>
+    </string-array>
+    <string name="gp4_title">Reports</string>
+    <string name="gp4_sum">See income, profit and expenses by period.</string>
+    <string-array name="gp4_steps">
+        <item>Open Reports, then choose Today, 7 days, This month or Custom.</item>
+        <item>The Income tab shows sales, gross profit and best sellers.</item>
+        <item>The Expenses tab is for recording costs and viewing cash flow.</item>
+    </string-array>
+    <string name="gp5_title">Backup and settings</string>
+    <string name="gp5_sum">Keep your data safe and set the app up your way.</string>
+    <string-array name="gp5_steps">
+        <item>Back up regularly under More, Backup and restore, and keep the file outside the app.</item>
+        <item>Change the theme and language any time under More.</item>
+        <item>Open the User guide under More for detailed tutorials per feature.</item>
+    </string-array>
+    <string name="gt_sell_title">Selling at the cashier</string>
+    <string name="gt_sell_sum">From picking a menu to sharing the receipt.</string>
+    <string-array name="gt_sell_steps">
+        <item>Open Cashier mode. Find a menu with the search box, or filter with the category chips below it.</item>
+        <item>Tap + on a menu card to put it in the cart. Tap again to add more, or use the − and + buttons that appear on the card.</item>
+        <item>Press and hold a menu card to add a note, for example \"less sweet\".</item>
+        <item>Tap the cart bar at the bottom to open the details. You can change quantities, remove items and add a discount (amount or percent) there.</item>
+        <item>Tap Pay. For cash, enter Cash received or tap Exact amount; change is calculated for you. For non-cash, just choose Non-cash.</item>
+        <item>Tap Complete payment. On the success screen, share the receipt as text or an image, then tap New transaction.</item>
+    </string-array>
+    <string-array name="gt_sell_tips">
+        <item>A menu marked Out of stock cannot be sold until its ingredients are restocked (you can change this policy in Manage, Ingredients, the three-dot menu).</item>
+        <item>Entered a sale by mistake? Open Reports, tap the transaction, then Void transaction. Stock is returned automatically.</item>
+    </string-array>
+    <string name="gt_menu_title">Creating menus and recipes</string>
+    <string name="gt_menu_sum">A recipe lets stock and cost work themselves out.</string>
+    <string-array name="gt_menu_steps">
+        <item>Open Manage, the Menus tab, then tap Add menu.</item>
+        <item>Enter the name and selling price. Add a photo if you like (optional, resized automatically) and choose a category.</item>
+        <item>Under Recipe per serving, tap Add ingredient. Pick the ingredient, enter the amount for one serving and choose its unit (for example 2 tablespoons).</item>
+        <item>Repeat for every ingredient. The Cost and margin card shows cost per serving and margin percent as you fill in.</item>
+        <item>Tap Save. The menu appears at the cashier right away if it has a category and Active for sale is on.</item>
+    </string-array>
+    <string-array name="gt_menu_tips">
+        <item>A menu without a recipe (for example bottled water) can still be sold; stock is not tracked and its cost counts as zero.</item>
+        <item>Turn off Active for sale to hide a seasonal menu without deleting its history.</item>
+    </string-array>
+    <string name="gt_ingredients_title">Managing ingredients</string>
+    <string name="gt_ingredients_sum">The ingredients, units and measures used in recipes.</string>
+    <string-array name="gt_ingredients_steps">
+        <item>Open Manage, the Ingredients tab, then tap Add ingredient.</item>
+        <item>Enter the ingredient name and choose a Unit type: Mass (grams, kg), Volume (ml, litres) or Count (pieces). The type is locked once saved.</item>
+        <item>Choose the Purchase unit, the unit you normally buy in (for example kg or litre).</item>
+        <item>Set the Minimum stock. When stock reaches this level you get a notification.</item>
+        <item>If your recipes use kitchen measures, tap Add measure, for example \"tablespoon = 12 g\". It then appears as a unit choice in recipes.</item>
+        <item>If the ingredient already has stock, enter the opening stock and its value so cost is right from the start.</item>
+    </string-array>
+    <string-array name="gt_ingredients_tips">
+        <item>An ingredient with history cannot be deleted, only archived, so past reports stay correct.</item>
+        <item>The OK, Low and Out markers in the list show which ingredients need buying.</item>
+    </string-array>
+    <string name="gt_stock_title">Restock and stock count</string>
+    <string name="gt_stock_sum">Record purchases and match stock with reality.</string>
+    <string-array name="gt_stock_steps">
+        <item>Open Manage, the Ingredients tab, then tap the ingredient you want to update.</item>
+        <item>Tap Restock to record a purchase. Enter the quantity bought, its unit and the total price paid.</item>
+        <item>Tap Save restock. Stock goes up, the ingredient average price is updated and the purchase is recorded as an Ingredients expense.</item>
+        <item>To match stock, tap Stock count. Enter the real physical stock and choose a reason for the difference.</item>
+        <item>If the difference is waste, damage or spillage, turn on loss recording so it is counted as a loss.</item>
+        <item>The stock history below logs every sale, restock, void and stock count. Filter by 7 days, 30 days or All.</item>
+    </string-array>
+    <string-array name="gt_stock_tips">
+        <item>Always enter the total price when restocking. Without a price, cost per serving cannot be calculated accurately.</item>
+        <item>Do a stock count regularly, say weekly, to keep the stock in the app equal to what is in the kitchen.</item>
+    </string-array>
+    <string name="gt_categories_title">Organising menu categories</string>
+    <string name="gt_categories_sum">Categories build the chips on the home screen.</string>
+    <string-array name="gt_categories_steps">
+        <item>Open Manage, the Categories tab, then tap Add category and enter its name.</item>
+        <item>Set the order with the up and down arrows. The order here matches the chip order at the cashier.</item>
+        <item>Tap the three dots on a category to rename or delete it.</item>
+        <item>When deleting a category that has menus, choose a destination category so those menus do not disappear from the cashier.</item>
+    </string-array>
+    <string-array name="gt_categories_tips">
+        <item>A menu without a category does not show at the cashier. The app warns you if there are any.</item>
+    </string-array>
+    <string name="gt_income_title">Reading the income report</string>
+    <string name="gt_income_sum">Sales, gross profit and best sellers.</string>
+    <string-array name="gt_income_steps">
+        <item>Open Reports, the Income tab. Choose a period at the top: Today, 7 days, This month or Custom (pick your own dates).</item>
+        <item>The big card shows Net sales (after discounts and without voided transactions).</item>
+        <item>The tiles below show Gross sales, Discounts, Ingredient cost (COGS) and Gross profit.</item>
+        <item>The chart shows sales per hour (today) or per day (longer periods).</item>
+        <item>Scroll down for Top menus, sales by category and by payment method.</item>
+        <item>The transaction list is at the end. Tap one to see its details, the profit on that sale, share the receipt or void it.</item>
+    </string-array>
+    <string-array name="gt_income_tips">
+        <item>Gross profit = net sales minus the cost of ingredients used. Other costs such as rent and wages are counted in the Expenses tab.</item>
+    </string-array>
+    <string name="gt_expenses_title">Recording expenses and cash flow</string>
+    <string name="gt_expenses_sum">Operating costs, net profit and money in and out.</string>
+    <string-array name="gt_expenses_steps">
+        <item>Open Reports, the Expenses tab, then tap Add expense.</item>
+        <item>Choose the date and category (Rent, Utilities, Wages, Packaging or Other), enter the amount and add a note if needed.</item>
+        <item>Tap Save. The expense appears in the list and is counted.</item>
+        <item>The Net profit card = gross profit minus operating costs. The Cash flow section shows money that actually came in and went out.</item>
+        <item>Tap the category icon at the top right to add or edit your own expense categories.</item>
+    </string-array>
+    <string-array name="gt_expenses_tips">
+        <item>Ingredient purchases (restocks) are recorded automatically as Ingredients expenses and affect cash flow, but do not reduce profit because they are already counted as cost.</item>
+    </string-array>
+    <string name="gt_notifications_title">Stock notifications and reminders</string>
+    <string name="gt_notifications_sum">Know about low ingredients before they run out.</string>
+    <string-array name="gt_notifications_steps">
+        <item>Tap the bell icon at the cashier, or open More, Notifications. A dot on the More tab means something is unread.</item>
+        <item>You are told when an ingredient runs low (reaches minimum stock) and when it runs out, once per condition.</item>
+        <item>Tap the settings icon at the top right to turn each type of notification on or off.</item>
+        <item>On Android 13 and up, allow notifications when asked so alerts also appear outside the app.</item>
+    </string-array>
+    <string-array name="gt_notifications_tips">
+        <item>Set each ingredient Minimum stock sensibly so you have time to buy before running out, without being nagged too often.</item>
+    </string-array>
+    <string name="gt_backup_title">Backup and restore</string>
+    <string name="gt_backup_sum">Keep data safe even if the phone is lost.</string>
+    <string-array name="gt_backup_steps">
+        <item>Open More, Backup and restore, then tap Create backup.</item>
+        <item>Choose a storage location outside the app, for example phone storage or a memory card. The file ending in .arnbak holds all your data and photos.</item>
+        <item>Choose a reminder (every 3, 7, 14 or 30 days) so you do not forget to back up.</item>
+        <item>To restore, tap Restore from file and choose an .arnbak file. The app checks the file is intact and shows a summary before you confirm.</item>
+        <item>Before replacing data, the app automatically keeps a safety copy. When done, the app restarts.</item>
+    </string-array>
+    <string-array name="gt_backup_tips">
+        <item>The backup file is not encrypted and contains your sales data. Keep it somewhere safe and do not share it casually.</item>
+        <item>Delete all data on the same page empties the app (a safety copy is made automatically).</item>
+    </string-array>
+    <string name="gt_profile_title">Shop profile, theme and language</string>
+    <string name="gt_profile_sum">Set up the identity and look of the app.</string>
+    <string-array name="gt_profile_steps">
+        <item>Open More, then tap the profile card at the top to enter the business name, address, phone, logo and currency symbol. This is printed on receipts.</item>
+        <item>Tap Theme to choose Follow system, Light or Dark. Dynamic colour (Android 12 and up) takes colours from your wallpaper.</item>
+        <item>Tap Language to switch between Bahasa Indonesia and English. It takes effect right away without restarting.</item>
+    </string-array>
+    <string-array name="gt_profile_tips">
+        <item>The logo shows on the home screen and can be changed any time.</item>
+    </string-array>
+    <string name="gt_sample_title">Trying the app with sample data</string>
+    <string name="gt_sample_sum">Fill the app with a fictional coffee shop.</string>
+    <string-array name="gt_sample_steps">
+        <item>While the app is still empty, tap Try with sample data on the home screen. Or open More, Backup and restore, the Sample data section.</item>
+        <item>Choose a size: Small (3 days), Medium (14 days) or Large (45 days and thousands of history rows).</item>
+        <item>Wait until it finishes. The Large scenario takes about one to two minutes.</item>
+        <item>Explore Cashier, Manage and Reports with the data filled in.</item>
+        <item>To use real data, open Backup and restore, then Delete all data.</item>
+    </string-array>
+    <string-array name="gt_sample_tips">
+        <item>Sample data can only be loaded while the app is empty, so it will never overwrite your business data.</item>
+    </string-array>
 </resources>

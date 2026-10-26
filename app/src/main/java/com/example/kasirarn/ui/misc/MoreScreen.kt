@@ -23,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Palette
@@ -67,6 +68,8 @@ import com.example.kasirarn.ui.home.RadioRow
 import com.example.kasirarn.ui.nav.ConstrainedScreen
 import com.example.kasirarn.ui.nav.Routes
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -149,6 +152,14 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
 
                 GroupLabel(stringResource(R.string.more_section_info))
                 SettingsGroup {
+                    Box(Modifier.coachTarget(CoachId.MORE_GUIDE)) {
+                        SettingRow(
+                            Icons.Outlined.MenuBook,
+                            stringResource(R.string.userguide_title),
+                            supporting = stringResource(R.string.guide_summary),
+                        ) { onNavigate(Routes.GUIDE) }
+                    }
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     SettingRow(
                         Icons.Outlined.Info,
                         stringResource(R.string.drawer_about),

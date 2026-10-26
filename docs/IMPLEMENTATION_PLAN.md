@@ -431,6 +431,30 @@ Checklist
 
 ---
 
+## Tahap 14. Sambutan, Profil Awal, Panduan Fitur, dan Tutorial
+
+**Tujuan:** pengguna baru langsung tahu apa fitur aplikasi dan cara memakainya, dan profil toko terisi sejak awal.
+
+Alur saat aplikasi pertama kali dipasang (tahap disimpan di DataStore: 0 sambutan, 1 tutorial, 2 selesai)
+1. **Sambutan**: blok warna merek dengan judul besar, pilihan bahasa ID/EN, dan satu contoh penjualan (stok berkurang otomatis, modal, laba) sebagai pengganti daftar poin.
+2. **Kenalkan toko Anda**: logo, nama (wajib), alamat, telepon; tombol Isi nanti.
+3. **Penjelasan singkat lima fitur** dengan langkah bernomor (Kasir, Menu dan resep, Bahan baku dan stok, Laporan, Cadangan dan pengaturan).
+4. **Tutorial sorot** di layar asli. Langkah yang bagiannya belum ada dilewati. Berakhir di Lainnya dengan menyorot baris Panduan penggunaan.
+
+**Panduan penggunaan** (Lainnya): kartu Tutorial interaktif, lalu semua tutorial per fitur langsung terlihat, dikelompokkan (Berjualan, Kelola usaha, Laporan, Data dan pengaturan). Sebelas topik, masing-masing berisi langkah rinci, tips, dan tombol Coba sekarang yang membuka layar terkait. Teks dibangkitkan dari satu skrip (id dan en).
+
+Checklist
+- [x] Sambutan tampil hanya saat pertama kali; Lewati ada di setiap tahap
+- [x] Profil memakai komponen yang sama dengan layar Profil (`ProfileFields`)
+- [x] Tutorial sorot lintas tab, dilanjutkan bila aplikasi ditutup di tengah jalan
+- [x] Panduan: daftar topik langsung tampil, detail per topik, dapat diulang kapan saja
+- [x] Teks Indonesia dan Inggris
+- [x] **Temuan dan perbaikan:** tab Lainnya memulihkan layar terakhirnya (daftar Panduan) sehingga tutorial salah mendarat; pindah tab untuk tutorial kini tanpa memulihkan layar turunan
+- [x] Diverifikasi di emulator (potret, data kosong): alur lengkap, Lewati, ulangi dari Panduan
+- [~] Belum diuji: tutorial dengan data terisi (langkah menu), tablet, lanskap, huruf sistem 2,0
+
+---
+
 ## Di Luar Cakupan v1.0 (Sesuai PRD 14)
 
 Cadangan terjadwal ke folder pilihan, enkripsi cadangan, ekspor CSV, cetak struk Bluetooth, kunci aplikasi PIN/biometrik, tata letak tablet/lanskap, impor CSV, varian menu.

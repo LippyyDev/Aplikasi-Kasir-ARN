@@ -110,9 +110,6 @@ class ProfileViewModel(private val c: AppContainer) : ViewModel() {
 @Composable
 fun ProfileScreen(onBack: () -> Unit) {
     val vm = containerViewModel { ProfileViewModel(it) }
-    val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) vm.pickLogo(uri)
-    }
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = { ArnTopBar(stringResource(R.string.profile_title), onBack) },
@@ -132,54 +129,70 @@ fun ProfileScreen(onBack: () -> Unit) {
             Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(horizontal = Spacing.lg),
             verticalArrangement = Arrangement.spacedBy(Spacing.md),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    Modifier
-                        .size(88.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .clickable(role = Role.Button) {
-                            picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                        },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    if (vm.logo != null) {
-                        MenuImage(photo = vm.logo, name = vm.name, modifier = Modifier.fillMaxSize(), shape = CircleShape)
-                    } else {
-                        Icon(
-                            Icons.Outlined.AddPhotoAlternate,
-                            contentDescription = stringResource(R.string.profile_logo_add),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier.size(32.dp),
-                        )
-                    }
-                }
-                Spacer(Modifier.width(Spacing.lg))
-                Column {
-                    Text(stringResource(R.string.profile_logo), style = MaterialTheme.typography.titleSmall)
-                    Text(
-                        stringResource(R.string.profile_logo_hint),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+            ProfileFields(vm)
+            Spacer(Modifier.height(Spacing.xl))
+        }
+    }
+}
+
+/** Logo, nama, alamat, telepon (dan mata uang) usaha. Dipakai di layar Profil dan di alur sambutan. */
+@Composable
+fun ProfileFields(vm: ProfileViewModel, showCurrency: Boolean = true, modifier: Modifier = Modifier) {
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) vm.pickLogo(uri)
+    }
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                Modifier
+                    .size(88.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .clickable(role = Role.Button) {
+                        picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                if (vm.logo != null) {
+                    MenuImage(photo = vm.logo, name = vm.name, modifier = Modifier.fillMaxSize(), shape = CircleShape)
+                } else {
+                    Icon(
+                        Icons.Outlined.AddPhotoAlternate,
+                        contentDescription = stringResource(R.string.profile_logo_add),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.size(32.dp),
                     )
-                    if (vm.logo != null) {
-                        TextButton(onClick = vm::removeLogo) { Text(stringResource(R.string.profile_logo_remove)) }
-                    }
                 }
             }
+            Spacer(Modifier.width(Spacing.lg))
+            Column {
+                Text(stringResource(R.string.profile_logo), style = MaterialTheme.typography.titleSmall)
+                Text(
+                    stringResource(R.string.profile_logo_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                if (vm.logo != null) {
+                    TextButton(onClick = vm::removeLogo) { Text(stringResource(R.string.profile_logo_remove)) }
+                }
+            }
+        }
+        if (showCurrency) {
             Text(
                 stringResource(R.string.profile_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            ArnField(vm.name, { vm.name = it.take(60) }, stringResource(R.string.profile_name))
-            ArnField(vm.address, { vm.address = it.take(120) }, stringResource(R.string.profile_address), singleLine = false, minLines = 2)
-            ArnField(
-                vm.phone,
-                { vm.phone = it.take(20) },
-                stringResource(R.string.profile_phone),
-                keyboardType = androidx.compose.ui.text.input.KeyboardType.Phone,
-            )
+        }
+        ArnField(vm.name, { vm.name = it.take(60) }, stringResource(R.string.profile_name))
+        ArnField(vm.address, { vm.address = it.take(120) }, stringResource(R.string.profile_address), singleLine = false, minLines = 2)
+        ArnField(
+            vm.phone,
+            { vm.phone = it.take(20) },
+            stringResource(R.string.profile_phone),
+            keyboardType = androidx.compose.ui.text.input.KeyboardType.Phone,
+        )
+        if (showCurrency) {
             ArnField(
                 vm.currency,
                 { vm.currency = it.take(4) },
@@ -187,7 +200,6 @@ fun ProfileScreen(onBack: () -> Unit) {
                 supporting = stringResource(R.string.profile_currency_hint),
                 imeAction = androidx.compose.ui.text.input.ImeAction.Done,
             )
-            Spacer(Modifier.height(Spacing.xl))
         }
     }
 }

@@ -40,6 +40,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -76,7 +79,8 @@ import com.example.kasirarn.ui.onboarding.CoachId
 import com.example.kasirarn.ui.onboarding.CoachOverlay
 import com.example.kasirarn.ui.onboarding.CoachRegistry
 import com.example.kasirarn.ui.onboarding.GuideListScreen
-import com.example.kasirarn.ui.onboarding.GuideTopicScreen
+import com.example.kasirarn.ui.onboarding.GuideScripts
+import com.example.kasirarn.ui.onboarding.TourSteps
 import com.example.kasirarn.ui.onboarding.LocalCoachRegistry
 import com.example.kasirarn.ui.onboarding.OnboardingStage
 import com.example.kasirarn.ui.onboarding.OnboardingViewModel
@@ -166,8 +170,41 @@ fun ArnNavHost() {
     val stage by onboarding.stage.collectAsStateWithLifecycle()
     val coach = remember { CoachRegistry() }
     val touring = stage == OnboardingStage.TOUR
-    // Tutorial selalu mulai dari mode Kasir, apa pun layar yang sedang terbuka.
-    LaunchedEffect(touring) { if (touring && current != TopTab.CASHIER) nav.goToTab(TopTab.CASHIER) }
+    // Skrip tutorial yang sedang berjalan: "tour" untuk pengenalan, atau id topik di Panduan penggunaan.
+    var topic by rememberSaveable { mutableStateOf<String?>(null) }
+    val script: String? = if (touring) "tour" else topic
+    val steps = when (script) {
+        null -> null
+        "tour" -> TourSteps
+        else -> GuideScripts[script]
+    }
+    val isAt: (String) -> Boolean = { want ->
+        val dest = route.orEmpty()
+        fun head(r: String) = r.substringBefore('?').substringBefore('/').substringBefore('{')
+        head(dest) == head(want) && (!want.contains("tab=") || (entry?.arguments?.getInt("tab") ?: 0) == want.substringAfter("tab=").toIntOrNull())
+    }
+    val navigateTo: (String) -> Unit = { want ->
+        val head = want.substringBefore('?').substringBefore('/')
+        if (head in setOf("home", "manage", "reports", "more")) {
+            nav.navigate(want) {
+                popUpTo(nav.graph.findStartDestination().id) { saveState = true }
+                launchSingleTop = true
+                restoreState = false
+            }
+        } else {
+            nav.navigate(want) { launchSingleTop = true }
+        }
+    }
+    val finishScript: () -> Unit = {
+        if (touring) {
+            onboarding.setStage(OnboardingStage.DONE)
+        } else {
+            topic = null
+            // Kembali ke daftar Panduan penggunaan.
+            nav.goToTab(TopTab.MORE, fresh = true)
+            nav.navigate(Routes.GUIDE)
+        }
+    }
 
     CompositionLocalProvider(LocalCoachRegistry provides coach) {
         Box(Modifier.fillMaxSize()) {
@@ -180,7 +217,7 @@ fun ArnNavHost() {
                         Modifier
                             .weight(1f)
                             .consumeWindowInsets(WindowInsets.safeDrawing.only(WindowInsetsSides.Start)),
-                    ) { ArnGraph(nav) }
+                    ) { ArnGraph(nav) { topic = it } }
                 }
             } else {
                 Scaffold(
@@ -190,11 +227,11 @@ fun ArnNavHost() {
                         AnimatedVisibility(visible = current != null) { ArnBottomBar(current, badges, onTab) }
                     },
                 ) { padding ->
-                    Box(Modifier.padding(padding).consumeWindowInsets(padding)) { ArnGraph(nav) }
+                    Box(Modifier.padding(padding).consumeWindowInsets(padding)) { ArnGraph(nav) { topic = it } }
                 }
             }
-            if (touring && (current == TopTab.CASHIER || current == TopTab.MORE)) {
-                CoachOverlay(coach, current, onNavigate = { nav.goToTab(it, fresh = true) }, onFinish = { onboarding.setStage(OnboardingStage.DONE) })
+            if (script != null && steps != null && steps.isNotEmpty()) {
+                CoachOverlay(coach, steps, script, isAt, navigateTo, finishScript)
             }
         }
     }
@@ -267,7 +304,7 @@ private fun TabIcon(tab: TopTab, selected: Boolean, badge: Boolean) {
 }
 
 @Composable
-private fun ArnGraph(nav: androidx.navigation.NavHostController) {
+private fun ArnGraph(nav: androidx.navigation.NavHostController, onStartTopic: (String) -> Unit) {
     val back: () -> Unit = { nav.popBackStack() }
     val navigate: (String) -> Unit = { nav.navigate(it) }
 
@@ -317,20 +354,8 @@ private fun ArnGraph(nav: androidx.navigation.NavHostController) {
             ConstrainedScreen(maxWidth = 640.dp) {
                 GuideListScreen(
                     onBack = back,
-                    onOpenTopic = { nav.navigate(Routes.guideTopic(it)) },
+                    onStartTopic = onStartTopic,
                     onStartTour = { nav.goToTab(TopTab.CASHIER) },
-                )
-            }
-        }
-        composable(Routes.GUIDE_TOPIC, listOf(navArgument("topic") { type = NavType.StringType })) { entry ->
-            ConstrainedScreen(maxWidth = 640.dp) {
-                GuideTopicScreen(
-                    topicId = entry.arguments?.getString("topic").orEmpty(),
-                    onBack = back,
-                    onTry = { route ->
-                        val tab = TopTab.entries.firstOrNull { it.route == route }
-                        if (tab != null) nav.goToTab(tab) else nav.navigate(route)
-                    },
                 )
             }
         }

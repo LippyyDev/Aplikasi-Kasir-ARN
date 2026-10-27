@@ -78,6 +78,8 @@ import com.example.kasirarn.ui.format.LocalFmt
 import com.example.kasirarn.ui.home.RadioRow
 import com.example.kasirarn.ui.nav.ManageTab
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -219,6 +221,7 @@ fun ManageScreen(
             }
             ExtendedFloatingActionButton(
                 onClick = action,
+                modifier = Modifier.coachTarget(CoachId.MANAGE_FAB),
                 icon = { Icon(Icons.Outlined.Add, contentDescription = null) },
                 text = { Text(stringResource(label)) },
                 containerColor = MaterialTheme.colorScheme.primary,

@@ -12,9 +12,13 @@ COMMON = {
         ob_skip='Lewati', ob_skip_all='Lewati semua', ob_next='Lanjut', ob_start='Mulai', ob_done='Selesai',
         ob_start_tour='Mulai tutorial',
         ob_brand_a='ARN', ob_brand_b='Kasir',
-        ob_head_1='Jualan beres,', ob_head_2='stok ikut terhitung.',
-        ob_welcome_body='Kasir offline untuk usaha makanan dan minuman. Setiap penjualan otomatis mengurangi stok bahan dan menghitung modal Anda.',
-        ob_demo_title='Contoh satu penjualan', ob_demo_pay='Tunai',
+        ob_head_1='Jualan beres,', ob_head_2='stok ikut', ob_head_3='terhitung.',
+        ob_welcome_body='Aplikasi kasir yang bisa dipakai tanpa internet. Setiap kali ada penjualan, stok bahan berkurang sendiri dan modalnya langsung terhitung.',
+        ob_name_title='Apa nama toko Anda?', ob_name_hint='Nama ini akan tampil di struk dan di Halaman Utama.',
+        ob_logo_title='Mau pasang logo atau foto toko?', ob_logo_body='Boleh dilewati. Fotonya akan tampil di Halaman Utama.',
+        ob_logo_pick='Pilih foto', ob_logo_change='Ganti foto',
+        ob_contact_title='Alamat dan nomor telepon', ob_contact_body='Boleh dikosongkan. Kalau diisi, keduanya ikut tercetak di struk.',
+        ob_demo_title='Struk contoh', ob_demo_pay='Tunai', ob_demo_stamp='LUNAS',
         ob_demo_line='2× Kopi susu gula aren', ob_demo_total='Rp 44.000',
         ob_demo_stock='Stok berkurang otomatis',
         ob_demo_s1='Susu cair', ob_demo_s1v='−240 ml',
@@ -27,32 +31,36 @@ COMMON = {
         ob_profile_save='Simpan dan lanjut', ob_profile_later='Isi nanti',
         ob_profile_need_name='Isi nama toko untuk melanjutkan.',
         ob_features_kicker='FITUR %1$d DARI %2$d',
-        ob_features_hint='Penjelasan lebih rinci per fitur ada di Lainnya, Panduan penggunaan.',
+        ob_features_hint='Penjelasan yang lebih rinci untuk tiap fitur ada di Lainnya, Panduan penggunaan.',
         userguide_title='Panduan penggunaan',
-        guide_summary='Tutorial per fitur dan tutorial interaktif',
+        guide_summary='Tutorial untuk setiap fitur',
         guide_interactive_title='Tutorial interaktif',
-        guide_interactive_body='Layar digelapkan dan bagian penting disorot satu per satu. Sekitar satu menit.',
+        guide_interactive_body='Bagian-bagian penting disorot satu per satu, langsung di aplikasi. Hanya sekitar satu menit.',
         guide_topics_label='Tutorial per fitur',
         guide_steps_label='Langkah-langkah', guide_tips_label='Tips', guide_try='Coba sekarang',
         guide_topic_steps='%1$d langkah',
         guide_sec_sell='Berjualan', guide_sec_manage='Kelola usaha', guide_sec_reports='Laporan', guide_sec_system='Data dan pengaturan',
         tour_step='%1$d dari %2$d',
-        tour_cashier_title='Mode Kasir', tour_cashier_text='Tempat Anda melayani pembeli. Semua yang dipakai saat berjualan ada di sini.',
-        tour_search_title='Cari menu', tour_search_text='Ketik nama menu untuk menemukannya dengan cepat.',
-        tour_categories_title='Kategori', tour_categories_text='Ketuk kategori untuk menyaring menu. Semua menampilkan seluruh menu.',
-        tour_menu_title='Daftar menu', tour_menu_text='Ketuk tombol + untuk memasukkan menu ke keranjang. Bilah keranjang muncul di bawah; ketuk untuk membayar.',
-        tour_manage_title='Kelola', tour_manage_text='Atur menu, resep, bahan baku, dan stok. Titik merah berarti ada bahan yang perlu perhatian.',
-        tour_reports_title='Laporan', tour_reports_text='Pemasukan, laba, dan pengeluaran per periode.',
-        tour_more_title='Lainnya', tour_more_text='Profil toko, notifikasi, cadangan data, tema, dan bahasa ada di sini. Kita buka sebentar.',
-        tour_guide_title='Panduan penggunaan', tour_guide_text='Siap berjualan! Untuk tutorial yang lebih rinci per fitur, buka Panduan penggunaan kapan saja.',
+        tour_cashier_title='Mode Kasir', tour_cashier_text='Di sinilah Anda melayani pembeli. Semua yang dibutuhkan saat berjualan ada di sini.',
+        tour_search_title='Cari menu', tour_search_text='Ketik nama menu untuk langsung menemukannya.',
+        tour_categories_title='Kategori', tour_categories_text='Pilih kategori untuk menyaring menu. Pilihan Semua menampilkan seluruh menu.',
+        tour_menu_title='Daftar menu', tour_menu_text='Tekan tombol + untuk memasukkan menu ke keranjang. Bilah keranjang akan muncul di bawah, tekan untuk membayar.',
+        tour_manage_title='Kelola', tour_manage_text='Tempat mengatur menu, resep, bahan baku, dan stok. Titik merah berarti ada bahan yang perlu diperhatikan.',
+        tour_reports_title='Laporan', tour_reports_text='Lihat pemasukan, laba, dan pengeluaran untuk periode yang Anda pilih.',
+        tour_more_title='Lainnya', tour_more_text='Profil toko, notifikasi, cadangan, tema, dan bahasa ada di sini. Kita buka sebentar.',
+        tour_guide_title='Panduan penggunaan', tour_guide_text='Selesai. Kalau ingin penjelasan yang lebih rinci untuk tiap fitur, buka Panduan penggunaan kapan saja.',
     ),
     'en': dict(
         ob_skip='Skip', ob_skip_all='Skip all', ob_next='Next', ob_start='Get started', ob_done='Done',
         ob_start_tour='Start tutorial',
         ob_brand_a='ARN', ob_brand_b='Kasir',
-        ob_head_1='Sell first,', ob_head_2='stock follows.',
-        ob_welcome_body='An offline cashier for food and drink businesses. Every sale automatically reduces ingredient stock and works out your cost.',
-        ob_demo_title='One sale, for example', ob_demo_pay='Cash',
+        ob_head_1='Sell first,', ob_head_2='stock', ob_head_3='follows.',
+        ob_welcome_body='A cashier app that works without internet. Every time you make a sale, ingredient stock goes down by itself and the cost is worked out right away.',
+        ob_name_title='What is your shop called?', ob_name_hint='This name will show on receipts and on the home screen.',
+        ob_logo_title='Want to add a logo or shop photo?', ob_logo_body='You can skip this. The photo will show on the home screen.',
+        ob_logo_pick='Choose photo', ob_logo_change='Change photo',
+        ob_contact_title='Address and phone number', ob_contact_body='You can leave these empty. If you fill them in, both are printed on receipts.',
+        ob_demo_title='Sample receipt', ob_demo_pay='Cash', ob_demo_stamp='PAID',
         ob_demo_line='2× Palm sugar iced latte', ob_demo_total='Rp 44,000',
         ob_demo_stock='Stock goes down by itself',
         ob_demo_s1='Fresh milk', ob_demo_s1v='−240 ml',
@@ -65,72 +73,72 @@ COMMON = {
         ob_profile_save='Save and continue', ob_profile_later='Fill in later',
         ob_profile_need_name='Enter the shop name to continue.',
         ob_features_kicker='FEATURE %1$d OF %2$d',
-        ob_features_hint='More detailed explanations per feature are under More, User guide.',
+        ob_features_hint='More detailed explanations for each feature are under More, User guide.',
         userguide_title='User guide',
-        guide_summary='Per-feature tutorials and the interactive tour',
+        guide_summary='A tutorial for every feature',
         guide_interactive_title='Interactive tour',
-        guide_interactive_body='The screen dims and key parts are highlighted one by one. About a minute.',
+        guide_interactive_body='Key parts are highlighted one by one, right in the app. It only takes about a minute.',
         guide_topics_label='Tutorials by feature',
         guide_steps_label='Steps', guide_tips_label='Tips', guide_try='Try it now',
         guide_topic_steps='%1$d steps',
         guide_sec_sell='Selling', guide_sec_manage='Running the business', guide_sec_reports='Reports', guide_sec_system='Data and settings',
         tour_step='%1$d of %2$d',
         tour_cashier_title='Cashier mode', tour_cashier_text='This is where you serve customers. Everything you need while selling is here.',
-        tour_search_title='Search menus', tour_search_text='Type a menu name to find it quickly.',
-        tour_categories_title='Categories', tour_categories_text='Tap a category to filter menus. All shows every menu.',
-        tour_menu_title='Menu list', tour_menu_text='Tap + to add a menu to the cart. The cart bar appears below; tap it to pay.',
-        tour_manage_title='Manage', tour_manage_text='Set up menus, recipes, ingredients and stock. A red dot means an ingredient needs attention.',
-        tour_reports_title='Reports', tour_reports_text='Income, profit and expenses by period.',
-        tour_more_title='More', tour_more_text='Shop profile, notifications, data backup, theme and language are here. Let us open it for a moment.',
-        tour_guide_title='User guide', tour_guide_text='You are ready to sell! For more detailed tutorials per feature, open the User guide any time.',
+        tour_search_title='Search menus', tour_search_text='Type a menu name to find it right away.',
+        tour_categories_title='Categories', tour_categories_text='Pick a category to filter menus. All shows every menu.',
+        tour_menu_title='Menu list', tour_menu_text='Tap + to put a menu in the cart. The cart bar appears below; tap it to pay.',
+        tour_manage_title='Manage', tour_manage_text='Set up menus, recipes, ingredients and stock here. A red dot means an ingredient needs attention.',
+        tour_reports_title='Reports', tour_reports_text='See income, profit and expenses for the period you choose.',
+        tour_more_title='More', tour_more_text='Shop profile, notifications, backup, theme and language are here. Let us open it for a moment.',
+        tour_guide_title='User guide', tour_guide_text='All done. For more detailed explanations of each feature, open the User guide any time.',
     ),
 }
 
 # --------------------------------------------------------------------------- lima halaman penjelasan pembuka
 PAGES = {
     'id': [
-        ('Kasir: jual dengan cepat', 'Ketuk menu untuk memasukkannya ke keranjang, lalu bayar.',
-         ['Ketuk tombol + pada menu untuk menambah, atau cari lewat kolom pencarian.',
-          'Buka keranjang untuk mengubah jumlah, menambah catatan, atau memberi diskon.',
-          'Ketuk Bayar, pilih tunai atau non tunai, lalu bagikan struk.']),
-        ('Menu dan resep', 'Setiap menu punya resep, jadi modal dan margin terhitung otomatis.',
-         ['Buka Kelola, tab Menu, lalu ketuk Tambah menu.',
-          'Isi nama, harga, kategori, dan foto bila ada.',
-          'Tambahkan bahan dan takaran per porsi; modal per porsi langsung terlihat.']),
-        ('Bahan baku dan stok', 'Stok bahan berkurang sendiri setiap ada penjualan.',
-         ['Di Kelola, tab Bahan baku, tambahkan bahan lengkap dengan satuan belinya.',
-          'Catat pembelian lewat Restok agar harga rata-rata dan modal akurat.',
-          'Cocokkan stok fisik lewat Opname. Anda diberi tahu saat bahan hampir habis.']),
-        ('Laporan', 'Lihat pemasukan, laba, dan pengeluaran per periode.',
-         ['Buka Laporan, lalu pilih Hari ini, 7 hari, Bulan ini, atau Kustom.',
+        ('Cara berjualan di Kasir', 'Pilih menu, atur jumlahnya, lalu terima pembayaran.',
+         ['Pilih menu dengan tombol +, atau cari namanya di kolom pencarian.',
+          'Buka keranjang di bawah untuk mengubah jumlah, menambah catatan, atau memberi diskon.',
+          'Tekan Bayar, pilih tunai atau non tunai, lalu bagikan struk ke pembeli.']),
+        ('Membuat menu dan resep', 'Dari resep, modal dan margin setiap menu dihitung otomatis.',
+         ['Buka Kelola, pilih tab Menu, lalu tekan Tambah menu.',
+          'Isi nama, harga jual, kategori, dan foto kalau ada.',
+          'Tambahkan bahan beserta takarannya untuk satu porsi. Modal per porsi langsung muncul.']),
+        ('Mencatat bahan baku dan stok', 'Stok berkurang sendiri setiap ada penjualan, sesuai resep.',
+         ['Di Kelola, buka tab Bahan baku, lalu tambahkan bahan beserta satuan belinya.',
+          'Setiap belanja bahan, catat lewat Restok supaya harga rata-rata dan modal tetap akurat.',
+          'Cocokkan stok dengan kondisi di dapur lewat Opname. Anda akan diberi tahu saat bahan hampir habis.']),
+        ('Melihat laporan', 'Pantau pemasukan, laba, dan pengeluaran untuk periode tertentu.',
+         ['Buka Laporan, lalu pilih periode: Hari ini, 7 hari, Bulan ini, atau Kustom.',
           'Tab Pemasukan menampilkan penjualan, laba kotor, dan menu terlaris.',
-          'Tab Pengeluaran untuk mencatat biaya dan melihat arus kas.']),
-        ('Cadangan dan pengaturan', 'Amankan data dan atur aplikasi sesuai kebiasaan Anda.',
-         ['Buat cadangan berkala di Lainnya, Cadangan dan pulihkan, dan simpan di luar aplikasi.',
-          'Ubah tema dan bahasa kapan saja di Lainnya.',
-          'Buka Panduan penggunaan di Lainnya untuk tutorial rinci per fitur.']),
+          'Tab Pengeluaran dipakai untuk mencatat biaya seperti sewa dan gaji, serta melihat arus kas.']),
+        ('Mengamankan data', 'Data hanya tersimpan di ponsel ini, jadi buatlah cadangan secara berkala.',
+         ['Buka Lainnya, pilih Cadangan dan pulihkan, lalu tekan Buat cadangan.',
+          'Simpan berkasnya di luar aplikasi, misalnya di penyimpanan ponsel atau kartu memori.',
+          'Tema, bahasa, dan Panduan penggunaan juga ada di menu Lainnya.']),
     ],
     'en': [
-        ('Cashier: sell quickly', 'Tap a menu to add it to the cart, then pay.',
-         ['Tap + on a menu to add it, or find it with the search box.',
-          'Open the cart to change quantities, add notes or give a discount.',
-          'Tap Pay, choose cash or non-cash, then share the receipt.']),
-        ('Menus and recipes', 'Every menu has a recipe, so cost and margin are calculated automatically.',
-         ['Open Manage, the Menus tab, then tap Add menu.',
-          'Enter the name, price, category and a photo if you have one.',
-          'Add ingredients and amounts per serving; the cost per serving shows right away.']),
-        ('Ingredients and stock', 'Ingredient stock goes down by itself with every sale.',
-         ['In Manage, the Ingredients tab, add each ingredient with its purchase unit.',
-          'Record purchases with Restock so average price and cost stay accurate.',
-          'Match physical stock with Stock count. You are notified when an ingredient runs low.']),
-        ('Reports', 'See income, profit and expenses by period.',
-         ['Open Reports, then choose Today, 7 days, This month or Custom.',
+        ('How to sell at the Cashier', 'Pick menus, set the quantity, then take payment.',
+         ['Pick a menu with the + button, or search for it by name.',
+          'Open the cart at the bottom to change quantities, add notes or give a discount.',
+          'Tap Pay, choose cash or non-cash, then share the receipt with the customer.']),
+        ('Creating menus and recipes', 'From the recipe, the cost and margin of each menu are worked out automatically.',
+         ['Open Manage, choose the Menus tab, then tap Add menu.',
+          'Enter the name, selling price, category and a photo if you have one.',
+          'Add the ingredients and amounts for one serving. The cost per serving shows right away.']),
+        ('Tracking ingredients and stock', 'Stock goes down by itself with every sale, following the recipe.',
+         ['In Manage, open the Ingredients tab and add each ingredient with its purchase unit.',
+          'Every time you buy ingredients, record it with Restock so the average price and cost stay accurate.',
+          'Match stock with what is in the kitchen using Stock count. You are notified when an ingredient runs low.']),
+        ('Viewing reports', 'Keep track of income, profit and expenses for a given period.',
+         ['Open Reports, then choose a period: Today, 7 days, This month or Custom.',
           'The Income tab shows sales, gross profit and best sellers.',
-          'The Expenses tab is for recording costs and viewing cash flow.']),
-        ('Backup and settings', 'Keep your data safe and set the app up your way.',
-         ['Back up regularly under More, Backup and restore, and keep the file outside the app.',
-          'Change the theme and language any time under More.',
-          'Open the User guide under More for detailed tutorials per feature.']),
+          'The Expenses tab is for recording costs such as rent and wages, and for seeing cash flow.']),
+        ('Backing up your data', 'Your data is stored only on this phone, so back it up regularly.',
+         ['Open More, choose Backup and restore, then tap Create backup.',
+          'Keep the file outside the app, for example in phone storage or on a memory card.',
+          'Theme, language and the User guide are also in the More menu.']),
     ],
 }
 
@@ -325,6 +333,8 @@ TOPICS = [
     }),
 ]
 
+from guide_tours import TOURS, ROUTES as TOUR_ROUTES  # noqa: E402
+
 ROUTES = {
     'HOME': 'Routes.HOME', 'MANAGE0': 'Routes.manage(ManageTab.MENU)', 'MANAGE1': 'Routes.manage(ManageTab.INGREDIENT)',
     'MANAGE2': 'Routes.manage(ManageTab.CATEGORY)', 'REPORTS0': 'Routes.reports(ReportTab.INCOME)',
@@ -348,15 +358,14 @@ def build(lang):
         out += ['        <item>%s</item>' % esc(x) for x in steps]
         out.append('    </string-array>')
     for tid, _icon, _sec, _route, texts in TOPICS:
-        t, sm, steps, tips = texts[lang]
+        t, sm, _steps, _tips = texts[lang]
         out.append('    <string name="gt_%s_title">%s</string>' % (tid, esc(t)))
         out.append('    <string name="gt_%s_sum">%s</string>' % (tid, esc(sm)))
-        out.append('    <string-array name="gt_%s_steps">' % tid)
-        out += ['        <item>%s</item>' % esc(x) for x in steps]
-        out.append('    </string-array>')
-        out.append('    <string-array name="gt_%s_tips">' % tid)
-        out += ['        <item>%s</item>' % esc(x) for x in tips]
-        out.append('    </string-array>')
+    for tid, steps in TOURS.items():
+        for n, (_route, _target, _opt, texts) in enumerate(steps):
+            title, text = texts[lang]
+            out.append('    <string name="gs_%s_%d_title">%s</string>' % (tid, n, esc(title)))
+            out.append('    <string name="gs_%s_%d_text">%s</string>' % (tid, n, esc(text)))
     return '\n'.join(out) + '\n'
 
 
@@ -386,18 +395,26 @@ kt = ['package com.example.kasirarn.ui.onboarding', '',
       'import com.example.kasirarn.ui.nav.ManageTab',
       'import com.example.kasirarn.ui.nav.ReportTab',
       'import com.example.kasirarn.ui.nav.Routes', '',
-      '// Dibangkitkan oleh gen_guide.py; ubah isinya di skrip, bukan di sini.', '',
+      '// Dibangkitkan oleh gen_guide.py; ubah isinya di skrip (tools/guide_tours.py), bukan di sini.', '',
       'enum class GuideSection(val labelRes: Int) {']
 kt += ['    SELL(R.string.guide_sec_sell),', '    MANAGE(R.string.guide_sec_manage),',
        '    REPORTS(R.string.guide_sec_reports),', '    SYSTEM(R.string.guide_sec_system),', '}', '',
        'class GuideTopic(',
        '    val id: String,', '    val icon: ImageVector,', '    val section: GuideSection,',
-       '    val titleRes: Int,', '    val summaryRes: Int,', '    val stepsRes: Int,', '    val tipsRes: Int,',
-       '    val openRoute: String,', ')', '',
+       '    val titleRes: Int,', '    val summaryRes: Int,', ')', '',
        'val GuideTopics = listOf(']
 for tid, icon, sec, route, _ in TOPICS:
-    kt.append('    GuideTopic("%s", Icons.Outlined.%s, GuideSection.%s, R.string.gt_%s_title, R.string.gt_%s_sum, R.array.gt_%s_steps, R.array.gt_%s_tips, %s),'
-              % (tid, icon, sec.upper(), tid, tid, tid, tid, ROUTES[route]))
+    kt.append('    GuideTopic("%s", Icons.Outlined.%s, GuideSection.%s, R.string.gt_%s_title, R.string.gt_%s_sum),'
+              % (tid, icon, sec.upper(), tid, tid))
+kt.append(')')
+kt += ['', '/** Langkah tutorial interaktif per fitur: layar tujuan, bagian yang disorot, dan teksnya. */',
+       'val GuideScripts: Map<String, List<CoachStep>> = mapOf(']
+for tid, steps in TOURS.items():
+    kt.append('    "%s" to listOf(' % tid)
+    for n, (route, target, opt, _texts) in enumerate(steps):
+        kt.append('        CoachStep(%s, %s, R.string.gs_%s_%d_title, R.string.gs_%s_%d_text%s),'
+                  % ('CoachId.' + target if target else 'null', TOUR_ROUTES[route], tid, n, tid, n, ', optional = true' if opt else ''))
+    kt.append('    ),')
 kt.append(')')
 open(os.path.join(J, 'ui', 'onboarding', 'GuideTopics.kt'), 'w', encoding='utf-8', newline='\n').write('\n'.join(kt) + '\n')
-print('ok', len(TOPICS), 'topik')
+print('ok', len(TOPICS), 'topik', sum(len(v) for v in TOURS.values()), 'langkah')

@@ -49,6 +49,8 @@ import com.example.kasirarn.ui.components.ArnTopBar
 import com.example.kasirarn.ui.components.MenuImage
 import com.example.kasirarn.ui.components.PrimaryButton
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.launch
 
@@ -119,7 +121,7 @@ fun ProfileScreen(onBack: () -> Unit) {
                     text = stringResource(R.string.action_save),
                     onClick = { vm.save(onBack) },
                     enabled = vm.loaded,
-                    modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(Spacing.lg),
+                    modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(Spacing.lg).coachTarget(CoachId.PROFILE_SAVE),
                 )
             }
         },
@@ -146,6 +148,7 @@ fun ProfileFields(vm: ProfileViewModel, showCurrency: Boolean = true, modifier: 
             Box(
                 Modifier
                     .size(88.dp)
+                    .coachTarget(CoachId.PROFILE_LOGO)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .clickable(role = Role.Button) {
@@ -184,7 +187,7 @@ fun ProfileFields(vm: ProfileViewModel, showCurrency: Boolean = true, modifier: 
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
-        ArnField(vm.name, { vm.name = it.take(60) }, stringResource(R.string.profile_name))
+        ArnField(vm.name, { vm.name = it.take(60) }, stringResource(R.string.profile_name), modifier = Modifier.coachTarget(CoachId.PROFILE_NAME))
         ArnField(vm.address, { vm.address = it.take(120) }, stringResource(R.string.profile_address), singleLine = false, minLines = 2)
         ArnField(
             vm.phone,

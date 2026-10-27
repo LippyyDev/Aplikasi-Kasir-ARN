@@ -72,6 +72,8 @@ import com.example.kasirarn.ui.components.PrimaryButton
 import com.example.kasirarn.ui.components.SecondaryButton
 import com.example.kasirarn.ui.format.LocalFmt
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -115,7 +117,7 @@ fun NotificationsScreen(onBack: () -> Unit) {
                     IconButton(onClick = vm::markAllRead, enabled = hasUnread) {
                         Icon(Icons.Outlined.DoneAll, contentDescription = stringResource(R.string.notif_mark_all))
                     }
-                    IconButton(onClick = { showSettings = true }) {
+                    IconButton(onClick = { showSettings = true }, modifier = Modifier.coachTarget(CoachId.NOTIF_SETTINGS)) {
                         Icon(Icons.Outlined.Tune, contentDescription = stringResource(R.string.notif_settings))
                     }
                 },

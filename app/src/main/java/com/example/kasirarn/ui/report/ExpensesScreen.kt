@@ -78,6 +78,8 @@ import com.example.kasirarn.ui.components.errorMessage
 import com.example.kasirarn.ui.components.parseMoney
 import com.example.kasirarn.ui.format.LocalFmt
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -200,7 +202,7 @@ private fun ProfitCard(fin: Financials) {
     val scheme = MaterialTheme.colorScheme
     val container = if (loss) scheme.errorContainer else scheme.secondaryContainer
     val onContainer = if (loss) scheme.onErrorContainer else scheme.onSecondaryContainer
-    ArnCard(Modifier.fillMaxWidth(), container = container, contentPadding = PaddingValues(Spacing.xl)) {
+    ArnCard(Modifier.fillMaxWidth().coachTarget(CoachId.REPORT_SUMMARY), container = container, contentPadding = PaddingValues(Spacing.xl)) {
         Column {
             Text(stringResource(R.string.profit_net), style = MaterialTheme.typography.labelLarge, color = onContainer.copy(alpha = 0.85f))
             MoneyText(fin.netProfit, style = MaterialTheme.typography.displaySmall, color = onContainer, shrinkToFit = true)

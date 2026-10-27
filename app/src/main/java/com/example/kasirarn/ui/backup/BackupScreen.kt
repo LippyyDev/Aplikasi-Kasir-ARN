@@ -59,6 +59,8 @@ import com.example.kasirarn.ui.components.SecondaryButton
 import com.example.kasirarn.ui.components.SectionLabel
 import com.example.kasirarn.ui.format.LocalFmt
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -253,7 +255,7 @@ fun BackupScreen(onBack: () -> Unit) {
                 text = stringResource(R.string.backup_create),
                 onClick = { createLauncher.launch(vm.suggestedName()) },
                 enabled = !vm.busy,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_CREATE),
                 icon = Icons.Outlined.Backup,
             )
 
@@ -267,12 +269,13 @@ fun BackupScreen(onBack: () -> Unit) {
                 text = stringResource(R.string.backup_restore),
                 onClick = { openLauncher.launch(arrayOf("*/*")) },
                 enabled = !vm.busy,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_RESTORE),
                 icon = Icons.Outlined.RestoreFromTrash,
             )
 
             SectionLabel(stringResource(R.string.backup_reminder_title))
             ChoiceChips(
+                modifier = Modifier.coachTarget(CoachId.BACKUP_REMINDER),
                 options = listOf(3, 7, 14, 30).map { it to stringResource(R.string.backup_every_days, it) },
                 selected = settings.backupReminderDays,
                 onSelect = vm::setReminderDays,
@@ -288,7 +291,7 @@ fun BackupScreen(onBack: () -> Unit) {
                 text = stringResource(R.string.dummy_load),
                 onClick = { confirmDummy = true },
                 enabled = !vm.busy && vm.dummyAvailable,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_SAMPLE),
                 icon = Icons.Outlined.Science,
             )
             if (!vm.dummyAvailable) {
@@ -307,7 +310,7 @@ fun BackupScreen(onBack: () -> Unit) {
             androidx.compose.material3.OutlinedButton(
                 onClick = { confirmWipe = true },
                 enabled = !vm.busy,
-                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
+                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).coachTarget(CoachId.BACKUP_WIPE),
                 shape = MaterialTheme.shapes.medium,
                 border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.error),
             ) {

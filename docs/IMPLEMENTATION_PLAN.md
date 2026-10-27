@@ -436,12 +436,18 @@ Checklist
 **Tujuan:** pengguna baru langsung tahu apa fitur aplikasi dan cara memakainya, dan profil toko terisi sejak awal.
 
 Alur saat aplikasi pertama kali dipasang (tahap disimpan di DataStore: 0 sambutan, 1 tutorial, 2 selesai)
-1. **Sambutan**: blok warna merek dengan judul besar, pilihan bahasa ID/EN, dan satu contoh penjualan (stok berkurang otomatis, modal, laba) sebagai pengganti daftar poin.
-2. **Kenalkan toko Anda**: logo, nama (wajib), alamat, telepon; tombol Isi nanti.
-3. **Penjelasan singkat lima fitur** dengan langkah bernomor (Kasir, Menu dan resep, Bahan baku dan stok, Laporan, Cadangan dan pengaturan).
-4. **Tutorial sorot** di layar asli. Langkah yang bagiannya belum ada dilewati. Berakhir di Lainnya dengan menyorot baris Panduan penggunaan.
+1. **Sambutan** minimalis: wordmark, satu judul, satu kalimat, pilihan bahasa ID/EN; teks muncul bertahap.
+2. **Nama toko** (satu pertanyaan per layar): monogram beranimasi di atas kolom, huruf awal bergulir saat diketik. Nama wajib, atau Isi nanti.
+3. **Logo atau foto toko** (opsional, bisa Lewati).
+4. **Alamat dan telepon** (opsional) lalu profil tersimpan.
+5. **Lima penjelasan fitur**, satu per layar (judul, satu kalimat, tiga langkah). Satu garis kemajuan tipis di atas.
+6. **Tutorial sorot** di layar asli. Langkah yang bagiannya belum ada dilewati. Berakhir di Lainnya dengan menyorot baris Panduan penggunaan.
 
-**Panduan penggunaan** (Lainnya): kartu Tutorial interaktif, lalu semua tutorial per fitur langsung terlihat, dikelompokkan (Berjualan, Kelola usaha, Laporan, Data dan pengaturan). Sebelas topik, masing-masing berisi langkah rinci, tips, dan tombol Coba sekarang yang membuka layar terkait. Teks dibangkitkan dari satu skrip (id dan en).
+Setiap halaman punya adegan bertokoh yang berbeda dan bergerak mengulang (digambar dengan Canvas dari warna tema, tanpa berkas gambar): kedai dengan pemilik yang melambai (sambutan), papan nama berlampu yang tulisannya mengikuti ketikan, tokoh memotret dengan kilat kamera dan foto pilihan tampil di bingkai, tokoh menelepon dengan peta, transaksi pembeli dan penjual dengan struk keluar, koki mengaduk panci, penjaga gudang dengan rak toples, tokoh menunjuk grafik, dan lemari arsip dengan perisai. Teks Indonesia ditulis dengan kalimat yang jelas, tidak kaku dan tidak terlalu santai.
+
+Lewati di tahap mana pun tersimpan; pengenalan tidak muncul lagi saat aplikasi dibuka.
+
+**Panduan penggunaan** (Lainnya): kartu Tutorial interaktif, lalu 11 tutorial per fitur langsung terlihat dan dikelompokkan (Berjualan, Kelola usaha, Laporan, Data dan pengaturan). Mengetuk satu topik langsung memulai **tutorial sorot langkah demi langkah di layar asli** (54 langkah): layar digelapkan, tombol atau kolom yang dimaksud disorot, dan kartu penjelasan memberi tahu apa yang ditekan atau diisi. Tutorial berpindah layar sendiri (misalnya dari Kelola ke form menu baru), menggulir daftar ke bagian yang disorot, dan di akhir kembali ke Panduan. Bagian yang bergantung pada data (misalnya kartu menu saat belum ada menu) tampil sebagai kartu penjelasan di tengah. Langkah ditulis di `tools/guide_tours.py`; `tools/gen_guide.py` membangkitkan string dan `GuideTopics.kt`.
 
 Checklist
 - [x] Sambutan tampil hanya saat pertama kali; Lewati ada di setiap tahap

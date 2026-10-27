@@ -44,7 +44,7 @@ import com.example.kasirarn.ui.theme.Spacing
 
 /** Panduan penggunaan: semua tutorial langsung terlihat, dikelompokkan per bagian aplikasi. */
 @Composable
-fun GuideListScreen(onBack: () -> Unit, onOpenTopic: (String) -> Unit, onStartTour: () -> Unit) {
+fun GuideListScreen(onBack: () -> Unit, onStartTopic: (String) -> Unit, onStartTour: () -> Unit) {
     val vm = containerViewModel { OnboardingViewModel(it) }
     val scheme = MaterialTheme.colorScheme
     Scaffold(
@@ -105,8 +105,8 @@ fun GuideListScreen(onBack: () -> Unit, onOpenTopic: (String) -> Unit, onStartTo
                     modifier = Modifier.padding(top = Spacing.sm),
                 )
                 topics.forEach { topic ->
-                    val stepCount = stringArrayResource(topic.stepsRes).size
-                    ArnCard(Modifier.fillMaxWidth(), onClick = { onOpenTopic(topic.id) }, contentPadding = PaddingValues(Spacing.lg)) {
+                    val stepCount = GuideScripts[topic.id]?.size ?: 0
+                    ArnCard(Modifier.fillMaxWidth(), onClick = { onStartTopic(topic.id) }, contentPadding = PaddingValues(Spacing.lg)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Box(
                                 Modifier.size(44.dp).background(scheme.primaryContainer, RoundedCornerShape(14.dp)),
@@ -135,99 +135,6 @@ fun GuideListScreen(onBack: () -> Unit, onOpenTopic: (String) -> Unit, onStartTo
                 }
             }
             Spacer(Modifier.height(Spacing.xl))
-        }
-    }
-}
-
-/** Tutorial rinci satu fitur: langkah bernomor, tips, dan tombol untuk langsung mencobanya. */
-@Composable
-fun GuideTopicScreen(topicId: String, onBack: () -> Unit, onTry: (String) -> Unit) {
-    val topic = GuideTopics.firstOrNull { it.id == topicId }
-    val scheme = MaterialTheme.colorScheme
-    if (topic == null) {
-        onBack()
-        return
-    }
-    val steps = stringArrayResource(topic.stepsRes)
-    val tips = stringArrayResource(topic.tipsRes)
-    Scaffold(
-        containerColor = scheme.background,
-        topBar = { ArnTopBar(stringResource(R.string.userguide_title), onBack) },
-        bottomBar = {
-            Surface(color = scheme.background) {
-                PrimaryButton(
-                    text = stringResource(R.string.guide_try),
-                    onClick = { onTry(topic.openRoute) },
-                    modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(Spacing.lg),
-                )
-            }
-        },
-    ) { padding ->
-        Column(
-            Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(horizontal = Spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(Spacing.md),
-        ) {
-            Row(verticalAlignment = Alignment.Top) {
-                Column(Modifier.weight(1f)) {
-                    Text(
-                        stringResource(topic.section.labelRes).uppercase(),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = scheme.primary,
-                    )
-                    Spacer(Modifier.height(Spacing.xs))
-                    Text(
-                        stringResource(topic.titleRes),
-                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.ExtraBold),
-                        modifier = Modifier.semantics { heading() },
-                    )
-                }
-                Spacer(Modifier.width(Spacing.md))
-                Box(
-                    Modifier.size(56.dp).background(scheme.primaryContainer, RoundedCornerShape(18.dp)),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(topic.icon, contentDescription = null, tint = scheme.onPrimaryContainer, modifier = Modifier.size(28.dp))
-                }
-            }
-            Text(stringResource(topic.summaryRes), style = MaterialTheme.typography.bodyLarge, color = scheme.onSurfaceVariant)
-
-            Text(
-                stringResource(R.string.guide_steps_label),
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(top = Spacing.sm).semantics { heading() },
-            )
-            steps.forEachIndexed { i, text ->
-                ArnCard(Modifier.fillMaxWidth(), contentPadding = PaddingValues(Spacing.lg)) {
-                    Row(verticalAlignment = Alignment.Top) {
-                        Box(
-                            Modifier.size(32.dp).background(scheme.primary, RoundedCornerShape(50)),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text("${i + 1}", style = MaterialTheme.typography.labelLarge, color = scheme.onPrimary)
-                        }
-                        Spacer(Modifier.width(Spacing.lg))
-                        Text(text, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f).padding(top = 5.dp))
-                    }
-                }
-            }
-
-            if (tips.isNotEmpty()) {
-                Text(
-                    stringResource(R.string.guide_tips_label),
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier.padding(top = Spacing.sm).semantics { heading() },
-                )
-                tips.forEach { tip ->
-                    Surface(shape = RoundedCornerShape(18.dp), color = scheme.tertiaryContainer, modifier = Modifier.fillMaxWidth()) {
-                        Row(Modifier.padding(Spacing.lg), verticalAlignment = Alignment.Top) {
-                            Icon(Icons.Outlined.TipsAndUpdates, contentDescription = null, tint = scheme.onTertiaryContainer)
-                            Spacer(Modifier.width(Spacing.md))
-                            Text(tip, style = MaterialTheme.typography.bodyMedium, color = scheme.onTertiaryContainer, modifier = Modifier.weight(1f))
-                        }
-                    }
-                }
-            }
-            Spacer(Modifier.height(Spacing.lg))
         }
     }
 }

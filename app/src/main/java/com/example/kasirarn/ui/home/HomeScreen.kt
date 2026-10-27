@@ -337,7 +337,7 @@ private fun HomeTopBar(
                 }
             }
         }
-        TonalIconAction(onClick = onNotifications) {
+        TonalIconAction(onClick = onNotifications, modifier = Modifier.coachTarget(CoachId.HOME_BELL)) {
             BadgedBox(badge = { if (unread > 0) Badge() }) {
                 Icon(Icons.Outlined.Notifications, contentDescription = stringResource(R.string.drawer_notifications))
             }
@@ -608,6 +608,7 @@ private fun CartBar(cart: CartUi, onClick: () -> Unit) {
             .padding(horizontal = Spacing.lg, vertical = Spacing.md)
             .fillMaxWidth()
             .heightIn(min = 64.dp)
+            .coachTarget(CoachId.HOME_CART)
             .semantics { contentDescription = description },
         shape = MaterialTheme.shapes.large,
         color = scheme.primary,
@@ -702,7 +703,7 @@ private fun GuideCard(guide: GuideState, onNavigate: (String) -> Unit, onDismiss
                 Spacer(Modifier.height(Spacing.md))
                 androidx.compose.material3.OutlinedButton(
                     onClick = onSample,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = Spacing.minTouch),
+                    modifier = Modifier.fillMaxWidth().heightIn(min = Spacing.minTouch).coachTarget(CoachId.HOME_SAMPLE),
                     shape = MaterialTheme.shapes.medium,
                 ) { Text(stringResource(R.string.dummy_guide_button), style = MaterialTheme.typography.labelLarge) }
             }

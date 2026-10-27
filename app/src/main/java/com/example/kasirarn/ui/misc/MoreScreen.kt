@@ -122,12 +122,14 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
                 GroupLabel(stringResource(R.string.more_section_alerts))
                 SettingsGroup {
                     SettingRow(
+                        Modifier.coachTarget(CoachId.MORE_NOTIF),
                         Icons.Outlined.Notifications,
                         stringResource(R.string.drawer_notifications),
                         badge = ui.unread,
                     ) { onNavigate(Routes.NOTIFICATIONS) }
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     SettingRow(
+                        Modifier.coachTarget(CoachId.MORE_BACKUP),
                         Icons.Outlined.SettingsBackupRestore,
                         stringResource(R.string.drawer_backup),
                         supporting = if (ui.settings.lastBackupAt == 0L) {
@@ -141,11 +143,11 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
 
                 GroupLabel(stringResource(R.string.more_section_display))
                 SettingsGroup {
-                    SettingRow(Icons.Outlined.Palette, stringResource(R.string.drawer_theme), supporting = themeLabel(ui.settings.theme)) {
+                    SettingRow(Modifier.coachTarget(CoachId.MORE_THEME), Icons.Outlined.Palette, stringResource(R.string.drawer_theme), supporting = themeLabel(ui.settings.theme)) {
                         showTheme = true
                     }
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingRow(Icons.Outlined.Language, stringResource(R.string.drawer_language), supporting = languageLabel(ui.settings.language)) {
+                    SettingRow(Modifier.coachTarget(CoachId.MORE_LANGUAGE), Icons.Outlined.Language, stringResource(R.string.drawer_language), supporting = languageLabel(ui.settings.language)) {
                         showLanguage = true
                     }
                 }
@@ -154,6 +156,7 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
                 SettingsGroup {
                     Box(Modifier.coachTarget(CoachId.MORE_GUIDE)) {
                         SettingRow(
+                            Modifier,
                             Icons.Outlined.MenuBook,
                             stringResource(R.string.userguide_title),
                             supporting = stringResource(R.string.guide_summary),
@@ -161,6 +164,7 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
                     }
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     SettingRow(
+                        Modifier,
                         Icons.Outlined.Info,
                         stringResource(R.string.drawer_about),
                         supporting = stringResource(R.string.about_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE),
@@ -194,7 +198,7 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
 
 @Composable
 private fun BusinessHeader(ui: MoreUi, onClick: () -> Unit) {
-    ArnCard(Modifier.fillMaxWidth(), onClick = onClick, contentPadding = PaddingValues(Spacing.lg)) {
+    ArnCard(Modifier.fillMaxWidth().coachTarget(CoachId.MORE_PROFILE), onClick = onClick, contentPadding = PaddingValues(Spacing.lg)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 Modifier.size(56.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer),
@@ -242,6 +246,7 @@ private fun SettingsGroup(content: @Composable () -> Unit) {
 
 @Composable
 private fun SettingRow(
+    modifier: Modifier = Modifier,
     icon: ImageVector,
     title: String,
     supporting: String? = null,
@@ -250,7 +255,7 @@ private fun SettingRow(
     onClick: () -> Unit,
 ) {
     Row(
-        Modifier
+        modifier
             .fillMaxWidth()
             .heightIn(min = 60.dp)
             .clickable(role = Role.Button, onClick = onClick)

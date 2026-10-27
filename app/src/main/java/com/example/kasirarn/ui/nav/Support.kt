@@ -28,10 +28,8 @@ object Routes {
     const val BACKUP = "backup"
     const val ABOUT = "about"
     const val GUIDE = "guide"
-    const val GUIDE_TOPIC = "guide/{topic}"
 
     fun success(id: Long) = "success/$id"
-    fun guideTopic(id: String) = "guide/$id"
     fun menuEdit(id: Long? = null) = if (id == null) "menu_edit" else "menu_edit?id=$id"
     fun ingredientEdit(id: Long? = null) = if (id == null) "ingredient_edit" else "ingredient_edit?id=$id"
     fun ingredient(id: Long) = "ingredient/$id"

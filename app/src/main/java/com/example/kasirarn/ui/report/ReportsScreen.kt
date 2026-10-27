@@ -40,6 +40,8 @@ import com.example.kasirarn.ui.components.ScreenHeader
 import com.example.kasirarn.ui.components.PeriodSelector
 import com.example.kasirarn.ui.nav.ReportTab
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.launch
 
@@ -82,7 +84,7 @@ fun ReportsScreen(
                     title = stringResource(R.string.nav_reports),
                     actions = {
                         if (tab == ReportTab.EXPENSES) {
-                            IconButton(onClick = onManageCategories) {
+                            IconButton(onClick = onManageCategories, modifier = Modifier.coachTarget(CoachId.EXPENSE_CATEGORIES)) {
                                 Icon(Icons.Outlined.Category, contentDescription = stringResource(R.string.expenses_manage_categories))
                             }
                         }
@@ -90,7 +92,7 @@ fun ReportsScreen(
                 ) { tabModifier ->
                     PrimaryTabRow(
                         selectedTabIndex = tab,
-                        modifier = tabModifier,
+                        modifier = tabModifier.coachTarget(CoachId.REPORT_TABS),
                         containerColor = MaterialTheme.colorScheme.background,
                         contentColor = MaterialTheme.colorScheme.primary,
                     ) {
@@ -105,7 +107,7 @@ fun ReportsScreen(
                     }
                 }
                 period?.let { p ->
-                    Box(Modifier.padding(start = Spacing.lg, end = Spacing.lg, top = Spacing.md, bottom = Spacing.xs)) {
+                    Box(Modifier.padding(start = Spacing.lg, end = Spacing.lg, top = Spacing.md, bottom = Spacing.xs).coachTarget(CoachId.REPORT_PERIOD)) {
                         PeriodSelector(
                             period = p.period,
                             range = p.range,
@@ -122,6 +124,7 @@ fun ReportsScreen(
             if (tab == ReportTab.EXPENSES) {
                 ExtendedFloatingActionButton(
                     onClick = { sheet = ExpenseSheetTarget(null) },
+                    modifier = Modifier.coachTarget(CoachId.EXPENSE_FAB),
                     icon = { Icon(Icons.Outlined.Add, contentDescription = null) },
                     text = { Text(stringResource(R.string.expenses_add)) },
                     containerColor = MaterialTheme.colorScheme.primary,

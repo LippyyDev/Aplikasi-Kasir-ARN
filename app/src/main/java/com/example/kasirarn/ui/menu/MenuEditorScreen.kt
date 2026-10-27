@@ -98,6 +98,10 @@ import com.example.kasirarn.ui.ingredient.bestUnit
 import com.example.kasirarn.ui.ingredient.dim
 import com.example.kasirarn.ui.nav.containerViewModel
 import com.example.kasirarn.ui.theme.MoneyStyle
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.CoachBox
+import com.example.kasirarn.ui.onboarding.coachTarget
+import com.example.kasirarn.ui.onboarding.rememberCoachListState
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -262,7 +266,7 @@ fun MenuEditorScreen(id: Long?, onBack: () -> Unit, onAddIngredient: () -> Unit)
                     text = stringResource(R.string.action_save),
                     onClick = { vm.save(onBack) },
                     enabled = vm.loaded && !vm.saving,
-                    modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(Spacing.lg),
+                    modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(Spacing.lg).coachTarget(CoachId.MENU_SAVE),
                 )
             }
         },
@@ -270,22 +274,26 @@ fun MenuEditorScreen(id: Long?, onBack: () -> Unit, onAddIngredient: () -> Unit)
         if (!vm.loaded) return@Scaffold
         LazyColumn(
             Modifier.fillMaxSize().padding(padding),
+            state = rememberCoachListState(mapOf(CoachId.MENU_PHOTO to 0, CoachId.MENU_NAME to 1, CoachId.MENU_PRICE to 2, CoachId.MENU_CATEGORY to 3, CoachId.MENU_RECIPE to 6)),
             contentPadding = PaddingValues(start = Spacing.lg, end = Spacing.lg, bottom = Spacing.xl),
             verticalArrangement = Arrangement.spacedBy(Spacing.md),
         ) {
             item {
-                PhotoPicker(
-                    photo = vm.photo,
-                    name = vm.name,
-                    onPick = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
-                    onRemove = vm::removePhoto,
-                )
+                CoachBox(CoachId.MENU_PHOTO) {
+                    PhotoPicker(
+                        photo = vm.photo,
+                        name = vm.name,
+                        onPick = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                        onRemove = vm::removePhoto,
+                    )
+                }
             }
             item {
                 ArnField(
                     value = vm.name,
                     onValueChange = { vm.name = it.take(60) },
                     label = stringResource(R.string.menu_name),
+                    modifier = Modifier.coachTarget(CoachId.MENU_NAME),
                     error = if (vm.nameError && vm.name.isBlank()) stringResource(R.string.err_name_empty) else null,
                 )
             }
@@ -294,11 +302,12 @@ fun MenuEditorScreen(id: Long?, onBack: () -> Unit, onAddIngredient: () -> Unit)
                     value = vm.priceText,
                     onValueChange = { vm.priceText = it },
                     label = stringResource(R.string.menu_price),
+                    modifier = Modifier.coachTarget(CoachId.MENU_PRICE),
                     error = if (vm.priceError && (parseMoney(vm.priceText) ?: 0) <= 0) stringResource(R.string.err_price_invalid) else null,
                 )
             }
             item {
-                SectionLabel(stringResource(R.string.menu_category))
+                SectionLabel(stringResource(R.string.menu_category), Modifier.coachTarget(CoachId.MENU_CATEGORY))
                 if (categories.isEmpty()) {
                     Text(
                         stringResource(R.string.menu_category_none_yet),
@@ -351,7 +360,7 @@ fun MenuEditorScreen(id: Long?, onBack: () -> Unit, onAddIngredient: () -> Unit)
                 )
             }
             item {
-                SectionLabel(stringResource(R.string.recipe_title)) {
+                SectionLabel(stringResource(R.string.recipe_title), Modifier.coachTarget(CoachId.MENU_RECIPE)) {
                     TextButton(onClick = { sheetFor = RecipeSheetTarget(null) }) {
                         Icon(Icons.Outlined.Add, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(Spacing.xs))

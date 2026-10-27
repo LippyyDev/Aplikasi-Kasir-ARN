@@ -66,6 +66,9 @@ import com.example.kasirarn.ui.components.parseMoney
 import com.example.kasirarn.ui.components.quantityToBase
 import com.example.kasirarn.ui.format.LocalFmt
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
+import com.example.kasirarn.ui.onboarding.rememberCoachListState
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.launch
 
@@ -217,7 +220,7 @@ fun IngredientEditorScreen(id: Long?, onBack: () -> Unit) {
                     text = stringResource(R.string.action_save),
                     onClick = { vm.save(onBack) },
                     enabled = vm.loaded && !vm.saving,
-                    modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(Spacing.lg),
+                    modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(Spacing.lg).coachTarget(CoachId.ING_SAVE),
                 )
             }
         },
@@ -225,6 +228,7 @@ fun IngredientEditorScreen(id: Long?, onBack: () -> Unit) {
         if (!vm.loaded) return@Scaffold
         LazyColumn(
             Modifier.fillMaxSize().padding(padding),
+            state = rememberCoachListState(mapOf(CoachId.ING_NAME to 0, CoachId.ING_TYPE to 1, CoachId.ING_UNIT to 2, CoachId.ING_MIN to 3, CoachId.ING_INITIAL to 4, CoachId.ING_MEASURE to 5)),
             contentPadding = PaddingValues(start = Spacing.lg, end = Spacing.lg, bottom = Spacing.xl),
             verticalArrangement = Arrangement.spacedBy(Spacing.md),
         ) {
@@ -233,6 +237,7 @@ fun IngredientEditorScreen(id: Long?, onBack: () -> Unit) {
                     value = vm.name,
                     onValueChange = { vm.name = it },
                     label = stringResource(R.string.ingredient_name),
+                    modifier = Modifier.coachTarget(CoachId.ING_NAME),
                     error = when {
                         EditorError.NAME_EMPTY in errors -> stringResource(R.string.err_name_empty)
                         EditorError.NAME_DUPLICATE in errors -> stringResource(R.string.err_name_duplicate)
@@ -241,7 +246,7 @@ fun IngredientEditorScreen(id: Long?, onBack: () -> Unit) {
                 )
             }
             item {
-                SectionLabel(stringResource(R.string.ingredient_dimension))
+                SectionLabel(stringResource(R.string.ingredient_dimension), Modifier.coachTarget(CoachId.ING_TYPE))
                 SegmentedChoice(
                     options = Dimension.entries.map { it to dimensionLabel(it) },
                     selected = vm.dimension,
@@ -259,7 +264,7 @@ fun IngredientEditorScreen(id: Long?, onBack: () -> Unit) {
                 )
             }
             item {
-                SectionLabel(stringResource(R.string.ingredient_purchase_unit))
+                SectionLabel(stringResource(R.string.ingredient_purchase_unit), Modifier.coachTarget(CoachId.ING_UNIT))
                 ChoiceChips(
                     options = vm.units.map { it.name to it.name },
                     selected = vm.purchaseUnit,
@@ -267,7 +272,7 @@ fun IngredientEditorScreen(id: Long?, onBack: () -> Unit) {
                 )
             }
             item {
-                SectionLabel(stringResource(R.string.ingredient_min_stock))
+                SectionLabel(stringResource(R.string.ingredient_min_stock), Modifier.coachTarget(CoachId.ING_MIN))
                 QuantityInput(
                     text = vm.minText,
                     onText = { vm.minText = it },
@@ -286,7 +291,7 @@ fun IngredientEditorScreen(id: Long?, onBack: () -> Unit) {
             }
             if (isNew) {
                 item {
-                    SectionLabel(stringResource(R.string.ingredient_initial))
+                    SectionLabel(stringResource(R.string.ingredient_initial), Modifier.coachTarget(CoachId.ING_INITIAL))
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
                         QuantityInput(
                             text = vm.initialText,
@@ -309,7 +314,7 @@ fun IngredientEditorScreen(id: Long?, onBack: () -> Unit) {
                 }
             }
             item {
-                SectionLabel(stringResource(R.string.ingredient_measures)) {
+                SectionLabel(stringResource(R.string.ingredient_measures), Modifier.coachTarget(CoachId.ING_MEASURE)) {
                     TextButton(onClick = vm::addMeasure) {
                         Icon(Icons.Outlined.Add, contentDescription = null, modifier = Modifier.width(18.dp))
                         Spacer(Modifier.width(Spacing.xs))

@@ -459,10 +459,20 @@
     <string name="ob_brand_a">ARN</string>
     <string name="ob_brand_b">Kasir</string>
     <string name="ob_head_1">Jualan beres,</string>
-    <string name="ob_head_2">stok ikut terhitung.</string>
-    <string name="ob_welcome_body">Kasir offline untuk usaha makanan dan minuman. Setiap penjualan otomatis mengurangi stok bahan dan menghitung modal Anda.</string>
-    <string name="ob_demo_title">Contoh satu penjualan</string>
+    <string name="ob_head_2">stok ikut</string>
+    <string name="ob_head_3">terhitung.</string>
+    <string name="ob_welcome_body">Aplikasi kasir yang bisa dipakai tanpa internet. Setiap kali ada penjualan, stok bahan berkurang sendiri dan modalnya langsung terhitung.</string>
+    <string name="ob_name_title">Apa nama toko Anda?</string>
+    <string name="ob_name_hint">Nama ini akan tampil di struk dan di Halaman Utama.</string>
+    <string name="ob_logo_title">Mau pasang logo atau foto toko?</string>
+    <string name="ob_logo_body">Boleh dilewati. Fotonya akan tampil di Halaman Utama.</string>
+    <string name="ob_logo_pick">Pilih foto</string>
+    <string name="ob_logo_change">Ganti foto</string>
+    <string name="ob_contact_title">Alamat dan nomor telepon</string>
+    <string name="ob_contact_body">Boleh dikosongkan. Kalau diisi, keduanya ikut tercetak di struk.</string>
+    <string name="ob_demo_title">Struk contoh</string>
     <string name="ob_demo_pay">Tunai</string>
+    <string name="ob_demo_stamp">LUNAS</string>
     <string name="ob_demo_line">2× Kopi susu gula aren</string>
     <string name="ob_demo_total">Rp 44.000</string>
     <string name="ob_demo_stock">Stok berkurang otomatis</string>
@@ -481,11 +491,11 @@
     <string name="ob_profile_later">Isi nanti</string>
     <string name="ob_profile_need_name">Isi nama toko untuk melanjutkan.</string>
     <string name="ob_features_kicker">FITUR %1$d DARI %2$d</string>
-    <string name="ob_features_hint">Penjelasan lebih rinci per fitur ada di Lainnya, Panduan penggunaan.</string>
+    <string name="ob_features_hint">Penjelasan yang lebih rinci untuk tiap fitur ada di Lainnya, Panduan penggunaan.</string>
     <string name="userguide_title">Panduan penggunaan</string>
-    <string name="guide_summary">Tutorial per fitur dan tutorial interaktif</string>
+    <string name="guide_summary">Tutorial untuk setiap fitur</string>
     <string name="guide_interactive_title">Tutorial interaktif</string>
-    <string name="guide_interactive_body">Layar digelapkan dan bagian penting disorot satu per satu. Sekitar satu menit.</string>
+    <string name="guide_interactive_body">Bagian-bagian penting disorot satu per satu, langsung di aplikasi. Hanya sekitar satu menit.</string>
     <string name="guide_topics_label">Tutorial per fitur</string>
     <string name="guide_steps_label">Langkah-langkah</string>
     <string name="guide_tips_label">Tips</string>
@@ -497,191 +507,184 @@
     <string name="guide_sec_system">Data dan pengaturan</string>
     <string name="tour_step">%1$d dari %2$d</string>
     <string name="tour_cashier_title">Mode Kasir</string>
-    <string name="tour_cashier_text">Tempat Anda melayani pembeli. Semua yang dipakai saat berjualan ada di sini.</string>
+    <string name="tour_cashier_text">Di sinilah Anda melayani pembeli. Semua yang dibutuhkan saat berjualan ada di sini.</string>
     <string name="tour_search_title">Cari menu</string>
-    <string name="tour_search_text">Ketik nama menu untuk menemukannya dengan cepat.</string>
+    <string name="tour_search_text">Ketik nama menu untuk langsung menemukannya.</string>
     <string name="tour_categories_title">Kategori</string>
-    <string name="tour_categories_text">Ketuk kategori untuk menyaring menu. Semua menampilkan seluruh menu.</string>
+    <string name="tour_categories_text">Pilih kategori untuk menyaring menu. Pilihan Semua menampilkan seluruh menu.</string>
     <string name="tour_menu_title">Daftar menu</string>
-    <string name="tour_menu_text">Ketuk tombol + untuk memasukkan menu ke keranjang. Bilah keranjang muncul di bawah; ketuk untuk membayar.</string>
+    <string name="tour_menu_text">Tekan tombol + untuk memasukkan menu ke keranjang. Bilah keranjang akan muncul di bawah, tekan untuk membayar.</string>
     <string name="tour_manage_title">Kelola</string>
-    <string name="tour_manage_text">Atur menu, resep, bahan baku, dan stok. Titik merah berarti ada bahan yang perlu perhatian.</string>
+    <string name="tour_manage_text">Tempat mengatur menu, resep, bahan baku, dan stok. Titik merah berarti ada bahan yang perlu diperhatikan.</string>
     <string name="tour_reports_title">Laporan</string>
-    <string name="tour_reports_text">Pemasukan, laba, dan pengeluaran per periode.</string>
+    <string name="tour_reports_text">Lihat pemasukan, laba, dan pengeluaran untuk periode yang Anda pilih.</string>
     <string name="tour_more_title">Lainnya</string>
-    <string name="tour_more_text">Profil toko, notifikasi, cadangan data, tema, dan bahasa ada di sini. Kita buka sebentar.</string>
+    <string name="tour_more_text">Profil toko, notifikasi, cadangan, tema, dan bahasa ada di sini. Kita buka sebentar.</string>
     <string name="tour_guide_title">Panduan penggunaan</string>
-    <string name="tour_guide_text">Siap berjualan! Untuk tutorial yang lebih rinci per fitur, buka Panduan penggunaan kapan saja.</string>
-    <string name="gp1_title">Kasir: jual dengan cepat</string>
-    <string name="gp1_sum">Ketuk menu untuk memasukkannya ke keranjang, lalu bayar.</string>
+    <string name="tour_guide_text">Selesai. Kalau ingin penjelasan yang lebih rinci untuk tiap fitur, buka Panduan penggunaan kapan saja.</string>
+    <string name="gp1_title">Cara berjualan di Kasir</string>
+    <string name="gp1_sum">Pilih menu, atur jumlahnya, lalu terima pembayaran.</string>
     <string-array name="gp1_steps">
-        <item>Ketuk tombol + pada menu untuk menambah, atau cari lewat kolom pencarian.</item>
-        <item>Buka keranjang untuk mengubah jumlah, menambah catatan, atau memberi diskon.</item>
-        <item>Ketuk Bayar, pilih tunai atau non tunai, lalu bagikan struk.</item>
+        <item>Pilih menu dengan tombol +, atau cari namanya di kolom pencarian.</item>
+        <item>Buka keranjang di bawah untuk mengubah jumlah, menambah catatan, atau memberi diskon.</item>
+        <item>Tekan Bayar, pilih tunai atau non tunai, lalu bagikan struk ke pembeli.</item>
     </string-array>
-    <string name="gp2_title">Menu dan resep</string>
-    <string name="gp2_sum">Setiap menu punya resep, jadi modal dan margin terhitung otomatis.</string>
+    <string name="gp2_title">Membuat menu dan resep</string>
+    <string name="gp2_sum">Dari resep, modal dan margin setiap menu dihitung otomatis.</string>
     <string-array name="gp2_steps">
-        <item>Buka Kelola, tab Menu, lalu ketuk Tambah menu.</item>
-        <item>Isi nama, harga, kategori, dan foto bila ada.</item>
-        <item>Tambahkan bahan dan takaran per porsi; modal per porsi langsung terlihat.</item>
+        <item>Buka Kelola, pilih tab Menu, lalu tekan Tambah menu.</item>
+        <item>Isi nama, harga jual, kategori, dan foto kalau ada.</item>
+        <item>Tambahkan bahan beserta takarannya untuk satu porsi. Modal per porsi langsung muncul.</item>
     </string-array>
-    <string name="gp3_title">Bahan baku dan stok</string>
-    <string name="gp3_sum">Stok bahan berkurang sendiri setiap ada penjualan.</string>
+    <string name="gp3_title">Mencatat bahan baku dan stok</string>
+    <string name="gp3_sum">Stok berkurang sendiri setiap ada penjualan, sesuai resep.</string>
     <string-array name="gp3_steps">
-        <item>Di Kelola, tab Bahan baku, tambahkan bahan lengkap dengan satuan belinya.</item>
-        <item>Catat pembelian lewat Restok agar harga rata-rata dan modal akurat.</item>
-        <item>Cocokkan stok fisik lewat Opname. Anda diberi tahu saat bahan hampir habis.</item>
+        <item>Di Kelola, buka tab Bahan baku, lalu tambahkan bahan beserta satuan belinya.</item>
+        <item>Setiap belanja bahan, catat lewat Restok supaya harga rata-rata dan modal tetap akurat.</item>
+        <item>Cocokkan stok dengan kondisi di dapur lewat Opname. Anda akan diberi tahu saat bahan hampir habis.</item>
     </string-array>
-    <string name="gp4_title">Laporan</string>
-    <string name="gp4_sum">Lihat pemasukan, laba, dan pengeluaran per periode.</string>
+    <string name="gp4_title">Melihat laporan</string>
+    <string name="gp4_sum">Pantau pemasukan, laba, dan pengeluaran untuk periode tertentu.</string>
     <string-array name="gp4_steps">
-        <item>Buka Laporan, lalu pilih Hari ini, 7 hari, Bulan ini, atau Kustom.</item>
+        <item>Buka Laporan, lalu pilih periode: Hari ini, 7 hari, Bulan ini, atau Kustom.</item>
         <item>Tab Pemasukan menampilkan penjualan, laba kotor, dan menu terlaris.</item>
-        <item>Tab Pengeluaran untuk mencatat biaya dan melihat arus kas.</item>
+        <item>Tab Pengeluaran dipakai untuk mencatat biaya seperti sewa dan gaji, serta melihat arus kas.</item>
     </string-array>
-    <string name="gp5_title">Cadangan dan pengaturan</string>
-    <string name="gp5_sum">Amankan data dan atur aplikasi sesuai kebiasaan Anda.</string>
+    <string name="gp5_title">Mengamankan data</string>
+    <string name="gp5_sum">Data hanya tersimpan di ponsel ini, jadi buatlah cadangan secara berkala.</string>
     <string-array name="gp5_steps">
-        <item>Buat cadangan berkala di Lainnya, Cadangan dan pulihkan, dan simpan di luar aplikasi.</item>
-        <item>Ubah tema dan bahasa kapan saja di Lainnya.</item>
-        <item>Buka Panduan penggunaan di Lainnya untuk tutorial rinci per fitur.</item>
+        <item>Buka Lainnya, pilih Cadangan dan pulihkan, lalu tekan Buat cadangan.</item>
+        <item>Simpan berkasnya di luar aplikasi, misalnya di penyimpanan ponsel atau kartu memori.</item>
+        <item>Tema, bahasa, dan Panduan penggunaan juga ada di menu Lainnya.</item>
     </string-array>
     <string name="gt_sell_title">Menjual di Kasir</string>
     <string name="gt_sell_sum">Dari memilih menu sampai struk dibagikan.</string>
-    <string-array name="gt_sell_steps">
-        <item>Buka mode Kasir. Cari menu lewat kolom pencarian, atau saring dengan chip kategori di bawahnya.</item>
-        <item>Ketuk tombol + pada kartu menu untuk memasukkannya ke keranjang. Ketuk lagi untuk menambah jumlah, atau pakai tombol − dan + yang muncul di kartu.</item>
-        <item>Tahan kartu menu untuk menambah catatan khusus, misalnya \"kurang manis\".</item>
-        <item>Ketuk bilah keranjang di bawah untuk membuka rincian. Di sini Anda bisa mengubah jumlah, menghapus item, dan menambah diskon (nominal atau persen).</item>
-        <item>Ketuk Bayar. Untuk tunai, isi Uang diterima atau ketuk Uang pas; kembalian dihitung otomatis. Untuk non tunai, cukup pilih Non tunai.</item>
-        <item>Ketuk Selesaikan pembayaran. Di layar berhasil, bagikan struk sebagai teks atau gambar, lalu ketuk Transaksi baru.</item>
-    </string-array>
-    <string-array name="gt_sell_tips">
-        <item>Menu berlabel Stok habis tidak bisa dijual sampai bahannya direstok (kebijakan ini bisa diubah di Kelola, Bahan baku, menu titik tiga).</item>
-        <item>Salah memasukkan transaksi? Buka Laporan, ketuk transaksinya, lalu Batalkan transaksi. Stok dikembalikan otomatis.</item>
-    </string-array>
     <string name="gt_menu_title">Membuat menu dan resep</string>
     <string name="gt_menu_sum">Resep membuat stok dan modal terhitung sendiri.</string>
-    <string-array name="gt_menu_steps">
-        <item>Buka Kelola, tab Menu, lalu ketuk Tambah menu.</item>
-        <item>Isi nama dan harga jual. Tambahkan foto bila ada (opsional, otomatis dikecilkan) dan pilih kategori.</item>
-        <item>Di bagian Resep per porsi, ketuk Tambah bahan. Pilih bahan, isi jumlah untuk satu porsi, dan pilih satuannya (misalnya 2 sendok makan).</item>
-        <item>Ulangi untuk semua bahan. Kartu Modal dan margin menampilkan modal per porsi dan persentase margin saat Anda mengisi.</item>
-        <item>Ketuk Simpan. Menu langsung tampil di Kasir bila sudah punya kategori dan Aktif dijual menyala.</item>
-    </string-array>
-    <string-array name="gt_menu_tips">
-        <item>Menu tanpa resep (misalnya air kemasan) tetap bisa dijual; stok tidak dilacak dan modalnya dihitung nol.</item>
-        <item>Matikan Aktif dijual untuk menyembunyikan menu musiman tanpa menghapus riwayatnya.</item>
-    </string-array>
     <string name="gt_ingredients_title">Mengelola bahan baku</string>
     <string name="gt_ingredients_sum">Bahan, satuan, dan takaran yang dipakai di resep.</string>
-    <string-array name="gt_ingredients_steps">
-        <item>Buka Kelola, tab Bahan baku, lalu ketuk Tambah bahan.</item>
-        <item>Isi nama bahan dan pilih Jenis satuan: Massa (gram, kg), Volume (ml, liter), atau Hitungan (buah). Jenis ini terkunci setelah disimpan.</item>
-        <item>Pilih Satuan beli, yaitu satuan yang biasa Anda pakai saat membeli (misalnya kg atau liter).</item>
-        <item>Isi Stok minimum. Saat stok mencapai batas ini, Anda mendapat notifikasi.</item>
-        <item>Bila resep memakai takaran rumahan, ketuk Tambah takaran, misalnya \"sendok makan = 12 g\". Setelah itu takaran muncul sebagai pilihan satuan di resep.</item>
-        <item>Bila bahan sudah ada stoknya, isi stok awal beserta nilainya agar modal terhitung benar sejak awal.</item>
-    </string-array>
-    <string-array name="gt_ingredients_tips">
-        <item>Bahan yang sudah punya riwayat tidak bisa dihapus, hanya diarsipkan, supaya laporan lama tetap benar.</item>
-        <item>Penanda Aman, Menipis, dan Habis di daftar membantu Anda melihat bahan yang perlu dibeli.</item>
-    </string-array>
     <string name="gt_stock_title">Restok dan opname stok</string>
     <string name="gt_stock_sum">Catat pembelian dan cocokkan stok dengan kenyataan.</string>
-    <string-array name="gt_stock_steps">
-        <item>Buka Kelola, tab Bahan baku, lalu ketuk bahan yang ingin diperbarui.</item>
-        <item>Ketuk Restok untuk mencatat pembelian. Isi jumlah dibeli, satuannya, dan total harga yang dibayar.</item>
-        <item>Ketuk Simpan restok. Stok bertambah, harga rata-rata bahan diperbarui, dan pembelian tercatat sebagai pengeluaran kategori Bahan baku.</item>
-        <item>Untuk mencocokkan stok, ketuk Opname. Isi stok fisik yang sebenarnya dan pilih alasan selisihnya.</item>
-        <item>Bila selisihnya berupa bahan terbuang, rusak, atau tumpah, aktifkan pencatatan susut agar tercatat sebagai kerugian.</item>
-        <item>Riwayat stok di bawahnya mencatat setiap penjualan, restok, pembatalan, dan opname. Saring dengan 7 hari, 30 hari, atau Semua.</item>
-    </string-array>
-    <string-array name="gt_stock_tips">
-        <item>Selalu isi total harga saat restok. Tanpa harga, modal per porsi tidak bisa dihitung akurat.</item>
-        <item>Lakukan opname berkala, misalnya seminggu sekali, untuk menjaga stok di aplikasi tetap sama dengan di dapur.</item>
-    </string-array>
     <string name="gt_categories_title">Mengatur kategori menu</string>
     <string name="gt_categories_sum">Kategori menyusun chip di Halaman Utama.</string>
-    <string-array name="gt_categories_steps">
-        <item>Buka Kelola, tab Kategori, lalu ketuk Tambah kategori dan isi namanya.</item>
-        <item>Atur urutan dengan tombol panah naik dan turun. Urutan di sini sama dengan urutan chip di Kasir.</item>
-        <item>Ketuk titik tiga pada kategori untuk mengubah nama atau menghapusnya.</item>
-        <item>Saat menghapus kategori yang berisi menu, pilih kategori tujuan agar menunya tidak hilang dari Kasir.</item>
-    </string-array>
-    <string-array name="gt_categories_tips">
-        <item>Menu tanpa kategori tidak tampil di Kasir. Aplikasi memberi peringatan bila ada menu seperti itu.</item>
-    </string-array>
     <string name="gt_income_title">Membaca laporan pemasukan</string>
     <string name="gt_income_sum">Penjualan, laba kotor, dan menu terlaris.</string>
-    <string-array name="gt_income_steps">
-        <item>Buka Laporan, tab Pemasukan. Pilih periode di bagian atas: Hari ini, 7 hari, Bulan ini, atau Kustom (pilih tanggal sendiri).</item>
-        <item>Kartu besar menampilkan Penjualan bersih (setelah diskon dan tanpa transaksi yang dibatalkan).</item>
-        <item>Ubin di bawahnya: Penjualan kotor, Diskon, Modal bahan (HPP), dan Laba kotor.</item>
-        <item>Grafik menunjukkan penjualan per jam (hari ini) atau per hari (periode lebih panjang).</item>
-        <item>Gulir ke bawah untuk Menu terlaris, penjualan per kategori, dan per metode bayar.</item>
-        <item>Daftar transaksi di bagian akhir. Ketuk salah satu untuk melihat rincian, laba transaksi itu, membagikan struk, atau membatalkannya.</item>
-    </string-array>
-    <string-array name="gt_income_tips">
-        <item>Laba kotor = penjualan bersih dikurangi modal bahan yang terpakai. Biaya lain seperti sewa dan gaji dihitung di tab Pengeluaran.</item>
-    </string-array>
     <string name="gt_expenses_title">Mencatat pengeluaran dan arus kas</string>
     <string name="gt_expenses_sum">Biaya operasional, laba bersih, dan uang masuk keluar.</string>
-    <string-array name="gt_expenses_steps">
-        <item>Buka Laporan, tab Pengeluaran, lalu ketuk Catat pengeluaran.</item>
-        <item>Pilih tanggal dan kategori (Sewa, Listrik dan air, Gaji, Kemasan, atau Lain-lain), isi nominal, dan tambah catatan bila perlu.</item>
-        <item>Ketuk Simpan. Pengeluaran tampil di daftar dan ikut dihitung.</item>
-        <item>Kartu Laba bersih = laba kotor dikurangi biaya operasional. Bagian Arus kas menunjukkan uang yang benar-benar masuk dan keluar.</item>
-        <item>Ketuk ikon kategori di pojok kanan atas untuk menambah atau mengubah kategori pengeluaran Anda sendiri.</item>
-    </string-array>
-    <string-array name="gt_expenses_tips">
-        <item>Pembelian bahan (restok) otomatis masuk sebagai pengeluaran Bahan baku dan memengaruhi arus kas, tetapi tidak mengurangi laba karena sudah dihitung sebagai modal.</item>
-    </string-array>
     <string name="gt_notifications_title">Notifikasi stok dan pengingat</string>
     <string name="gt_notifications_sum">Tahu bahan yang menipis sebelum kehabisan.</string>
-    <string-array name="gt_notifications_steps">
-        <item>Ketuk ikon lonceng di Kasir, atau buka Lainnya, Notifikasi. Titik di tab Lainnya berarti ada yang belum dibaca.</item>
-        <item>Anda akan diberi tahu saat bahan hampir habis (mencapai stok minimum) dan saat habis, masing-masing sekali per kondisi.</item>
-        <item>Ketuk ikon pengaturan di pojok kanan atas untuk menyalakan atau mematikan tiap jenis notifikasi.</item>
-        <item>Di Android 13 ke atas, izinkan notifikasi saat diminta agar peringatan muncul juga di luar aplikasi.</item>
-    </string-array>
-    <string-array name="gt_notifications_tips">
-        <item>Atur Stok minimum tiap bahan dengan wajar supaya Anda sempat membeli sebelum kehabisan, tetapi tidak diganggu terlalu sering.</item>
-    </string-array>
     <string name="gt_backup_title">Cadangan dan pulihkan data</string>
     <string name="gt_backup_sum">Amankan data agar tidak hilang bersama ponsel.</string>
-    <string-array name="gt_backup_steps">
-        <item>Buka Lainnya, Cadangan dan pulihkan, lalu ketuk Buat cadangan.</item>
-        <item>Pilih lokasi penyimpanan di luar aplikasi, misalnya penyimpanan ponsel atau kartu memori. Berkas berakhiran .arnbak berisi semua data dan foto.</item>
-        <item>Pilih pengingat (tiap 3, 7, 14, atau 30 hari) agar tidak lupa mencadangkan.</item>
-        <item>Untuk memulihkan, ketuk Pulihkan dari berkas dan pilih berkas .arnbak. Aplikasi memeriksa keutuhan berkas dan menampilkan ringkasan sebelum Anda mengonfirmasi.</item>
-        <item>Sebelum mengganti data, aplikasi otomatis menyimpan salinan pengaman. Setelah selesai, aplikasi dimulai ulang.</item>
-    </string-array>
-    <string-array name="gt_backup_tips">
-        <item>Berkas cadangan tidak dienkripsi dan berisi data penjualan usaha. Simpan di tempat aman dan jangan dibagikan sembarangan.</item>
-        <item>Hapus semua data di halaman yang sama mengosongkan aplikasi (ada salinan pengaman otomatis).</item>
-    </string-array>
     <string name="gt_profile_title">Profil toko, tema, dan bahasa</string>
     <string name="gt_profile_sum">Sesuaikan identitas dan tampilan aplikasi.</string>
-    <string-array name="gt_profile_steps">
-        <item>Buka Lainnya, lalu ketuk kartu profil di bagian atas untuk mengisi nama usaha, alamat, telepon, logo, dan simbol mata uang. Data ini tercetak di struk.</item>
-        <item>Ketuk Tema untuk memilih Ikuti sistem, Terang, atau Gelap. Warna dinamis (Android 12 ke atas) mengambil warna dari wallpaper.</item>
-        <item>Ketuk Bahasa untuk beralih antara Bahasa Indonesia dan English. Perubahan langsung berlaku tanpa memulai ulang.</item>
-    </string-array>
-    <string-array name="gt_profile_tips">
-        <item>Logo tampil di Halaman Utama dan bisa diganti kapan saja.</item>
-    </string-array>
     <string name="gt_sample_title">Mencoba dengan data contoh</string>
     <string name="gt_sample_sum">Isi aplikasi dengan data kedai kopi fiktif.</string>
-    <string-array name="gt_sample_steps">
-        <item>Saat aplikasi masih kosong, ketuk Coba dengan data contoh di Halaman Utama. Atau buka Lainnya, Cadangan dan pulihkan, bagian Data contoh.</item>
-        <item>Pilih ukuran: Sedikit (3 hari), Sedang (14 hari), atau Banyak (45 hari dan ribuan baris riwayat).</item>
-        <item>Tunggu sampai selesai. Skenario Banyak butuh sekitar satu sampai dua menit.</item>
-        <item>Jelajahi Kasir, Kelola, dan Laporan dengan data yang sudah terisi.</item>
-        <item>Untuk memakai data sungguhan, buka Cadangan dan pulihkan, lalu Hapus semua data.</item>
-    </string-array>
-    <string-array name="gt_sample_tips">
-        <item>Data contoh hanya bisa dimuat saat aplikasi masih kosong, jadi tidak akan menimpa data usaha Anda.</item>
-    </string-array>
+    <string name="gs_sell_0_title">Cari menu</string>
+    <string name="gs_sell_0_text">Ketik nama menu di kolom ini untuk langsung menemukannya.</string>
+    <string name="gs_sell_1_title">Saring dengan kategori</string>
+    <string name="gs_sell_1_text">Tekan salah satu kategori untuk menampilkan menu di dalamnya saja. Pilih Semua untuk melihat semuanya.</string>
+    <string name="gs_sell_2_title">Masukkan menu ke keranjang</string>
+    <string name="gs_sell_2_text">Tekan tombol + pada kartu menu untuk memasukkannya ke keranjang. Tekan lagi untuk menambah jumlah. Tahan kartunya untuk menambah catatan, misalnya \"kurang manis\". Menu baru muncul di sini setelah Anda membuatnya di Kelola.</string>
+    <string name="gs_sell_3_title">Buka keranjang</string>
+    <string name="gs_sell_3_text">Setelah ada menu di keranjang, bilah ini muncul di bawah. Tekan bilah itu untuk mengubah jumlah, menghapus item, atau memberi diskon.</string>
+    <string name="gs_sell_4_title">Bayar</string>
+    <string name="gs_sell_4_text">Di keranjang, tekan Bayar. Untuk tunai, isi Uang diterima atau tekan Uang pas, dan kembalian dihitung otomatis. Untuk non tunai, cukup pilih Non tunai.</string>
+    <string name="gs_sell_5_title">Bagikan struk</string>
+    <string name="gs_sell_5_text">Setelah pembayaran berhasil, bagikan struk sebagai teks atau gambar, lalu tekan Transaksi baru. Salah memasukkan transaksi? Buka Laporan, tekan transaksinya, lalu Batalkan transaksi. Stok dikembalikan otomatis.</string>
+    <string name="gs_menu_0_title">Tambah menu</string>
+    <string name="gs_menu_0_text">Di Kelola, tab Menu, tekan tombol Tambah menu ini untuk membuat menu baru.</string>
+    <string name="gs_menu_1_title">Foto menu</string>
+    <string name="gs_menu_1_text">Foto bersifat opsional. Tekan di sini untuk memilih foto dari galeri. Ukurannya otomatis dikecilkan.</string>
+    <string name="gs_menu_2_title">Nama menu</string>
+    <string name="gs_menu_2_text">Isi nama menu seperti yang ingin tampil di Kasir.</string>
+    <string name="gs_menu_3_title">Harga jual</string>
+    <string name="gs_menu_3_text">Isi harga jual untuk satu porsi, tanpa titik atau koma.</string>
+    <string name="gs_menu_4_title">Kategori</string>
+    <string name="gs_menu_4_text">Pilih kategori di bawah judul ini. Menu tanpa kategori tidak akan tampil di Kasir.</string>
+    <string name="gs_menu_5_title">Resep per porsi</string>
+    <string name="gs_menu_5_text">Tekan Tambah bahan, pilih bahan, lalu isi jumlahnya untuk satu porsi. Modal per porsi langsung dihitung dan tampil di bawahnya. Bahannya harus dibuat dulu di tab Bahan baku.</string>
+    <string name="gs_menu_6_title">Simpan</string>
+    <string name="gs_menu_6_text">Tekan Simpan. Menu langsung tampil di Kasir.</string>
+    <string name="gs_ingredients_0_title">Tambah bahan</string>
+    <string name="gs_ingredients_0_text">Di Kelola, tab Bahan baku, tekan tombol Tambah bahan ini.</string>
+    <string name="gs_ingredients_1_title">Nama bahan</string>
+    <string name="gs_ingredients_1_text">Isi nama bahan, misalnya Biji kopi atau Gula pasir.</string>
+    <string name="gs_ingredients_2_title">Jenis satuan</string>
+    <string name="gs_ingredients_2_text">Pilih sesuai cara bahan diukur: Massa (gram, kg), Volume (ml, liter), atau Hitungan (buah). Jenis ini tidak bisa diubah setelah disimpan.</string>
+    <string name="gs_ingredients_3_title">Satuan beli</string>
+    <string name="gs_ingredients_3_text">Pilih satuan yang biasa Anda pakai saat membeli bahan ini.</string>
+    <string name="gs_ingredients_4_title">Stok minimum</string>
+    <string name="gs_ingredients_4_text">Isi batas stok. Saat stok mencapai batas ini, Anda akan mendapat notifikasi.</string>
+    <string name="gs_ingredients_5_title">Stok awal</string>
+    <string name="gs_ingredients_5_text">Kalau bahannya sudah ada, isi jumlah dan total harganya supaya modal terhitung benar sejak awal.</string>
+    <string name="gs_ingredients_6_title">Takaran sendiri</string>
+    <string name="gs_ingredients_6_text">Kalau resep memakai ukuran rumahan, tekan Tambah takaran, misalnya 1 sendok makan = 12 g. Takaran itu lalu muncul sebagai pilihan satuan di resep.</string>
+    <string name="gs_ingredients_7_title">Simpan</string>
+    <string name="gs_ingredients_7_text">Tekan Simpan. Bahan langsung tampil di daftar Bahan baku dan bisa dipakai di resep.</string>
+    <string name="gs_stock_0_title">Penanda stok menipis</string>
+    <string name="gs_stock_0_text">Titik merah di tab Kelola berarti ada bahan yang menipis atau habis. Buka Kelola, tab Bahan baku, untuk melihatnya.</string>
+    <string name="gs_stock_1_title">Buka bahan</string>
+    <string name="gs_stock_1_text">Di tab Bahan baku, tekan nama bahan yang ingin diperbarui. Halaman detailnya berisi stok, riwayat, serta tombol Restok dan Opname.</string>
+    <string name="gs_stock_2_title">Restok saat belanja</string>
+    <string name="gs_stock_2_text">Tekan Restok, isi jumlah yang dibeli dan total harganya, lalu Simpan restok. Stok bertambah, harga rata-rata ikut diperbarui, dan pembelian tercatat sebagai pengeluaran. Selalu isi total harga supaya modal akurat.</string>
+    <string name="gs_stock_3_title">Opname untuk mencocokkan stok</string>
+    <string name="gs_stock_3_text">Tekan Opname, isi stok fisik yang sebenarnya, lalu pilih alasan selisihnya. Bahan yang terbuang, rusak, atau tumpah bisa dicatat sebagai susut. Lakukan secara berkala, misalnya seminggu sekali.</string>
+    <string name="gs_categories_0_title">Tambah kategori</string>
+    <string name="gs_categories_0_text">Di Kelola, tab Kategori, tekan Tambah kategori lalu isi namanya.</string>
+    <string name="gs_categories_1_title">Atur urutan</string>
+    <string name="gs_categories_1_text">Pakai tombol panah naik dan turun pada tiap kategori. Urutannya sama dengan urutan chip kategori di Kasir.</string>
+    <string name="gs_categories_2_title">Ubah atau hapus</string>
+    <string name="gs_categories_2_text">Tekan titik tiga pada kategori untuk mengubah nama atau menghapusnya. Saat menghapus kategori yang berisi menu, pilih kategori tujuan supaya menunya tidak hilang dari Kasir.</string>
+    <string name="gs_income_0_title">Pemasukan dan Pengeluaran</string>
+    <string name="gs_income_0_text">Laporan punya dua tab. Pemasukan untuk penjualan dan laba, Pengeluaran untuk biaya dan arus kas.</string>
+    <string name="gs_income_1_title">Pilih periode</string>
+    <string name="gs_income_1_text">Pilih Hari ini, 7 hari, Bulan ini, atau Kustom untuk menentukan tanggal sendiri. Semua angka di bawahnya mengikuti periode ini.</string>
+    <string name="gs_income_2_title">Penjualan bersih</string>
+    <string name="gs_income_2_text">Kartu ini menampilkan penjualan setelah diskon dan tanpa transaksi yang dibatalkan. Di bawahnya ada penjualan kotor, diskon, modal bahan, dan laba kotor.</string>
+    <string name="gs_income_3_title">Grafik dan menu terlaris</string>
+    <string name="gs_income_3_text">Gulir ke bawah untuk melihat grafik penjualan, menu terlaris, penjualan per kategori, dan per metode bayar.</string>
+    <string name="gs_income_4_title">Daftar transaksi</string>
+    <string name="gs_income_4_text">Di bagian paling bawah ada daftar transaksi. Tekan salah satu untuk melihat rincian, laba transaksi itu, membagikan struk, atau membatalkannya.</string>
+    <string name="gs_expenses_0_title">Tab Pengeluaran</string>
+    <string name="gs_expenses_0_text">Di sinilah Anda mencatat biaya selain bahan baku, seperti sewa, gaji, dan listrik.</string>
+    <string name="gs_expenses_1_title">Catat pengeluaran</string>
+    <string name="gs_expenses_1_text">Tekan Catat pengeluaran, pilih tanggal dan kategori, isi nominal, lalu Simpan.</string>
+    <string name="gs_expenses_2_title">Laba bersih</string>
+    <string name="gs_expenses_2_text">Laba bersih adalah laba kotor dikurangi biaya operasional seperti sewa dan gaji.</string>
+    <string name="gs_expenses_3_title">Kategori pengeluaran</string>
+    <string name="gs_expenses_3_text">Tekan ikon ini untuk menambah atau mengubah kategori pengeluaran Anda sendiri.</string>
+    <string name="gs_expenses_4_title">Arus kas</string>
+    <string name="gs_expenses_4_text">Bagian Arus kas menunjukkan uang yang benar-benar masuk dan keluar. Belanja bahan tercatat di sini, tetapi tidak mengurangi laba karena sudah dihitung sebagai modal.</string>
+    <string name="gs_notifications_0_title">Lonceng notifikasi</string>
+    <string name="gs_notifications_0_text">Tekan lonceng ini untuk melihat pemberitahuan. Titik merah berarti ada yang belum dibaca.</string>
+    <string name="gs_notifications_1_title">Atur jenis notifikasi</string>
+    <string name="gs_notifications_1_text">Tekan ikon pengaturan ini untuk menyalakan atau mematikan tiap jenis notifikasi.</string>
+    <string name="gs_notifications_2_title">Kapan notifikasi muncul</string>
+    <string name="gs_notifications_2_text">Anda diberi tahu saat bahan hampir habis (mencapai stok minimum) dan saat habis, masing-masing sekali per kondisi. Di Android 13 ke atas, izinkan notifikasi saat diminta agar peringatan juga muncul di luar aplikasi.</string>
+    <string name="gs_backup_0_title">Cadangan dan pulihkan</string>
+    <string name="gs_backup_0_text">Buka Lainnya, lalu tekan Cadangan dan pulihkan. Keterangan di bawahnya menunjukkan kapan terakhir Anda mencadangkan.</string>
+    <string name="gs_backup_1_title">Buat cadangan</string>
+    <string name="gs_backup_1_text">Tekan Buat cadangan, lalu pilih lokasi di luar aplikasi, misalnya penyimpanan ponsel atau kartu memori. Berkas .arnbak berisi semua data dan foto.</string>
+    <string name="gs_backup_2_title">Pulihkan data</string>
+    <string name="gs_backup_2_text">Tekan Pulihkan dari berkas dan pilih berkas .arnbak. Aplikasi memeriksa berkasnya dan menampilkan ringkasan sebelum Anda memastikan. Salinan pengaman dibuat otomatis.</string>
+    <string name="gs_backup_3_title">Pengingat cadangan</string>
+    <string name="gs_backup_3_text">Pilih seberapa sering Anda ingin diingatkan untuk mencadangkan: tiap 3, 7, 14, atau 30 hari.</string>
+    <string name="gs_profile_0_title">Profil toko</string>
+    <string name="gs_profile_0_text">Tekan kartu ini untuk mengubah nama, alamat, telepon, logo, dan simbol mata uang toko Anda.</string>
+    <string name="gs_profile_1_title">Logo</string>
+    <string name="gs_profile_1_text">Tekan lingkaran ini untuk memilih logo atau foto toko. Logo tampil di Halaman Utama.</string>
+    <string name="gs_profile_2_title">Nama dan alamat</string>
+    <string name="gs_profile_2_text">Isi nama usaha, lalu alamat dan nomor telepon di bawahnya. Semuanya tercetak di struk.</string>
+    <string name="gs_profile_3_title">Simpan</string>
+    <string name="gs_profile_3_text">Tekan Simpan setelah selesai mengubah profil.</string>
+    <string name="gs_profile_4_title">Tema</string>
+    <string name="gs_profile_4_text">Pilih Ikuti sistem, Terang, atau Gelap. Warna dinamis (Android 12 ke atas) mengambil warna dari wallpaper.</string>
+    <string name="gs_profile_5_title">Bahasa</string>
+    <string name="gs_profile_5_text">Beralih antara Bahasa Indonesia dan English. Perubahan langsung berlaku tanpa memulai ulang aplikasi.</string>
+    <string name="gs_sample_0_title">Coba dengan data contoh</string>
+    <string name="gs_sample_0_text">Saat aplikasi masih kosong, tombol ini muncul di Halaman Utama. Tekan untuk mengisi aplikasi dengan data kedai kopi fiktif.</string>
+    <string name="gs_sample_1_title">Data contoh juga ada di sini</string>
+    <string name="gs_sample_1_text">Di Cadangan dan pulihkan, bagian Data contoh, tekan Isi data contoh lalu pilih ukuran: Sedikit, Sedang, atau Banyak. Skenario Banyak butuh sekitar satu sampai dua menit.</string>
+    <string name="gs_sample_2_title">Mulai dengan data sungguhan</string>
+    <string name="gs_sample_2_text">Kalau sudah selesai mencoba, tekan Hapus semua data untuk mengosongkan aplikasi. Salinan pengaman dibuat otomatis. Data contoh hanya bisa dimuat saat aplikasi kosong, jadi tidak akan menimpa data usaha Anda.</string>
 </resources>

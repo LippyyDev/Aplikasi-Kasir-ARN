@@ -53,6 +53,8 @@ import com.example.kasirarn.ui.components.Tone
 import com.example.kasirarn.ui.components.TrendBarChart
 import com.example.kasirarn.ui.format.LocalFmt
 import com.example.kasirarn.ui.nav.containerViewModel
+import com.example.kasirarn.ui.onboarding.CoachId
+import com.example.kasirarn.ui.onboarding.coachTarget
 import com.example.kasirarn.ui.theme.Spacing
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -209,7 +211,7 @@ fun IncomeContent(ui: IncomeUi, onLoadMore: () -> Unit, onOpenTransaction: (Long
 @Composable
 private fun HeroCard(report: IncomeReport) {
     val onHero = MaterialTheme.colorScheme.onPrimaryContainer
-    ArnCard(Modifier.fillMaxWidth(), container = MaterialTheme.colorScheme.primaryContainer, contentPadding = PaddingValues(Spacing.xl)) {
+    ArnCard(Modifier.fillMaxWidth().coachTarget(CoachId.REPORT_SUMMARY), container = MaterialTheme.colorScheme.primaryContainer, contentPadding = PaddingValues(Spacing.xl)) {
         Column {
             Text(stringResource(R.string.income_net), style = MaterialTheme.typography.labelLarge, color = onHero.copy(alpha = 0.85f))
             MoneyText(report.summary.total, style = MaterialTheme.typography.displaySmall, color = onHero, shrinkToFit = true)

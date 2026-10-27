@@ -163,6 +163,7 @@ fun PaymentScreen(onBack: () -> Unit, onPaid: (Long) -> Unit) {
                     text = stringResource(R.string.pay_confirm),
                     onClick = { vm.pay(onPaid) },
                     enabled = canPay,
+                    trailingIcon = Icons.Outlined.Check,
                     modifier = Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(Spacing.lg),
                 )
             }
@@ -203,8 +204,8 @@ fun PaymentScreen(onBack: () -> Unit, onPaid: (Long) -> Unit) {
                         Spacer(Modifier.height(Spacing.xs))
                     }
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                        Text(stringResource(R.string.cart_total), style = MaterialTheme.typography.titleMedium)
-                        MoneyText(total, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
+                        Text(stringResource(R.string.cart_total), style = MaterialTheme.typography.titleMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold))
+                        MoneyText(total, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold)
                     }
                 }
             }
@@ -289,7 +290,7 @@ private fun ChangeCard(total: Long, paid: Long) {
     val enough = paid >= total
     val untouched = paid == 0L
     val bg = when {
-        untouched -> scheme.surfaceContainer
+        untouched -> scheme.surfaceContainerHigh
         enough -> scheme.secondaryContainer
         else -> scheme.errorContainer
     }
@@ -308,7 +309,7 @@ private fun ChangeCard(total: Long, paid: Long) {
             )
             Text(
                 fmt.money(if (untouched) 0 else Math.abs(paid - total)),
-                style = MaterialTheme.typography.headlineSmall.merge(MoneyStyle),
+                style = MaterialTheme.typography.headlineMedium.merge(MoneyStyle).copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
                 color = fg,
             )
         }

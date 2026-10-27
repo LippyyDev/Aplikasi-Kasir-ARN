@@ -177,7 +177,7 @@ fun ManageScreen(
                 title = stringResource(R.string.nav_manage),
                 actions = {
                     if (tab == ManageTab.INGREDIENT) {
-                        IconButton(onClick = { menuOpen = true }) {
+                        com.example.kasirarn.ui.components.TonalIconAction(onClick = { menuOpen = true }) {
                             Icon(Icons.Outlined.MoreVert, contentDescription = stringResource(R.string.action_more))
                         }
                         DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
@@ -192,25 +192,16 @@ fun ManageScreen(
                     }
                 },
             ) { tabModifier ->
-                PrimaryTabRow(
-                    selectedTabIndex = tab,
+                com.example.kasirarn.ui.components.PillTabs(
+                    labels = listOf(
+                        stringResource(R.string.menu_tab_menus),
+                        stringResource(R.string.tab_ingredients),
+                        stringResource(R.string.menu_tab_categories),
+                    ),
+                    selected = tab,
+                    onSelect = { tab = it },
                     modifier = tabModifier,
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.primary,
-                ) {
-                    listOf(
-                        ManageTab.MENU to R.string.menu_tab_menus,
-                        ManageTab.INGREDIENT to R.string.tab_ingredients,
-                        ManageTab.CATEGORY to R.string.menu_tab_categories,
-                    ).forEach { (index, label) ->
-                        Tab(
-                            selected = tab == index,
-                            onClick = { tab = index },
-                            unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            text = { Text(stringResource(label)) },
-                        )
-                    }
-                }
+                )
             }
         },
         floatingActionButton = {
@@ -223,7 +214,8 @@ fun ManageScreen(
                 onClick = action,
                 modifier = Modifier.coachTarget(CoachId.MANAGE_FAB),
                 icon = { Icon(Icons.Outlined.Add, contentDescription = null) },
-                text = { Text(stringResource(label)) },
+                text = { Text(stringResource(label), fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold) },
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
             )
@@ -430,12 +422,10 @@ private fun MenusTab(
         verticalArrangement = Arrangement.spacedBy(Spacing.sm),
     ) {
         item(span = { GridItemSpan(maxLineSpan) }) {
-            ArnField(
+            com.example.kasirarn.ui.components.SearchPill(
                 value = ui.query,
                 onValueChange = onQuery,
-                label = stringResource(R.string.home_search_hint),
-                trailing = { Icon(Icons.Outlined.Search, contentDescription = null) },
-                imeAction = androidx.compose.ui.text.input.ImeAction.Search,
+                placeholder = stringResource(R.string.home_search_hint),
             )
         }
         if (ui.menus.isEmpty()) {
@@ -450,32 +440,43 @@ private fun MenusTab(
         items(ui.menus, key = { it.menu.id }) { item ->
             var menuOpen by remember { mutableStateOf(false) }
             ArnCard(onClick = { onEdit(item) }, contentPadding = PaddingValues(Spacing.md)) {
-                Row(verticalAlignment = Alignment.Top) {
-                    MenuImage(
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    com.example.kasirarn.ui.components.MenuTile(
                         photo = item.menu.fotoPath,
                         name = item.menu.nama,
+                        category = item.categoryName,
                         modifier = Modifier.size(64.dp),
-                        shape = MaterialTheme.shapes.small,
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(18.dp),
+                        iconSize = 30.dp,
                     )
                     Spacer(Modifier.width(Spacing.md))
-                    Column(Modifier.weight(1f)) {
-                        Text(item.menu.nama, style = MaterialTheme.typography.titleSmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Text(
-                            item.categoryName ?: stringResource(R.string.menu_no_category),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = if (item.categoryName == null) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant,
+                            item.menu.nama,
+                            style = MaterialTheme.typography.titleSmall.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
                         )
-                        Spacer(Modifier.height(Spacing.xs))
-                        MoneyText(item.menu.hargaJual, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                            MoneyText(
+                                item.menu.hargaJual,
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold,
+                            )
+                            StatusPill(item.categoryName ?: stringResource(R.string.menu_no_category), if (item.categoryName == null) Tone.WARN else Tone.NEUTRAL)
+                        }
                         val price = item.menu.hargaJual
                         val pct = if (price > 0) (item.margin * 100 + price / 2) / price else 0
-                        Text(
-                            stringResource(R.string.menu_cost_margin, fmt.money(item.hpp), pct.toString()),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                            Text(
+                                stringResource(R.string.menu_cost, fmt.money(item.hpp)),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            StatusPill(stringResource(R.string.menu_margin, pct.toString()), if (pct >= 0) Tone.GOOD else Tone.BAD)
+                        }
                         if (!item.menu.aktif || (!item.hppComplete && item.recipe.isNotEmpty())) {
-                            Spacer(Modifier.height(Spacing.xs))
                             Row(horizontalArrangement = Arrangement.spacedBy(Spacing.xs)) {
                                 if (!item.menu.aktif) StatusPill(stringResource(R.string.menu_inactive), Tone.NEUTRAL)
                                 if (!item.hppComplete && item.recipe.isNotEmpty()) StatusPill(stringResource(R.string.menu_cost_incomplete), Tone.WARN)

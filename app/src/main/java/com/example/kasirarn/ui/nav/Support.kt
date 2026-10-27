@@ -9,7 +9,8 @@ import com.example.kasirarn.AppContainer
 import com.example.kasirarn.container
 
 object Routes {
-    // Empat tujuan utama (bar bawah / rail)
+    // Lima tujuan utama (bar bawah / rail)
+    const val DASHBOARD = "dashboard"
     const val HOME = "home"
     const val MANAGE = "manage?tab={tab}"
     const val REPORTS = "reports?tab={tab}"

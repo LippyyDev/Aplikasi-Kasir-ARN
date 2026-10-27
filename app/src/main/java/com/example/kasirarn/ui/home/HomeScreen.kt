@@ -55,6 +55,12 @@ import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.ui.graphics.Color
 import com.example.kasirarn.ui.components.ArnCard
+import com.example.kasirarn.ui.components.ArnChip
+import com.example.kasirarn.ui.components.ArnTopBar
+import com.example.kasirarn.ui.components.MenuTile
+import com.example.kasirarn.ui.components.SearchPill
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.ui.text.font.FontWeight
 import com.example.kasirarn.ui.components.QuantityStepper
 import com.example.kasirarn.ui.components.TonalIconAction
 import com.example.kasirarn.ui.components.initials
@@ -123,6 +129,7 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
     val ui by vm.ui.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
     var showCart by remember { mutableStateOf(false) }
+    var searching by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
     var noteFor by remember { mutableStateOf<CatalogItem?>(null) }
     var confirmDummy by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -157,17 +164,20 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         snackbarHost = {
-            SnackbarHost(snackbar, modifier = Modifier.padding(bottom = if (showCartBar) 88.dp else 0.dp))
+            SnackbarHost(snackbar, modifier = Modifier.padding(bottom = if (showCartBar) 96.dp else 0.dp))
         },
         topBar = {
             HomeTopBar(
                 query = ui.query,
                 onQuery = vm::setQuery,
+                searching = searching || ui.query.isNotEmpty(),
+                onToggleSearch = {
+                    val open = searching || ui.query.isNotEmpty()
+                    if (open) vm.setQuery("")
+                    searching = !open
+                },
                 unread = ui.unread,
-                businessName = ui.businessName,
-                logo = ui.logo,
                 onNotifications = { onNavigate(Routes.NOTIFICATIONS) },
-                onProfile = { onNavigate(Routes.PROFILE) },
             )
         },
     ) { padding ->
@@ -189,7 +199,7 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
                         modifier = Modifier.weight(1f),
                     )
                 }
-                CartBarHost(visible = showCartBar, cart = ui.cart, onClick = { showCart = true })
+                CartBarHost(visible = showCartBar, cart = ui.cart, onClick = { showCart = true }, onPay = { onNavigate(Routes.PAYMENT) })
             }
             if (twoPane) {
                 // Tablet dan lanskap: keranjang selalu terlihat di sisi kanan, tanpa lembar bawah.
@@ -272,14 +282,14 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
 
 /** Dipisah dari tata letak Row supaya AnimatedVisibility tidak bentrok dengan penerima RowScope. */
 @Composable
-private fun BoxScope.CartBarHost(visible: Boolean, cart: CartUi, onClick: () -> Unit) {
+private fun BoxScope.CartBarHost(visible: Boolean, cart: CartUi, onClick: () -> Unit, onPay: () -> Unit) {
     AnimatedVisibility(
         visible = visible,
         modifier = Modifier.align(Alignment.BottomCenter),
         enter = slideInVertically { it } + fadeIn(),
         exit = slideOutVertically { it } + fadeOut(),
     ) {
-        CartBar(cart, onClick = onClick)
+        CartBar(cart, onClick = onClick, onPay = onPay)
     }
 }
 
@@ -287,83 +297,37 @@ private fun BoxScope.CartBarHost(visible: Boolean, cart: CartUi, onClick: () -> 
 private fun HomeTopBar(
     query: String,
     onQuery: (String) -> Unit,
+    searching: Boolean,
+    onToggleSearch: () -> Unit,
     unread: Int,
-    businessName: String,
-    logo: String?,
     onNotifications: () -> Unit,
-    onProfile: () -> Unit,
 ) {
-    val searchLabel = stringResource(R.string.home_search_hint)
-    val scheme = MaterialTheme.colorScheme
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .background(scheme.background)
-            .statusBarsPadding()
-            .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
-    ) {
-        Surface(
-            modifier = Modifier.weight(1f).heightIn(min = 48.dp).coachTarget(CoachId.HOME_SEARCH),
-            shape = RoundedCornerShape(50),
-            color = scheme.surfaceContainerHigh,
-        ) {
-            Row(Modifier.padding(start = Spacing.lg, end = Spacing.xs), verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Outlined.Search, contentDescription = null, tint = scheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
-                Spacer(Modifier.width(Spacing.sm))
-                Box(Modifier.weight(1f).padding(vertical = Spacing.sm), contentAlignment = Alignment.CenterStart) {
-                    if (query.isEmpty()) {
-                        Text(
-                            stringResource(R.string.home_search_hint),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = scheme.onSurfaceVariant,
-                            maxLines = 1,
-                        )
-                    }
-                    BasicTextField(
-                        value = query,
-                        onValueChange = onQuery,
-                        singleLine = true,
-                        textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
-                        cursorBrush = SolidColor(scheme.primary),
-                        modifier = Modifier.fillMaxWidth().semantics { contentDescription = searchLabel },
+    Column(Modifier.background(MaterialTheme.colorScheme.background)) {
+        ArnTopBar(
+            title = stringResource(R.string.nav_cashier),
+            onBack = null,
+            subtitle = stringResource(R.string.home_subtitle),
+            actions = {
+                TonalIconAction(onClick = onToggleSearch, modifier = Modifier.coachTarget(CoachId.HOME_SEARCH)) {
+                    Icon(
+                        if (searching) Icons.Outlined.Close else Icons.Outlined.Search,
+                        contentDescription = stringResource(R.string.home_search_hint),
                     )
                 }
-                if (query.isNotEmpty()) {
-                    IconButton(onClick = { onQuery("") }, modifier = Modifier.size(40.dp)) {
-                        Icon(Icons.Outlined.Close, contentDescription = stringResource(R.string.action_clear), modifier = Modifier.size(18.dp))
+                TonalIconAction(onClick = onNotifications, modifier = Modifier.coachTarget(CoachId.HOME_BELL)) {
+                    BadgedBox(badge = { if (unread > 0) Badge() }) {
+                        Icon(Icons.Outlined.Notifications, contentDescription = stringResource(R.string.drawer_notifications))
                     }
                 }
-            }
-        }
-        TonalIconAction(onClick = onNotifications, modifier = Modifier.coachTarget(CoachId.HOME_BELL)) {
-            BadgedBox(badge = { if (unread > 0) Badge() }) {
-                Icon(Icons.Outlined.Notifications, contentDescription = stringResource(R.string.drawer_notifications))
-            }
-        }
-        Surface(
-            onClick = onProfile,
-            modifier = Modifier.size(44.dp),
-            shape = CircleShape,
-            color = scheme.primaryContainer,
-            contentColor = scheme.onPrimaryContainer,
-        ) {
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                when {
-                    logo != null -> MenuImage(photo = logo, name = businessName, modifier = Modifier.fillMaxSize(), shape = CircleShape)
-                    businessName.isNotBlank() -> Text(
-                        initials(businessName),
-                        style = MaterialTheme.typography.labelLarge,
-                        modifier = Modifier.semantics { contentDescription = businessName },
-                    )
-                    else -> Icon(
-                        Icons.Outlined.Person,
-                        contentDescription = stringResource(R.string.home_profile),
-                        modifier = Modifier.size(22.dp),
-                    )
-                }
-            }
+            },
+        )
+        AnimatedVisibility(visible = searching) {
+            SearchPill(
+                value = query,
+                onValueChange = onQuery,
+                placeholder = stringResource(R.string.home_search_hint),
+                modifier = Modifier.padding(start = Spacing.lg, end = Spacing.lg, bottom = Spacing.sm),
+            )
         }
     }
 }
@@ -373,39 +337,15 @@ private fun CategoryRow(ui: HomeUi, onSelect: (Long?) -> Unit) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = Spacing.lg),
         horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
-        modifier = Modifier.fillMaxWidth().coachTarget(CoachId.HOME_CATEGORIES).padding(bottom = Spacing.sm),
+        modifier = Modifier.fillMaxWidth().coachTarget(CoachId.HOME_CATEGORIES).padding(vertical = Spacing.sm),
     ) {
         item(key = "all") {
-            CategoryChip(stringResource(R.string.home_all), ui.selectedCategory == null) { onSelect(null) }
+            ArnChip(stringResource(R.string.home_all), ui.selectedCategory == null, onClick = { onSelect(null) })
         }
         items(ui.categories, key = { it.id }) { c ->
-            CategoryChip(c.nama, ui.selectedCategory == c.id) { onSelect(c.id) }
+            ArnChip(c.nama, ui.selectedCategory == c.id, onClick = { onSelect(c.id) })
         }
     }
-}
-
-@Composable
-private fun CategoryChip(label: String, selected: Boolean, onClick: () -> Unit) {
-    val scheme = MaterialTheme.colorScheme
-    FilterChip(
-        selected = selected,
-        onClick = onClick,
-        label = { Text(label, style = MaterialTheme.typography.labelLarge, maxLines = 1) },
-        shape = RoundedCornerShape(50),
-        modifier = Modifier.heightIn(min = 40.dp),
-        colors = FilterChipDefaults.filterChipColors(
-            containerColor = scheme.surfaceContainerHigh,
-            labelColor = scheme.onSurface,
-            selectedContainerColor = scheme.primary,
-            selectedLabelColor = scheme.onPrimary,
-        ),
-        border = FilterChipDefaults.filterChipBorder(
-            enabled = true,
-            selected = selected,
-            borderColor = Color.Transparent,
-            selectedBorderColor = Color.Transparent,
-        ),
-    )
 }
 
 @Composable
@@ -420,7 +360,7 @@ private fun HomeContent(
     showCartBar: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val bottomPad = if (showCartBar) 104.dp else Spacing.xl
+    val bottomPad = if (showCartBar) 112.dp else Spacing.xl
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 140.dp),
         modifier = modifier.fillMaxSize(),
@@ -500,16 +440,6 @@ private fun MenuCard(
         if (blocked) append(", ").append(stringResource(R.string.home_sold_out))
         if (inCart) append(", ").append(stringResource(R.string.home_in_cart, quantity))
     }
-    val container = when {
-        inCart -> scheme.primaryContainer.copy(alpha = if (dark) 0.35f else 0.6f)
-        dark -> scheme.surfaceContainerLow
-        else -> scheme.surfaceContainerLowest
-    }
-    val border = when {
-        inCart -> BorderStroke(2.dp, scheme.primary)
-        dark -> null
-        else -> BorderStroke(1.dp, scheme.outlineVariant.copy(alpha = 0.7f))
-    }
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -518,18 +448,18 @@ private fun MenuCard(
                 role = Role.Button
             }
             .combinedClickable(enabled = !blocked, onClick = onAdd, onLongClick = onNote),
-        shape = MaterialTheme.shapes.medium,
-        color = container,
-        border = border,
+        shape = MaterialTheme.shapes.large,
+        color = if (dark) scheme.surfaceContainerLow else scheme.surfaceContainerLowest,
+        border = if (inCart) BorderStroke(2.dp, scheme.primary) else null,
     ) {
         Column(Modifier.padding(Spacing.sm).alpha(if (blocked) 0.55f else 1f)) {
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1.25f)
-                    .clip(MaterialTheme.shapes.small),
+                    .aspectRatio(1.4f)
+                    .clip(RoundedCornerShape(18.dp)),
             ) {
-                MenuImage(photo = item.menu.fotoPath, name = item.menu.nama, modifier = Modifier.fillMaxSize())
+                MenuTile(photo = item.menu.fotoPath, name = item.menu.nama, category = item.categoryName, modifier = Modifier.fillMaxSize())
                 Row(Modifier.align(Alignment.TopStart).padding(Spacing.sm)) {
                     when {
                         blocked -> StatusPill(stringResource(R.string.home_sold_out), Tone.BAD)
@@ -538,57 +468,59 @@ private fun MenuCard(
                             StatusPill(stringResource(R.string.home_portions_left, item.portions), Tone.WARN)
                     }
                 }
-            }
-            Text(
-                item.menu.nama,
-                style = MaterialTheme.typography.titleSmall,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                minLines = 2,
-                modifier = Modifier.padding(start = Spacing.xs, end = Spacing.xs, top = Spacing.sm),
-            )
-            BoxWithConstraints(Modifier.fillMaxWidth()) {
-                // Harga dan stepper tidak muat sebaris di kartu sempit (lanskap) atau huruf sangat besar: susun ke bawah.
-                val stacked = inCart && !blocked && (LocalDensity.current.fontScale > 1.3f || maxWidth < 180.dp)
-                val price: @Composable (Modifier) -> Unit = { m ->
+                if (inCart) {
+                    Box(
+                        Modifier.align(Alignment.TopEnd).padding(Spacing.sm).size(26.dp).clip(CircleShape).background(scheme.primary),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(quantity.toString(), style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.ExtraBold), color = scheme.onPrimary)
+                    }
+                }
+                Surface(
+                    modifier = Modifier.align(Alignment.BottomStart).padding(Spacing.sm),
+                    shape = RoundedCornerShape(50),
+                    color = scheme.surfaceContainerLowest,
+                ) {
                     MoneyText(
                         item.menu.hargaJual,
-                        style = MaterialTheme.typography.titleSmall,
+                        style = MaterialTheme.typography.labelMedium,
                         color = scheme.primary,
-                        modifier = m,
-                        shrinkToFit = true,
+                        fontWeight = FontWeight.ExtraBold,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                     )
                 }
-                val action: @Composable () -> Unit = {
-                    if (inCart) {
-                        QuantityStepper(quantity = quantity, onMinus = onDecrease, onPlus = onAdd, minusIsDelete = quantity == 1, compact = true)
-                    } else {
-                        FilledTonalIconButton(
-                            onClick = onAdd,
-                            modifier = Modifier.size(36.dp),
-                            colors = IconButtonDefaults.filledTonalIconButtonColors(
-                                containerColor = scheme.primaryContainer,
-                                contentColor = scheme.onPrimaryContainer,
-                            ),
-                        ) {
+            }
+            Row(
+                Modifier.fillMaxWidth().padding(start = Spacing.xs, top = Spacing.sm, bottom = Spacing.xxs),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        item.menu.nama,
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        item.categoryName.orEmpty(),
+                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium),
+                        color = scheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+                if (!blocked) {
+                    Surface(
+                        onClick = onAdd,
+                        modifier = Modifier.size(36.dp),
+                        shape = CircleShape,
+                        color = if (inCart) scheme.primary else scheme.primaryContainer,
+                        contentColor = if (inCart) scheme.onPrimary else scheme.onPrimaryContainer,
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
                             Icon(Icons.Outlined.Add, contentDescription = stringResource(R.string.cart_increase), modifier = Modifier.size(20.dp))
                         }
-                    }
-                }
-                if (stacked) {
-                    // Huruf sangat besar: harga dan stepper tidak muat sebaris, susun ke bawah.
-                    Column(Modifier.fillMaxWidth().padding(start = Spacing.xs, bottom = Spacing.xs), verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
-                        price(Modifier)
-                        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) { action() }
-                    }
-                } else {
-                    Row(
-                        Modifier.fillMaxWidth().heightIn(min = 44.dp).padding(start = Spacing.xs),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
-                    ) {
-                        price(Modifier.weight(1f))
-                        if (!blocked) action()
                     }
                 }
             }
@@ -597,33 +529,32 @@ private fun MenuCard(
 }
 
 @Composable
-private fun CartBar(cart: CartUi, onClick: () -> Unit) {
+private fun CartBar(cart: CartUi, onClick: () -> Unit, onPay: () -> Unit) {
     val scheme = MaterialTheme.colorScheme
     val fmt = LocalFmt.current
     val description = pluralStringResource(R.plurals.cart_items, cart.count, cart.count) + ", " + fmt.money(cart.total)
     Surface(
         onClick = onClick,
         modifier = Modifier
-            .navigationBarsPadding()
-            .padding(horizontal = Spacing.lg, vertical = Spacing.md)
+            .padding(horizontal = Spacing.lg, vertical = Spacing.sm)
             .fillMaxWidth()
-            .heightIn(min = 64.dp)
+            .heightIn(min = 72.dp)
             .coachTarget(CoachId.HOME_CART)
             .semantics { contentDescription = description },
-        shape = MaterialTheme.shapes.large,
+        shape = RoundedCornerShape(28.dp),
         color = scheme.primary,
         contentColor = scheme.onPrimary,
         shadowElevation = 8.dp,
     ) {
         Row(
-            Modifier.padding(horizontal = Spacing.lg),
+            Modifier.padding(start = Spacing.md, end = Spacing.sm),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                Modifier.size(36.dp).clip(CircleShape).background(scheme.onPrimary.copy(alpha = 0.16f)),
+                Modifier.size(44.dp).clip(RoundedCornerShape(16.dp)).background(scheme.onPrimary.copy(alpha = 0.16f)),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(Icons.Outlined.ShoppingBag, contentDescription = null, modifier = Modifier.size(20.dp))
+                Icon(Icons.Outlined.ShoppingBag, contentDescription = null, modifier = Modifier.size(22.dp))
             }
             Spacer(Modifier.width(Spacing.md))
             Column(Modifier.weight(1f)) {
@@ -632,10 +563,15 @@ private fun CartBar(cart: CartUi, onClick: () -> Unit) {
                     style = MaterialTheme.typography.labelMedium,
                     color = scheme.onPrimary.copy(alpha = 0.85f),
                 )
-                Text(fmt.money(cart.total), style = MaterialTheme.typography.titleMedium.merge(MoneyStyle))
+                Text(fmt.money(cart.total), style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold).merge(MoneyStyle), maxLines = 1)
             }
-            Text(stringResource(R.string.cart_view), style = MaterialTheme.typography.labelLarge)
-            Icon(Icons.Outlined.ExpandLess, contentDescription = null)
+            Surface(onClick = onPay, shape = RoundedCornerShape(50), color = scheme.onPrimary, contentColor = scheme.primary) {
+                Row(Modifier.padding(horizontal = 18.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(R.string.cart_pay), style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.ExtraBold))
+                    Spacer(Modifier.width(Spacing.sm))
+                    Icon(Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = null, modifier = Modifier.size(18.dp))
+                }
+            }
         }
     }
 }

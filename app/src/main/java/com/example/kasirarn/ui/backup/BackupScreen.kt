@@ -28,6 +28,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -218,108 +221,103 @@ fun BackupScreen(onBack: () -> Unit) {
             Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(horizontal = Spacing.lg),
             verticalArrangement = Arrangement.spacedBy(Spacing.md),
         ) {
-            ArnCard(Modifier.fillMaxWidth()) {
+            val scheme = MaterialTheme.colorScheme
+            val statusBg = if (stale) scheme.tertiaryContainer else scheme.secondaryContainer
+            val statusFg = if (stale) scheme.onTertiaryContainer else scheme.onSecondaryContainer
+            ArnCard(Modifier.fillMaxWidth(), container = statusBg, contentPadding = androidx.compose.foundation.layout.PaddingValues(Spacing.lg)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Outlined.Backup,
-                        contentDescription = null,
-                        tint = if (stale) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier.size(32.dp),
-                    )
+                    Box(
+                        Modifier.size(52.dp).clip(androidx.compose.foundation.shape.CircleShape).background(if (stale) scheme.tertiary else scheme.secondary),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            Icons.Outlined.Backup,
+                            contentDescription = null,
+                            tint = if (stale) scheme.onTertiary else scheme.onSecondary,
+                            modifier = Modifier.size(26.dp),
+                        )
+                    }
                     Spacer(Modifier.width(Spacing.md))
                     Column {
-                        Text(stringResource(R.string.backup_last_title), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.backup_last_title), style = MaterialTheme.typography.labelMedium, color = statusFg)
                         Text(
                             if (settings.lastBackupAt == 0L) stringResource(R.string.drawer_backup_never) else fmt.dateTime(settings.lastBackupAt),
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                            color = statusFg,
                         )
                         if (stale) {
                             Text(
                                 if (settings.lastBackupAt == 0L) stringResource(R.string.notif_reminder_never)
                                 else stringResource(R.string.backup_stale, settings.backupReminderDays),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.tertiary,
+                                color = statusFg,
                             )
                         }
                     }
                 }
             }
 
-            SectionLabel(stringResource(R.string.backup_create_title))
-            Text(
-                stringResource(R.string.backup_create_body),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            PrimaryButton(
-                text = stringResource(R.string.backup_create),
-                onClick = { createLauncher.launch(vm.suggestedName()) },
-                enabled = !vm.busy,
-                modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_CREATE),
-                icon = Icons.Outlined.Backup,
-            )
-
-            SectionLabel(stringResource(R.string.backup_restore_title))
-            Text(
-                stringResource(R.string.backup_restore_body),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            SecondaryButton(
-                text = stringResource(R.string.backup_restore),
-                onClick = { openLauncher.launch(arrayOf("*/*")) },
-                enabled = !vm.busy,
-                modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_RESTORE),
-                icon = Icons.Outlined.RestoreFromTrash,
-            )
-
-            SectionLabel(stringResource(R.string.backup_reminder_title))
-            ChoiceChips(
-                modifier = Modifier.coachTarget(CoachId.BACKUP_REMINDER),
-                options = listOf(3, 7, 14, 30).map { it to stringResource(R.string.backup_every_days, it) },
-                selected = settings.backupReminderDays,
-                onSelect = vm::setReminderDays,
-            )
-
-            SectionLabel(stringResource(R.string.dummy_title))
-            Text(
-                stringResource(R.string.dummy_body),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            SecondaryButton(
-                text = stringResource(R.string.dummy_load),
-                onClick = { confirmDummy = true },
-                enabled = !vm.busy && vm.dummyAvailable,
-                modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_SAMPLE),
-                icon = Icons.Outlined.Science,
-            )
-            if (!vm.dummyAvailable) {
-                Text(
-                    stringResource(R.string.dummy_not_empty),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+            BackupSection(stringResource(R.string.backup_create_title), stringResource(R.string.backup_create_body)) {
+                PrimaryButton(
+                    text = stringResource(R.string.backup_create),
+                    onClick = { createLauncher.launch(vm.suggestedName()) },
+                    enabled = !vm.busy,
+                    modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_CREATE),
+                    icon = Icons.Outlined.Backup,
                 )
             }
-            SectionLabel(stringResource(R.string.wipe_title))
-            Text(
-                stringResource(R.string.wipe_body),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            androidx.compose.material3.OutlinedButton(
-                onClick = { confirmWipe = true },
-                enabled = !vm.busy,
-                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).coachTarget(CoachId.BACKUP_WIPE),
-                shape = MaterialTheme.shapes.medium,
-                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.error),
-            ) {
-                Icon(Icons.Outlined.DeleteForever, contentDescription = null, tint = MaterialTheme.colorScheme.error)
-                Spacer(Modifier.width(Spacing.sm))
-                Text(stringResource(R.string.wipe_button), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelLarge)
+
+            BackupSection(stringResource(R.string.backup_restore_title), stringResource(R.string.backup_restore_body)) {
+                SecondaryButton(
+                    text = stringResource(R.string.backup_restore),
+                    onClick = { openLauncher.launch(arrayOf("*/*")) },
+                    enabled = !vm.busy,
+                    modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_RESTORE),
+                    icon = Icons.Outlined.RestoreFromTrash,
+                )
             }
 
-            ArnCard(Modifier.fillMaxWidth().padding(top = Spacing.md)) {
+            BackupSection(stringResource(R.string.backup_reminder_title), null) {
+                ChoiceChips(
+                    modifier = Modifier.coachTarget(CoachId.BACKUP_REMINDER),
+                    options = listOf(3, 7, 14, 30).map { it to stringResource(R.string.backup_every_days, it) },
+                    selected = settings.backupReminderDays,
+                    onSelect = vm::setReminderDays,
+                )
+            }
+
+            BackupSection(stringResource(R.string.dummy_title), stringResource(R.string.dummy_body)) {
+                SecondaryButton(
+                    text = stringResource(R.string.dummy_load),
+                    onClick = { confirmDummy = true },
+                    enabled = !vm.busy && vm.dummyAvailable,
+                    modifier = Modifier.fillMaxWidth().coachTarget(CoachId.BACKUP_SAMPLE),
+                    icon = Icons.Outlined.Science,
+                )
+                if (!vm.dummyAvailable) {
+                    Text(
+                        stringResource(R.string.dummy_not_empty),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+
+            BackupSection(stringResource(R.string.wipe_title), stringResource(R.string.wipe_body)) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { confirmWipe = true },
+                    enabled = !vm.busy,
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).coachTarget(CoachId.BACKUP_WIPE),
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(50),
+                    border = androidx.compose.foundation.BorderStroke(1.5.dp, MaterialTheme.colorScheme.error),
+                ) {
+                    Icon(Icons.Outlined.DeleteForever, contentDescription = null, tint = MaterialTheme.colorScheme.error)
+                    Spacer(Modifier.width(Spacing.sm))
+                    Text(stringResource(R.string.wipe_button), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold))
+                }
+            }
+
+            ArnCard(Modifier.fillMaxWidth(), container = scheme.tertiaryContainer.copy(alpha = 0.5f)) {
                 Row {
                     Icon(Icons.Outlined.Shield, contentDescription = null, tint = MaterialTheme.colorScheme.tertiary)
                     Spacer(Modifier.width(Spacing.md))
@@ -421,3 +419,17 @@ private fun backupErrorText(error: BackupError): String = stringResource(
         BackupError.IO -> R.string.backup_err_io
     },
 )
+
+/** Satu bagian halaman cadangan dalam kartu putih: judul, uraian singkat, lalu isinya. */
+@Composable
+private fun BackupSection(title: String, body: String?, content: @Composable () -> Unit) {
+    ArnCard(Modifier.fillMaxWidth(), contentPadding = androidx.compose.foundation.layout.PaddingValues(Spacing.lg)) {
+        Column(verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
+            Text(title, style = MaterialTheme.typography.titleMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold))
+            if (body != null) {
+                Text(body, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            content()
+        }
+    }
+}

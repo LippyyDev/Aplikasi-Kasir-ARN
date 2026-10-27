@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowDropDown
@@ -22,6 +23,7 @@ import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -149,8 +151,8 @@ fun <T> ChoiceChips(
                 selected = isSelected,
                 onClick = { onSelect(value) },
                 label = { Text(label, style = MaterialTheme.typography.labelLarge) },
-                shape = RoundedCornerShape(50),
-                modifier = Modifier.heightIn(min = 40.dp),
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.heightIn(min = 38.dp),
                 colors = FilterChipDefaults.filterChipColors(
                     containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                     labelColor = MaterialTheme.colorScheme.onSurface,
@@ -297,4 +299,79 @@ fun PeriodSelector(
             },
         )
     }
+}
+
+/**
+ * Pilihan periode laporan berbentuk pil dengan menu turun (Hari ini, 7 hari, Bulan ini, Kustom).
+ * Rentang tanggal terpilih dituliskan di bawahnya oleh pemanggil lewat [PeriodCaption].
+ */
+@Composable
+fun PeriodMenu(
+    period: Period,
+    customFrom: Long,
+    customTo: Long,
+    onPeriod: (Period) -> Unit,
+    onCustom: (Long, Long) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var open by remember { mutableStateOf(false) }
+    var showRange by remember { mutableStateOf(false) }
+    val options = listOf(
+        Period.TODAY to stringResource(R.string.period_today),
+        Period.WEEK to stringResource(R.string.period_week),
+        Period.MONTH to stringResource(R.string.period_month),
+        Period.CUSTOM to stringResource(R.string.period_custom),
+    )
+    Box(modifier) {
+        androidx.compose.material3.Surface(
+            onClick = { open = true },
+            shape = RoundedCornerShape(50),
+            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        ) {
+            Row(Modifier.padding(horizontal = 14.dp, vertical = 9.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                Text(
+                    options.first { it.first == period }.second,
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                )
+                Spacer(Modifier.width(6.dp))
+                androidx.compose.material3.Icon(
+                    androidx.compose.material.icons.Icons.Outlined.ExpandMore,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
+            }
+        }
+        androidx.compose.material3.DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+            options.forEach { (value, label) ->
+                androidx.compose.material3.DropdownMenuItem(
+                    text = { Text(label) },
+                    onClick = {
+                        open = false
+                        if (value == Period.CUSTOM) showRange = true else onPeriod(value)
+                    },
+                )
+            }
+        }
+    }
+    if (showRange) {
+        DateRangeDialog(
+            initialFrom = customFrom,
+            initialTo = customTo,
+            onDismiss = { showRange = false },
+            onConfirm = { a, b ->
+                showRange = false
+                onCustom(a, b)
+            },
+        )
+    }
+}
+
+/** Keterangan rentang tanggal laporan, misalnya "Senin, 5 Oktober 2026" atau "1 Okt 2026 – 27 Okt 2026". */
+@Composable
+fun PeriodCaption(range: TimeRange, modifier: Modifier = Modifier) {
+    val fmt = LocalFmt.current
+    val last = range.to - 1
+    val text = if (range.isSingleDay) fmt.dateLong(range.from) else "${fmt.date(range.from)} – ${fmt.date(last)}"
+    Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = modifier)
 }

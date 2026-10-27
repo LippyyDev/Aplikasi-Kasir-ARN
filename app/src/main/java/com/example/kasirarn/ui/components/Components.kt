@@ -29,7 +29,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.BakeryDining
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.LocalCafe
+import androidx.compose.material.icons.outlined.LocalDrink
+import androidx.compose.material.icons.outlined.RestaurantMenu
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -91,30 +97,50 @@ import kotlinx.coroutines.withContext
 
 // ---------- Bilah atas ----------
 
-@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Bilah atas: layar turunan memakai tombol kembali bulat tonal dan judul 22 sp; layar utama (tanpa
+ * [onBack]) memakai judul besar 28 sp.
+ */
 @Composable
 fun ArnTopBar(
     title: String,
     onBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
+    subtitle: String? = null,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
-    TopAppBar(
-        title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.titleLarge) },
-        modifier = modifier,
-        navigationIcon = {
-            if (onBack != null) {
-                IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.action_back))
-                }
+    val scheme = MaterialTheme.colorScheme
+    Row(
+        modifier
+            .fillMaxWidth()
+            .background(scheme.background)
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .padding(horizontal = Spacing.lg, vertical = Spacing.sm),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Spacing.md),
+    ) {
+        if (onBack != null) {
+            TonalIconAction(onClick = onBack) {
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.action_back))
             }
-        },
-        actions = actions,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            scrolledContainerColor = MaterialTheme.colorScheme.background,
-        ),
-    )
+        }
+        Column(Modifier.weight(1f)) {
+            Text(
+                title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = if (onBack != null) {
+                    MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.ExtraBold)
+                } else {
+                    MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.ExtraBold)
+                },
+            )
+            if (subtitle != null) {
+                Text(subtitle, style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant, maxLines = 1)
+            }
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.sm), content = actions)
+    }
 }
 
 /**
@@ -135,13 +161,13 @@ fun ScreenHeader(
                 .windowInsetsPadding(WindowInsets.statusBars),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            tabs(Modifier.weight(1f))
+            tabs(Modifier.weight(1f).padding(horizontal = Spacing.lg, vertical = Spacing.xs))
             actions()
         }
     } else {
         Column {
             ArnTopBar(title = title, onBack = null, actions = actions)
-            tabs(Modifier)
+            tabs(Modifier.padding(horizontal = Spacing.lg, vertical = Spacing.xs))
         }
     }
 }
@@ -158,17 +184,151 @@ fun ArnCard(
 ) {
     val scheme = MaterialTheme.colorScheme
     val dark = isDarkScheme()
-    // Terang: putih di atas krem dengan garis rambut. Gelap: lapisan tonal tanpa garis.
+    // Terang: kartu putih di atas krem. Gelap: lapisan tonal. Keduanya tanpa garis tepi.
     val fill = if (container != Color.Unspecified) container else if (dark) scheme.surfaceContainerLow else scheme.surfaceContainerLowest
     val colors = CardDefaults.cardColors(containerColor = fill)
-    val border = if (dark || container != Color.Unspecified) null else BorderStroke(1.dp, scheme.outlineVariant.copy(alpha = 0.7f))
     if (onClick != null) {
-        Card(onClick = onClick, modifier = modifier, colors = colors, border = border, shape = MaterialTheme.shapes.medium) {
+        Card(onClick = onClick, modifier = modifier, colors = colors, shape = MaterialTheme.shapes.large) {
             Box(Modifier.padding(contentPadding)) { content() }
         }
     } else {
-        Card(modifier = modifier, colors = colors, border = border, shape = MaterialTheme.shapes.medium) {
+        Card(modifier = modifier, colors = colors, shape = MaterialTheme.shapes.large) {
             Box(Modifier.padding(contentPadding)) { content() }
+        }
+    }
+}
+
+/** Warna kartu sorotan: jingga penuh di tema terang, jingga tua di tema gelap. Pasangan (latar, isi). */
+@Composable
+fun heroColors(): Pair<Color, Color> {
+    val scheme = MaterialTheme.colorScheme
+    return if (isDarkScheme()) scheme.primaryContainer to scheme.onPrimaryContainer else scheme.primary to scheme.onPrimary
+}
+
+/** Kartu sorotan berwarna dengan dua lingkaran dekoratif samar di pojok kanan atas, seperti di desain v2. */
+@Composable
+fun HeroCard(
+    modifier: Modifier = Modifier,
+    container: Color = heroColors().first,
+    contentColor: Color = heroColors().second,
+    contentPadding: PaddingValues = PaddingValues(20.dp),
+    onClick: (() -> Unit)? = null,
+    content: @Composable () -> Unit,
+) {
+    val shape = RoundedCornerShape(28.dp)
+    val body: @Composable () -> Unit = {
+        Box(Modifier.fillMaxWidth().clip(shape).background(container)) {
+            androidx.compose.foundation.Canvas(Modifier.matchParentSize()) {
+                drawCircle(contentColor.copy(alpha = 0.07f), radius = 100.dp.toPx(), center = androidx.compose.ui.geometry.Offset(size.width - 20.dp.toPx(), 10.dp.toPx()))
+                drawCircle(contentColor.copy(alpha = 0.06f), radius = 60.dp.toPx(), center = androidx.compose.ui.geometry.Offset(10.dp.toPx(), size.height - 20.dp.toPx()))
+            }
+            Box(Modifier.padding(contentPadding)) {
+                androidx.compose.runtime.CompositionLocalProvider(androidx.compose.material3.LocalContentColor provides contentColor) { content() }
+            }
+        }
+    }
+    if (onClick != null) {
+        Surface(onClick = onClick, modifier = modifier, shape = shape, color = Color.Transparent) { body() }
+    } else {
+        Box(modifier) { body() }
+    }
+}
+
+/** Kotak ikon berwarna bersudut membulat (daftar pengaturan, topik panduan, menu). */
+@Composable
+fun IconTile(
+    icon: ImageVector,
+    container: Color,
+    content: Color,
+    modifier: Modifier = Modifier,
+    size: Dp = 44.dp,
+    corner: Dp = 14.dp,
+    iconSize: Dp = 22.dp,
+) {
+    Box(modifier.size(size).clip(RoundedCornerShape(corner)).background(container), contentAlignment = Alignment.Center) {
+        Icon(icon, contentDescription = null, tint = content, modifier = Modifier.size(iconSize))
+    }
+}
+
+/** Chip kategori/periode: bulat 20 dp, terpilih berwarna utama. */
+@Composable
+fun ArnChip(label: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val scheme = MaterialTheme.colorScheme
+    Surface(
+        onClick = onClick,
+        modifier = modifier.heightIn(min = 38.dp),
+        shape = RoundedCornerShape(20.dp),
+        color = if (selected) scheme.primary else scheme.surfaceContainerHigh,
+        contentColor = if (selected) scheme.onPrimary else scheme.onSurface,
+    ) {
+        Box(Modifier.padding(horizontal = 18.dp, vertical = 9.dp), contentAlignment = Alignment.Center) {
+            Text(label, style = MaterialTheme.typography.labelLarge, maxLines = 1)
+        }
+    }
+}
+
+/** Tab berbentuk pil (Menu | Bahan baku | Kategori, dan sejenisnya). Yang terpilih putih bertinta utama. */
+@Composable
+fun PillTabs(
+    labels: List<String>,
+    selected: Int,
+    onSelect: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    itemModifier: (Int) -> Modifier = { Modifier },
+) {
+    val scheme = MaterialTheme.colorScheme
+    val dark = isDarkScheme()
+    Row(
+        modifier.fillMaxWidth().clip(RoundedCornerShape(50)).background(if (dark) scheme.surfaceContainerLow else scheme.surfaceContainerHigh).padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        labels.forEachIndexed { i, label ->
+            val on = i == selected
+            Surface(
+                onClick = { onSelect(i) },
+                modifier = Modifier.weight(1f).heightIn(min = 38.dp).then(itemModifier(i)),
+                shape = RoundedCornerShape(50),
+                color = if (on) (if (dark) scheme.surfaceContainerHighest else scheme.surfaceContainerLowest) else Color.Transparent,
+                contentColor = if (on) scheme.primary else scheme.onSurfaceVariant,
+                shadowElevation = if (on && !dark) 2.dp else 0.dp,
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Text(label, style = MaterialTheme.typography.labelLarge.copy(fontWeight = if (on) FontWeight.ExtraBold else FontWeight.SemiBold), maxLines = 1)
+                }
+            }
+        }
+    }
+}
+
+/** Kolom cari berbentuk pil dengan ikon kaca pembesar. */
+@Composable
+fun SearchPill(value: String, onValueChange: (String) -> Unit, placeholder: String, modifier: Modifier = Modifier) {
+    val scheme = MaterialTheme.colorScheme
+    Surface(
+        modifier = modifier.fillMaxWidth().heightIn(min = 50.dp),
+        shape = RoundedCornerShape(50),
+        color = scheme.surfaceContainerLowest,
+        border = BorderStroke(1.dp, scheme.outlineVariant),
+    ) {
+        Row(Modifier.padding(horizontal = 18.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Outlined.Search, contentDescription = null, tint = scheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.width(Spacing.md))
+            Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+                if (value.isEmpty()) Text(placeholder, style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium), color = scheme.onSurfaceVariant, maxLines = 1)
+                androidx.compose.foundation.text.BasicTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    singleLine = true,
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(color = scheme.onSurface),
+                    cursorBrush = androidx.compose.ui.graphics.SolidColor(scheme.primary),
+                    modifier = Modifier.fillMaxWidth().semantics { contentDescription = placeholder },
+                )
+            }
+            if (value.isNotEmpty()) {
+                IconButton(onClick = { onValueChange("") }, modifier = Modifier.size(36.dp)) {
+                    Icon(Icons.Outlined.Close, contentDescription = stringResource(R.string.action_clear), modifier = Modifier.size(18.dp))
+                }
+            }
         }
     }
 }
@@ -280,19 +440,25 @@ fun PrimaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     icon: ImageVector? = null,
+    trailingIcon: ImageVector? = null,
 ) {
     Button(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier.heightIn(min = 52.dp),
-        shape = MaterialTheme.shapes.medium,
+        modifier = modifier.heightIn(min = 56.dp),
+        shape = RoundedCornerShape(50),
         colors = ButtonDefaults.buttonColors(),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp, pressedElevation = 2.dp, disabledElevation = 0.dp),
     ) {
         if (icon != null) {
             Icon(icon, contentDescription = null, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(Spacing.sm))
         }
-        Text(text, style = MaterialTheme.typography.labelLarge)
+        Text(text, style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.ExtraBold))
+        if (trailingIcon != null) {
+            Spacer(Modifier.width(Spacing.sm))
+            Icon(trailingIcon, contentDescription = null, modifier = Modifier.size(20.dp))
+        }
     }
 }
 
@@ -304,21 +470,19 @@ fun SecondaryButton(
     enabled: Boolean = true,
     icon: ImageVector? = null,
 ) {
-    FilledTonalButton(
+    OutlinedButton(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier.heightIn(min = 52.dp),
-        shape = MaterialTheme.shapes.medium,
-        colors = ButtonDefaults.filledTonalButtonColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-        ),
+        modifier = modifier.heightIn(min = 56.dp),
+        shape = RoundedCornerShape(50),
+        border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary),
     ) {
         if (icon != null) {
             Icon(icon, contentDescription = null, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(Spacing.sm))
         }
-        Text(text, style = MaterialTheme.typography.labelLarge)
+        Text(text, style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.ExtraBold))
     }
 }
 
@@ -356,7 +520,16 @@ fun ArnField(
         trailingIcon = trailing,
         supportingText = (error ?: supporting)?.let { { Text(it) } },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, capitalization = capitalization, imeAction = imeAction),
-        shape = MaterialTheme.shapes.medium,
+        shape = RoundedCornerShape(20.dp),
+        colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+            errorContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.6f),
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+        ),
     )
 }
 
@@ -439,16 +612,31 @@ fun <T> SegmentedChoice(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
-    SingleChoiceSegmentedButtonRow(modifier = modifier.fillMaxWidth()) {
-        options.forEachIndexed { index, (value, label) ->
-            SegmentedButton(
-                selected = value == selected,
+    val scheme = MaterialTheme.colorScheme
+    Row(
+        modifier.fillMaxWidth().clip(RoundedCornerShape(50)).background(scheme.surfaceContainerHigh).padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        options.forEach { (value, label) ->
+            val on = value == selected
+            Surface(
                 onClick = { onSelect(value) },
-                shape = SegmentedButtonDefaults.itemShape(index, options.size),
-                modifier = Modifier.heightIn(min = 48.dp),
                 enabled = enabled,
-                label = { Text(label, maxLines = 2, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center) },
-            )
+                modifier = Modifier.weight(1f).heightIn(min = 44.dp),
+                shape = RoundedCornerShape(50),
+                color = if (on) scheme.primary else Color.Transparent,
+                contentColor = if (on) scheme.onPrimary else scheme.onSurfaceVariant,
+            ) {
+                Box(Modifier.padding(horizontal = Spacing.sm), contentAlignment = Alignment.Center) {
+                    Text(
+                        label,
+                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.ExtraBold),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
         }
     }
 }
@@ -553,6 +741,47 @@ fun MenuImage(
     }
 }
 
+/**
+ * Foto menu bila ada; selain itu kotak berwarna lembut dengan ikon sesuai kategori (cangkir, gelas, roti,
+ * atau sendok-garpu), warnanya stabil dari nama menu.
+ */
+@Composable
+fun MenuTile(
+    photo: String?,
+    name: String,
+    category: String?,
+    modifier: Modifier = Modifier,
+    shape: androidx.compose.ui.graphics.Shape = RoundedCornerShape(0.dp),
+    iconSize: Dp = 44.dp,
+) {
+    val image = rememberLocalImage(photo)
+    Box(modifier = modifier.clip(shape), contentAlignment = Alignment.Center) {
+        if (image != null) {
+            Image(bitmap = image, contentDescription = name, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+        } else {
+            val (bg, fg) = monogramColors(Math.floorMod(name.hashCode(), 4))
+            Box(Modifier.fillMaxSize().background(bg), contentAlignment = Alignment.Center) {
+                Icon(
+                    categoryIcon(category),
+                    contentDescription = name,
+                    tint = fg.copy(alpha = 0.7f),
+                    modifier = Modifier.size(iconSize),
+                )
+            }
+        }
+    }
+}
+
+fun categoryIcon(category: String?): ImageVector {
+    val c = category.orEmpty().lowercase()
+    return when {
+        "non" in c -> Icons.Outlined.LocalDrink
+        "kopi" in c || "coffee" in c -> Icons.Outlined.LocalCafe
+        "roti" in c || "kue" in c || "camil" in c || "snack" in c || "bakery" in c -> Icons.Outlined.BakeryDining
+        else -> Icons.Outlined.RestaurantMenu
+    }
+}
+
 /** Pasangan warna latar dan huruf untuk tile tanpa foto; diambil dari skema aktif supaya serasi di terang, gelap, dan warna dinamis. */
 @Composable
 fun monogramColors(index: Int): Pair<Color, Color> {
@@ -610,7 +839,7 @@ fun QuantityStepper(
 ) {
     val scheme = MaterialTheme.colorScheme
     val button = if (compact) 36.dp else 40.dp
-    Surface(modifier = modifier, shape = RoundedCornerShape(50), color = scheme.primaryContainer, contentColor = scheme.onPrimaryContainer) {
+    Surface(modifier = modifier, shape = RoundedCornerShape(50), color = scheme.surfaceContainerHigh, contentColor = scheme.onSurface) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onMinus, modifier = Modifier.size(button)) {
                 Icon(
@@ -646,7 +875,7 @@ fun TonalIconAction(
 ) {
     FilledTonalIconButton(
         onClick = onClick,
-        modifier = modifier.size(44.dp),
+        modifier = modifier.size(46.dp),
         colors = IconButtonDefaults.filledTonalIconButtonColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             contentColor = MaterialTheme.colorScheme.onSurface,

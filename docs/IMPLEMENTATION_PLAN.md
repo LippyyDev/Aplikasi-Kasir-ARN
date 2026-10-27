@@ -461,6 +461,22 @@ Checklist
 
 ---
 
+## Tahap 15 - Desain Ulang v2 (Figma)
+
+Seluruh antarmuka disesuaikan dengan file Figma "ARN Kasir - Desain UI", bagian "Redesain v2".
+
+- [x] Sistem desain: kartu putih tanpa garis (radius 24), kartu sorotan `HeroCard`, `IconTile`, `ArnChip`, `PillTabs`, `SearchPill`, tombol bulat, isian bersudut 20, bilah atas dengan tombol kembali bulat
+- [x] Bilah navigasi melayang berisi lima tab (Beranda, Kasir, Kelola, Laporan, Lainnya); tab aktif berupa pil berlabel
+- [x] Beranda baru: penjualan hari ini dengan grafik per jam, aksi cepat, stok menipis, jam ramai, menu terlaris
+- [x] Kasir (kartu menu berwarna dengan ikon kategori, bilah keranjang dengan tombol Bayar, lembar keranjang), Pembayaran
+- [x] Kelola (menu dan bahan baku), Editor menu, Laporan (pemasukan dan pengeluaran), Lainnya, Cadangan, Notifikasi, Profil, Panduan
+- [x] Pengenalan: tombol kembali bulat, bahasa ID/EN berbentuk pil, tiga keunggulan, langkah bernomor; kartu tutorial sorot dengan indikator langkah
+- [x] Diverifikasi di emulator (terang dan gelap, potret); tes unit lulus, lint 0 galat
+- [~] Belum ada: tab Ringkasan di Laporan (hanya label di desain), ikon sendiri untuk tab Kasir (kalkulator)
+- [~] Belum diuji ulang: tablet dan lanskap dengan tampilan baru, huruf sistem 2,0
+
+---
+
 ## Di Luar Cakupan v1.0 (Sesuai PRD 14)
 
 Cadangan terjadwal ke folder pilihan, enkripsi cadangan, ekspor CSV, cetak struk Bluetooth, kunci aplikasi PIN/biometrik, tata letak tablet/lanskap, impor CSV, varian menu.

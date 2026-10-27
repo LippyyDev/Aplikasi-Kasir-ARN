@@ -35,6 +35,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
+import androidx.compose.ui.text.font.FontWeight
+import com.example.kasirarn.ui.components.HeroCard
+import com.example.kasirarn.ui.components.IconTile
+import com.example.kasirarn.ui.components.initials
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -127,7 +131,7 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
                         stringResource(R.string.drawer_notifications),
                         badge = ui.unread,
                     ) { onNavigate(Routes.NOTIFICATIONS) }
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    RowDivider()
                     SettingRow(
                         Modifier.coachTarget(CoachId.MORE_BACKUP),
                         Icons.Outlined.SettingsBackupRestore,
@@ -138,15 +142,16 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
                             stringResource(R.string.drawer_backup_last, fmt.dateTime(ui.settings.lastBackupAt))
                         },
                         supportingWarning = backupStale,
+                        tone = 1,
                     ) { onNavigate(Routes.BACKUP) }
                 }
 
                 GroupLabel(stringResource(R.string.more_section_display))
                 SettingsGroup {
-                    SettingRow(Modifier.coachTarget(CoachId.MORE_THEME), Icons.Outlined.Palette, stringResource(R.string.drawer_theme), supporting = themeLabel(ui.settings.theme)) {
+                    SettingRow(Modifier.coachTarget(CoachId.MORE_THEME), Icons.Outlined.Palette, stringResource(R.string.drawer_theme), supporting = themeLabel(ui.settings.theme), tone = 2) {
                         showTheme = true
                     }
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    RowDivider()
                     SettingRow(Modifier.coachTarget(CoachId.MORE_LANGUAGE), Icons.Outlined.Language, stringResource(R.string.drawer_language), supporting = languageLabel(ui.settings.language)) {
                         showLanguage = true
                     }
@@ -160,14 +165,16 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
                             Icons.Outlined.MenuBook,
                             stringResource(R.string.userguide_title),
                             supporting = stringResource(R.string.guide_summary),
+                            tone = 1,
                         ) { onNavigate(Routes.GUIDE) }
                     }
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    RowDivider()
                     SettingRow(
                         Modifier,
                         Icons.Outlined.Info,
                         stringResource(R.string.drawer_about),
                         supporting = stringResource(R.string.about_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE),
+                        tone = 3,
                     ) { onNavigate(Routes.ABOUT) }
                 }
                 Spacer(Modifier.height(Spacing.xl))
@@ -198,33 +205,49 @@ fun MoreScreen(onNavigate: (String) -> Unit) {
 
 @Composable
 private fun BusinessHeader(ui: MoreUi, onClick: () -> Unit) {
-    ArnCard(Modifier.fillMaxWidth().coachTarget(CoachId.MORE_PROFILE), onClick = onClick, contentPadding = PaddingValues(Spacing.lg)) {
+    val scheme = MaterialTheme.colorScheme
+    val onHero = com.example.kasirarn.ui.components.heroColors().second
+    HeroCard(
+        Modifier.fillMaxWidth().coachTarget(CoachId.MORE_PROFILE),
+        onClick = onClick,
+        contentPadding = PaddingValues(18.dp),
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
-                Modifier.size(56.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer),
+                Modifier.size(58.dp).clip(CircleShape).background(onHero.copy(alpha = 0.18f)),
                 contentAlignment = Alignment.Center,
             ) {
                 if (ui.logo != null) {
                     MenuImage(photo = ui.logo, name = ui.businessName, modifier = Modifier.fillMaxSize(), shape = CircleShape)
                 } else {
-                    Image(painterResource(R.drawable.ic_logo_mark), contentDescription = null, modifier = Modifier.fillMaxSize())
+                    Text(
+                        initials(ui.businessName.ifBlank { "ARN" }),
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
+                        color = onHero,
+                    )
                 }
             }
-            Spacer(Modifier.width(Spacing.lg))
+            Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(
                     ui.businessName.ifBlank { stringResource(R.string.more_business_unnamed) },
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold),
+                    color = onHero,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     stringResource(R.string.more_business_edit),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = onHero.copy(alpha = 0.85f),
                 )
             }
-            Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Box(
+                Modifier.size(36.dp).clip(CircleShape).background(onHero.copy(alpha = 0.18f)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = onHero)
+            }
         }
     }
 }
@@ -233,17 +256,23 @@ private fun BusinessHeader(ui: MoreUi, onClick: () -> Unit) {
 private fun GroupLabel(text: String) {
     Text(
         text,
-        style = MaterialTheme.typography.titleSmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.padding(top = Spacing.md, start = Spacing.xs),
     )
 }
 
 @Composable
 private fun SettingsGroup(content: @Composable () -> Unit) {
-    ArnCard(Modifier.fillMaxWidth(), contentPadding = PaddingValues(0.dp)) { Column { content() } }
+    ArnCard(Modifier.fillMaxWidth(), contentPadding = PaddingValues(vertical = 6.dp)) { Column { content() } }
 }
 
+@Composable
+private fun RowDivider() {
+    HorizontalDivider(Modifier.padding(horizontal = Spacing.lg), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
+}
+
+/** [tone] memilih pasangan warna kotak ikon: 0 jingga, 1 hijau, 2 kuning, 3 netral. */
 @Composable
 private fun SettingRow(
     modifier: Modifier = Modifier,
@@ -252,40 +281,49 @@ private fun SettingRow(
     supporting: String? = null,
     supportingWarning: Boolean = false,
     badge: Int = 0,
+    tone: Int = 0,
     onClick: () -> Unit,
 ) {
+    val s = MaterialTheme.colorScheme
+    val (tileBg, tileFg) = when (tone) {
+        0 -> s.primaryContainer to s.onPrimaryContainer
+        1 -> s.secondaryContainer to s.onSecondaryContainer
+        2 -> s.tertiaryContainer to s.onTertiaryContainer
+        else -> s.surfaceContainerHigh to s.onSurface
+    }
     Row(
         modifier
             .fillMaxWidth()
-            .heightIn(min = 60.dp)
+            .heightIn(min = 64.dp)
             .clickable(role = Role.Button, onClick = onClick)
-            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
+            .padding(horizontal = Spacing.lg, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            Modifier.size(40.dp).clip(MaterialTheme.shapes.small).background(MaterialTheme.colorScheme.primaryContainer),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.size(22.dp))
-        }
-        Spacer(Modifier.width(Spacing.lg))
+        IconTile(icon, tileBg, tileFg, size = 44.dp, corner = 14.dp)
+        Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.titleSmall)
+            Text(title, style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
             if (supporting != null) {
                 Text(
                     supporting,
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (supportingWarning) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = if (supportingWarning) s.tertiary else s.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
         }
         if (badge > 0) {
-            Badge(containerColor = MaterialTheme.colorScheme.primary) { Text(if (badge > 99) "99+" else badge.toString()) }
+            Box(Modifier.size(24.dp).clip(CircleShape).background(s.primary), contentAlignment = Alignment.Center) {
+                Text(
+                    if (badge > 99) "99+" else badge.toString(),
+                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.ExtraBold),
+                    color = s.onPrimary,
+                )
+            }
             Spacer(Modifier.width(Spacing.sm))
         }
-        Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = s.onSurface)
     }
 }
 

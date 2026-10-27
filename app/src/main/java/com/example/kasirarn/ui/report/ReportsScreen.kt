@@ -26,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
@@ -37,7 +38,10 @@ import com.example.kasirarn.data.db.ExpenseRow
 import com.example.kasirarn.data.db.ReservedExpenseCategory
 import com.example.kasirarn.data.repo.Op
 import com.example.kasirarn.ui.components.ScreenHeader
-import com.example.kasirarn.ui.components.PeriodSelector
+import com.example.kasirarn.ui.components.PeriodCaption
+import com.example.kasirarn.ui.components.PeriodMenu
+import com.example.kasirarn.ui.components.PillTabs
+import com.example.kasirarn.ui.components.TonalIconAction
 import com.example.kasirarn.ui.nav.ReportTab
 import com.example.kasirarn.ui.nav.containerViewModel
 import com.example.kasirarn.ui.onboarding.CoachId
@@ -84,40 +88,31 @@ fun ReportsScreen(
                     title = stringResource(R.string.nav_reports),
                     actions = {
                         if (tab == ReportTab.EXPENSES) {
-                            IconButton(onClick = onManageCategories, modifier = Modifier.coachTarget(CoachId.EXPENSE_CATEGORIES)) {
+                            TonalIconAction(onClick = onManageCategories, modifier = Modifier.coachTarget(CoachId.EXPENSE_CATEGORIES)) {
                                 Icon(Icons.Outlined.Category, contentDescription = stringResource(R.string.expenses_manage_categories))
                             }
                         }
-                    },
-                ) { tabModifier ->
-                    PrimaryTabRow(
-                        selectedTabIndex = tab,
-                        modifier = tabModifier.coachTarget(CoachId.REPORT_TABS),
-                        containerColor = MaterialTheme.colorScheme.background,
-                        contentColor = MaterialTheme.colorScheme.primary,
-                    ) {
-                        listOf(ReportTab.INCOME to R.string.tab_income, ReportTab.EXPENSES to R.string.tab_expenses).forEach { (index, label) ->
-                            Tab(
-                                selected = tab == index,
-                                onClick = { tab = index },
-                                unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                text = { Text(stringResource(label)) },
+                        period?.let { p ->
+                            PeriodMenu(
+                                period = p.period,
+                                customFrom = p.customFrom,
+                                customTo = p.customTo,
+                                onPeriod = vm.periodState::select,
+                                onCustom = vm.periodState::setCustom,
+                                modifier = Modifier.coachTarget(CoachId.REPORT_PERIOD),
                             )
                         }
-                    }
+                    },
+                ) { tabModifier ->
+                    PillTabs(
+                        labels = listOf(stringResource(R.string.tab_income), stringResource(R.string.tab_expenses)),
+                        selected = tab,
+                        onSelect = { tab = it },
+                        modifier = tabModifier,
+                        itemModifier = { if (it == 0) Modifier.coachTarget(CoachId.REPORT_TABS) else Modifier },
+                    )
                 }
-                period?.let { p ->
-                    Box(Modifier.padding(start = Spacing.lg, end = Spacing.lg, top = Spacing.md, bottom = Spacing.xs).coachTarget(CoachId.REPORT_PERIOD)) {
-                        PeriodSelector(
-                            period = p.period,
-                            range = p.range,
-                            customFrom = p.customFrom,
-                            customTo = p.customTo,
-                            onPeriod = vm.periodState::select,
-                            onCustom = vm.periodState::setCustom,
-                        )
-                    }
-                }
+                period?.let { p -> PeriodCaption(p.range, Modifier.padding(start = Spacing.xl, end = Spacing.lg, top = Spacing.xs, bottom = Spacing.xs)) }
             }
         },
         floatingActionButton = {
@@ -126,7 +121,8 @@ fun ReportsScreen(
                     onClick = { sheet = ExpenseSheetTarget(null) },
                     modifier = Modifier.coachTarget(CoachId.EXPENSE_FAB),
                     icon = { Icon(Icons.Outlined.Add, contentDescription = null) },
-                    text = { Text(stringResource(R.string.expenses_add)) },
+                    text = { Text(stringResource(R.string.expenses_add), fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold) },
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                 )

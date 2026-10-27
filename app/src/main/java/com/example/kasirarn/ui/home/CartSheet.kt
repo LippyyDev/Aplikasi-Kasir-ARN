@@ -58,6 +58,13 @@ import com.example.kasirarn.ui.components.PrimaryButton
 import com.example.kasirarn.ui.components.QuantityStepper
 import com.example.kasirarn.ui.components.SegmentedChoice
 import com.example.kasirarn.ui.format.LocalFmt
+import androidx.compose.foundation.background
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.text.font.FontWeight
+import com.example.kasirarn.ui.components.MenuTile
 import com.example.kasirarn.ui.theme.MoneyStyle
 import com.example.kasirarn.ui.theme.Spacing
 
@@ -78,7 +85,7 @@ fun CartSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
     ) {
         CartPanel(
             cart = cart,
@@ -116,13 +123,29 @@ fun CartPanel(
 
     Column(modifier) {
         Row(
-            Modifier.fillMaxWidth().padding(start = Spacing.lg, end = Spacing.sm),
+            Modifier.fillMaxWidth().padding(start = Spacing.xl, end = Spacing.sm),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(stringResource(R.string.cart_title), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+            Text(
+                stringResource(R.string.cart_title),
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.ExtraBold),
+            )
+            if (cart.lines.isNotEmpty()) {
+                Spacer(Modifier.width(Spacing.sm))
+                Text(
+                    pluralStringResource(R.plurals.cart_items, cart.count, cart.count),
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .padding(horizontal = 10.dp, vertical = 4.dp),
+                )
+            }
+            Spacer(Modifier.weight(1f))
             if (cart.lines.isNotEmpty()) {
                 TextButton(onClick = { confirmClear = true }) {
-                    Text(stringResource(R.string.cart_clear), color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.cart_clear), color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -140,7 +163,7 @@ fun CartPanel(
             // Item, diskon, dan subtotal menggulir bersama; total dan tombol bayar selalu terlihat di bawah.
             LazyColumn(
                 Modifier.weight(1f, fill = fillHeight),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = Spacing.lg),
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = Spacing.xl),
             ) {
                 items(cart.lines, key = { it.menuId }) { line ->
                     CartLineRow(
@@ -150,19 +173,18 @@ fun CartPanel(
                         onRemove = { onRemove(line.menuId) },
                         onNote = { noteFor = line },
                     )
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                 }
                 item(key = "adjustments") {
                     Column(Modifier.padding(top = Spacing.md)) {
                         Surface(
                             onClick = { showDiscount = true },
-                            shape = MaterialTheme.shapes.small,
-                            color = MaterialTheme.colorScheme.surfaceContainer,
-                            modifier = Modifier.fillMaxWidth().heightIn(min = Spacing.minTouch),
+                            shape = MaterialTheme.shapes.medium,
+                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
                         ) {
-                            Row(Modifier.padding(horizontal = Spacing.md), verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Outlined.Sell, contentDescription = null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary)
-                                Spacer(Modifier.width(Spacing.sm))
+                            Row(Modifier.padding(horizontal = Spacing.lg), verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Outlined.Sell, contentDescription = null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurface)
+                                Spacer(Modifier.width(Spacing.md))
                                 Text(
                                     if (cart.discountAmount > 0) stringResource(R.string.cart_discount_applied) else stringResource(R.string.cart_add_discount),
                                     style = MaterialTheme.typography.labelLarge,
@@ -170,6 +192,8 @@ fun CartPanel(
                                 )
                                 if (cart.discountAmount > 0) {
                                     Text("-" + fmt.money(cart.discountAmount), style = MaterialTheme.typography.labelLarge.merge(MoneyStyle))
+                                } else {
+                                    Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                                 }
                             }
                         }
@@ -183,15 +207,14 @@ fun CartPanel(
                 }
             }
         }
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-        Column(Modifier.padding(horizontal = Spacing.lg, vertical = Spacing.md)) {
+        Column(Modifier.padding(horizontal = Spacing.xl, vertical = Spacing.md)) {
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(stringResource(R.string.cart_total), style = MaterialTheme.typography.titleMedium)
-                MoneyText(cart.total, style = MaterialTheme.typography.headlineSmall)
+                Text(stringResource(R.string.cart_total), style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold))
+                MoneyText(cart.total, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.ExtraBold)
             }
             Spacer(Modifier.height(Spacing.md))
             PrimaryButton(
@@ -199,6 +222,7 @@ fun CartPanel(
                 onClick = onPay,
                 modifier = Modifier.fillMaxWidth(),
                 enabled = cart.lines.isNotEmpty(),
+                trailingIcon = Icons.AutoMirrored.Outlined.ArrowForward,
             )
         }
     }
@@ -258,15 +282,17 @@ private fun CartLineRow(
     onNote: () -> Unit,
 ) {
     Row(Modifier.fillMaxWidth().padding(vertical = Spacing.md), verticalAlignment = Alignment.Top) {
-        MenuImage(
+        MenuTile(
             photo = line.photo,
             name = line.name,
+            category = line.category,
             modifier = Modifier.size(56.dp),
-            shape = MaterialTheme.shapes.small,
+            shape = RoundedCornerShape(16.dp),
+            iconSize = 28.dp,
         )
         Spacer(Modifier.width(Spacing.md))
         Column(Modifier.weight(1f)) {
-            Text(line.name, style = MaterialTheme.typography.titleSmall, maxLines = 2)
+            Text(line.name, style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), maxLines = 2)
             MoneyText(line.price, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Row(
                 Modifier.clickable(onClick = onNote).padding(vertical = Spacing.xs),
@@ -278,6 +304,7 @@ private fun CartLineRow(
                     line.note.ifBlank { stringResource(R.string.home_add_note) },
                     style = MaterialTheme.typography.bodySmall,
                     color = if (line.note.isBlank()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                 )
             }
@@ -291,7 +318,7 @@ private fun CartLineRow(
                 minusIsDelete = line.quantity == 1,
             )
             Spacer(Modifier.height(Spacing.xs))
-            MoneyText(line.lineTotal, style = MaterialTheme.typography.titleSmall)
+            MoneyText(line.lineTotal, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.ExtraBold)
         }
     }
 }

@@ -33,6 +33,7 @@ data class CartLineUi(
     val price: Long,
     val quantity: Int,
     val note: String,
+    val category: String? = null,
 ) {
     val lineTotal: Long get() = price * quantity
 }
@@ -121,7 +122,7 @@ class HomeViewModel(private val c: AppContainer) : ViewModel() {
             (cat == null || it.menu.kategoriId == cat) && (needle.isEmpty() || it.menu.nama.lowercase().contains(needle))
         }
         val lines = cart.first.mapNotNull { l ->
-            byId[l.menuId]?.let { CartLineUi(l.menuId, it.menu.nama, it.menu.fotoPath, it.menu.hargaJual, l.quantity, l.note) }
+            byId[l.menuId]?.let { CartLineUi(l.menuId, it.menu.nama, it.menu.fotoPath, it.menu.hargaJual, l.quantity, l.note, it.categoryName) }
         }
         val guide = GuideState(d.ingredientCount > 0, d.categories.isNotEmpty(), d.catalog.isNotEmpty())
         HomeUi(

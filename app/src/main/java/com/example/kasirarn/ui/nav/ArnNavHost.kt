@@ -1,12 +1,22 @@
 package com.example.kasirarn.ui.nav
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -17,6 +27,8 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material.icons.filled.PointOfSale
 import androidx.compose.material.icons.outlined.BarChart
@@ -62,6 +74,7 @@ import androidx.navigation.navArgument
 import com.example.kasirarn.AppContainer
 import com.example.kasirarn.R
 import com.example.kasirarn.ui.backup.BackupScreen
+import com.example.kasirarn.ui.home.DashboardScreen
 import com.example.kasirarn.ui.home.HomeScreen
 import com.example.kasirarn.ui.home.PaymentScreen
 import com.example.kasirarn.ui.home.SuccessScreen
@@ -94,7 +107,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-/** Empat mode kerja aplikasi. Urutannya sama di bar bawah (ponsel) dan rail (tablet, lanskap). */
+/** Lima mode kerja aplikasi. Urutannya sama di bar bawah (ponsel) dan rail (tablet, lanskap). */
 enum class TopTab(
     val route: String,
     val pattern: String,
@@ -102,6 +115,7 @@ enum class TopTab(
     val icon: ImageVector,
     val iconSelected: ImageVector,
 ) {
+    DASHBOARD(Routes.DASHBOARD, Routes.DASHBOARD, R.string.nav_dashboard, Icons.Outlined.Home, Icons.Filled.Home),
     CASHIER(Routes.HOME, Routes.HOME, R.string.nav_cashier, Icons.Outlined.PointOfSale, Icons.Filled.PointOfSale),
     MANAGE(Routes.manage(), Routes.MANAGE, R.string.nav_manage, Icons.Outlined.Inventory2, Icons.Filled.Inventory2),
     REPORTS(Routes.reports(), Routes.REPORTS, R.string.nav_reports, Icons.Outlined.BarChart, Icons.Filled.BarChart),
@@ -109,6 +123,7 @@ enum class TopTab(
 }
 
 private fun TopTab.coachId() = when (this) {
+    TopTab.DASHBOARD -> CoachId.TAB_DASHBOARD
     TopTab.CASHIER -> CoachId.TAB_CASHIER
     TopTab.MANAGE -> CoachId.TAB_MANAGE
     TopTab.REPORTS -> CoachId.TAB_REPORTS
@@ -185,7 +200,7 @@ fun ArnNavHost() {
     }
     val navigateTo: (String) -> Unit = { want ->
         val head = want.substringBefore('?').substringBefore('/')
-        if (head in setOf("home", "manage", "reports", "more")) {
+        if (head in setOf("dashboard", "home", "manage", "reports", "more")) {
             nav.navigate(want) {
                 popUpTo(nav.graph.findStartDestination().id) { saveState = true }
                 launchSingleTop = true
@@ -247,21 +262,59 @@ private fun CappedFontScale(content: @Composable () -> Unit) {
 
 @Composable
 private fun ArnBottomBar(current: TopTab?, badges: TabBadges, onTab: (TopTab) -> Unit) = CappedFontScale {
-    NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
-        TopTab.entries.forEach { tab ->
-            val selected = tab == current
-            NavigationBarItem(
-                modifier = Modifier.coachTarget(tab.coachId()),
-                selected = selected,
-                onClick = { onTab(tab) },
-                icon = { TabIcon(tab, selected, badges.of(tab)) },
-                label = { Text(stringResource(tab.labelRes), style = MaterialTheme.typography.labelMedium) },
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                    selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    selectedTextColor = MaterialTheme.colorScheme.onSurface,
-                ),
-            )
+    val scheme = MaterialTheme.colorScheme
+    val dark = com.example.kasirarn.ui.theme.isDarkScheme()
+    val barColor = if (dark) scheme.surfaceContainerHigh else scheme.inverseSurface
+    val idle = if (dark) scheme.onSurfaceVariant else scheme.inverseOnSurface
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .background(scheme.background)
+            .navigationBarsPadding()
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 12.dp),
+    ) {
+        androidx.compose.material3.Surface(
+            modifier = Modifier.fillMaxWidth().height(72.dp),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(36.dp),
+            color = barColor,
+            shadowElevation = 12.dp,
+            border = if (dark) androidx.compose.foundation.BorderStroke(1.dp, scheme.outlineVariant) else null,
+        ) {
+            Row(
+                Modifier.padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween,
+            ) {
+                TopTab.entries.forEach { tab ->
+                    val selected = tab == current
+                    val label = stringResource(tab.labelRes)
+                    Row(
+                        Modifier
+                            .coachTarget(tab.coachId())
+                            .height(56.dp)
+                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(28.dp))
+                            .background(if (selected) scheme.primary else androidx.compose.ui.graphics.Color.Transparent)
+                            .clickable(onClickLabel = label) { onTab(tab) }
+                            .animateContentSize()
+                            .padding(horizontal = if (selected) 18.dp else 16.dp)
+                            .semantics { contentDescription = label },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        BadgedBox(badge = { if (badges.of(tab)) Badge() }) {
+                            Icon(
+                                if (selected) tab.iconSelected else tab.icon,
+                                contentDescription = null,
+                                tint = if (selected) scheme.onPrimary else idle,
+                                modifier = Modifier.size(24.dp),
+                            )
+                        }
+                        if (selected) {
+                            Spacer(Modifier.width(8.dp))
+                            Text(label, style = MaterialTheme.typography.labelLarge, color = scheme.onPrimary, maxLines = 1)
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -308,8 +361,14 @@ private fun ArnGraph(nav: androidx.navigation.NavHostController, onStartTopic: (
     val back: () -> Unit = { nav.popBackStack() }
     val navigate: (String) -> Unit = { nav.navigate(it) }
 
-    NavHost(navController = nav, startDestination = Routes.HOME) {
-        // ---- empat mode utama ----
+    NavHost(navController = nav, startDestination = Routes.DASHBOARD) {
+        // ---- lima mode utama ----
+        composable(Routes.DASHBOARD) {
+            DashboardScreen(
+                onNavigate = navigate,
+                onTab = { tab -> nav.goToTab(tab) },
+            )
+        }
         composable(Routes.HOME) { HomeScreen(onNavigate = navigate) }
         composable(Routes.MANAGE, tabArg) { entry ->
             ManageScreen(

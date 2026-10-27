@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -211,6 +212,89 @@ fun DonutWithLegend(slices: List<Slice>, modifier: Modifier = Modifier) {
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+/** Grafik area halus untuk tren pemasukan. Tinggi garis mengikuti nilai tiap batang; label sumbu di bawah. */
+@Composable
+fun TrendAreaChart(
+    bars: List<ChartBar>,
+    lineColor: Color,
+    labelColor: Color,
+    description: String,
+    modifier: Modifier = Modifier,
+) {
+    val max = (bars.maxOfOrNull { it.value } ?: 0L).coerceAtLeast(1L).toFloat()
+    Column(modifier.semantics { contentDescription = description }) {
+        Canvas(Modifier.fillMaxWidth().height(110.dp)) {
+            val n = bars.size
+            if (n == 0) return@Canvas
+            val slot = size.width / n
+            fun x(i: Int) = slot * (i + 0.5f)
+            fun y(i: Int) = size.height - 4.dp.toPx() - (size.height - 12.dp.toPx()) * (bars[i].value / max)
+            val line = androidx.compose.ui.graphics.Path().apply {
+                moveTo(x(0), y(0))
+                for (i in 1 until n) {
+                    val mx = (x(i - 1) + x(i)) / 2
+                    cubicTo(mx, y(i - 1), mx, y(i), x(i), y(i))
+                }
+            }
+            val area = androidx.compose.ui.graphics.Path().apply {
+                addPath(line)
+                lineTo(x(n - 1), size.height)
+                lineTo(x(0), size.height)
+                close()
+            }
+            drawPath(area, androidx.compose.ui.graphics.Brush.verticalGradient(listOf(lineColor.copy(alpha = 0.32f), lineColor.copy(alpha = 0.04f))))
+            drawPath(line, lineColor, style = Stroke(3.dp.toPx(), cap = StrokeCap.Round, join = androidx.compose.ui.graphics.StrokeJoin.Round))
+        }
+        Spacer(Modifier.height(Spacing.sm))
+        Row(Modifier.fillMaxWidth()) {
+            bars.forEach { bar ->
+                Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                    if (bar.showLabel) {
+                        Text(
+                            bar.label,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = labelColor,
+                            maxLines = 1,
+                            softWrap = false,
+                            overflow = TextOverflow.Clip,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** Bagian-bagian satu total sebagai batang bersegmen dengan legenda berwarna. Label, nilai, dan persen tetap tertulis. */
+@Composable
+fun StackedShareBar(slices: List<Slice>, modifier: Modifier = Modifier) {
+    val colors = chartColors()
+    val total = slices.sumOf { it.value }.coerceAtLeast(1L)
+    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
+        Row(Modifier.fillMaxWidth().height(10.dp).clip(RoundedCornerShape(5.dp)), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            slices.forEachIndexed { i, sl ->
+                if (sl.value > 0) Box(Modifier.weight(sl.value.toFloat()).fillMaxHeight().background(colors[i % colors.size]))
+            }
+        }
+        slices.forEachIndexed { i, sl ->
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(10.dp).clip(CircleShape).background(colors[i % colors.size]))
+                Spacer(Modifier.width(Spacing.md))
+                Text(sl.label, style = MaterialTheme.typography.bodyMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Medium), maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
+                Spacer(Modifier.width(Spacing.sm))
+                Text(sl.valueText, style = MaterialTheme.typography.labelLarge.merge(MoneyStyle).copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold), maxLines = 1)
+                Text(
+                    "${(sl.value * 100 + total / 2) / total}%",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.widthIn(min = 40.dp),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.End,
+                )
             }
         }
     }

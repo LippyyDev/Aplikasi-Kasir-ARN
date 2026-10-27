@@ -51,6 +51,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material.icons.outlined.WifiOff
+import androidx.compose.material.icons.outlined.Inventory2
+import androidx.compose.material.icons.outlined.Payments
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -169,19 +174,23 @@ fun OnboardingFlow() {
     }
 }
 
-/** Tombol kembali dan satu garis kemajuan tipis. */
+/** Tombol kembali bulat dan garis kemajuan. */
 @Composable
 private fun TopBar(page: Int, onBack: () -> Unit) {
     val progress by animateFloatAsState(page.toFloat() / LAST_PAGE, tween(400), label = "progress")
-    Row(Modifier.fillMaxWidth().padding(start = 4.dp, end = SidePadding, top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-        IconButton(onClick = onBack) {
+    Row(
+        Modifier.fillMaxWidth().padding(start = 16.dp, end = SidePadding, top = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
+        com.example.kasirarn.ui.components.TonalIconAction(onClick = onBack) {
             Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.action_back))
         }
         LinearProgressIndicator(
             progress = { progress },
-            modifier = Modifier.weight(1f).height(3.dp).clip(CircleShape),
+            modifier = Modifier.weight(1f).height(6.dp).clip(CircleShape),
             color = MaterialTheme.colorScheme.primary,
-            trackColor = MaterialTheme.colorScheme.outlineVariant,
+            trackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             gapSize = 0.dp,
             drawStopIndicator = {},
         )
@@ -208,20 +217,23 @@ private fun WelcomePage(language: AppLanguage, onLanguage: (AppLanguage) -> Unit
         }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.Center) {
             Reveal(shown, 0) {
-                Text(
-                    stringResource(R.string.ob_head_1),
-                    style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.ExtraBold, fontSize = 40.sp, lineHeight = 44.sp, letterSpacing = (-1).sp),
-                    modifier = Modifier.semantics { heading() },
-                )
+                IllustrationCard(Illustration.WELCOME, Modifier.padding(top = Spacing.lg), height = 220.dp)
             }
             Reveal(shown, 1) {
                 Text(
-                    stringResource(R.string.ob_head_2) + " " + stringResource(R.string.ob_head_3),
-                    style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.ExtraBold, fontSize = 40.sp, lineHeight = 44.sp, letterSpacing = (-1).sp),
-                    color = scheme.primary,
+                    stringResource(R.string.ob_head_1),
+                    style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.ExtraBold, fontSize = 38.sp, lineHeight = 44.sp, letterSpacing = (-1).sp),
+                    modifier = Modifier.padding(top = Spacing.xl).semantics { heading() },
                 )
             }
             Reveal(shown, 2) {
+                Text(
+                    stringResource(R.string.ob_head_2) + " " + stringResource(R.string.ob_head_3),
+                    style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.ExtraBold, fontSize = 38.sp, lineHeight = 44.sp, letterSpacing = (-1).sp),
+                    color = scheme.primary,
+                )
+            }
+            Reveal(shown, 3) {
                 Text(
                     stringResource(R.string.ob_welcome_body),
                     style = MaterialTheme.typography.bodyLarge,
@@ -229,14 +241,31 @@ private fun WelcomePage(language: AppLanguage, onLanguage: (AppLanguage) -> Unit
                     modifier = Modifier.padding(top = Spacing.lg).widthIn(max = 380.dp),
                 )
             }
-            Reveal(shown, 3) {
-                IllustrationCard(Illustration.WELCOME, Modifier.padding(top = Spacing.xl), height = 230.dp)
+            Reveal(shown, 4) {
+                Row(Modifier.padding(top = Spacing.lg), horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                    BenefitChip(Icons.Outlined.WifiOff, stringResource(R.string.ob_chip_offline))
+                    BenefitChip(Icons.Outlined.Inventory2, stringResource(R.string.ob_chip_stock))
+                    BenefitChip(Icons.Outlined.Payments, stringResource(R.string.ob_chip_cost))
+                }
             }
         }
         Column(Modifier.fillMaxWidth().padding(bottom = Spacing.md).navigationBarsPadding(), horizontalAlignment = Alignment.CenterHorizontally) {
-            PrimaryButton(stringResource(R.string.ob_start), onStart, Modifier.fillMaxWidth())
+            PrimaryButton(stringResource(R.string.ob_start), onStart, Modifier.fillMaxWidth(), trailingIcon = Icons.AutoMirrored.Outlined.ArrowForward)
             TextButton(onClick = onSkip) { Text(stringResource(R.string.ob_skip_all)) }
         }
+    }
+}
+
+@Composable
+private fun BenefitChip(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String) {
+    val scheme = MaterialTheme.colorScheme
+    Row(
+        Modifier.clip(CircleShape).background(scheme.surfaceContainerHigh).padding(horizontal = 10.dp, vertical = 7.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+    ) {
+        Icon(icon, contentDescription = null, tint = scheme.primary, modifier = Modifier.size(14.dp))
+        Text(label, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold), maxLines = 1)
     }
 }
 
@@ -250,26 +279,28 @@ private fun Reveal(visible: Boolean, order: Int, content: @Composable () -> Unit
     ) { content() }
 }
 
-/** Pilihan bahasa berupa dua teks: "ID  EN". */
+/** Pilihan bahasa berupa pil dua segmen: "ID | EN". */
 @Composable
 private fun LanguageToggle(language: AppLanguage, onLanguage: (AppLanguage) -> Unit) {
     val scheme = MaterialTheme.colorScheme
     val idLabel = stringResource(R.string.language_id)
     val enLabel = stringResource(R.string.language_en)
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.clip(CircleShape).background(scheme.surfaceContainerHigh).padding(3.dp), verticalAlignment = Alignment.CenterVertically) {
         listOf(AppLanguage.ID to "ID", AppLanguage.EN to "EN").forEach { (lang, label) ->
             val selected = language == lang
             Box(
                 Modifier
-                    .heightIn(min = 48.dp)
-                    .widthIn(min = 44.dp)
+                    .heightIn(min = 36.dp)
+                    .widthIn(min = 48.dp)
+                    .clip(CircleShape)
+                    .background(if (selected) scheme.primaryContainer else Color.Transparent)
                     .clickable(role = Role.RadioButton) { onLanguage(lang) }
                     .semantics { contentDescription = if (lang == AppLanguage.ID) idLabel else enLabel },
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     label,
-                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = if (selected) FontWeight.ExtraBold else FontWeight.Normal),
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = if (selected) FontWeight.ExtraBold else FontWeight.SemiBold),
                     color = if (selected) scheme.primary else scheme.onSurfaceVariant,
                 )
             }
@@ -466,16 +497,22 @@ private fun FeaturePage(index: Int, onNext: () -> Unit, onFinish: () -> Unit, on
                 modifier = Modifier.padding(top = Spacing.sm),
             )
             Spacer(Modifier.height(Spacing.xl))
-            steps.forEachIndexed { i, text ->
-                if (i > 0) HorizontalDivider(color = scheme.outlineVariant)
-                Row(Modifier.padding(vertical = Spacing.lg), verticalAlignment = Alignment.Top) {
-                    Text(
-                        "${i + 1}",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
-                        color = scheme.primary,
-                        modifier = Modifier.width(32.dp),
-                    )
-                    Text(text, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
+                steps.forEachIndexed { i, text ->
+                    val (numBg, numFg) = when (i % 3) {
+                        0 -> scheme.primaryContainer to scheme.onPrimaryContainer
+                        1 -> scheme.secondaryContainer to scheme.onSecondaryContainer
+                        else -> scheme.tertiaryContainer to scheme.onTertiaryContainer
+                    }
+                    com.example.kasirarn.ui.components.ArnCard(Modifier.fillMaxWidth(), contentPadding = androidx.compose.foundation.layout.PaddingValues(Spacing.lg)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(Modifier.size(34.dp).clip(CircleShape).background(numBg), contentAlignment = Alignment.Center) {
+                                Text("${i + 1}", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold), color = numFg)
+                            }
+                            Spacer(Modifier.width(Spacing.md))
+                            Text(text, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                        }
+                    }
                 }
             }
             if (last) {
@@ -493,6 +530,7 @@ private fun FeaturePage(index: Int, onNext: () -> Unit, onFinish: () -> Unit, on
                 text = if (last) stringResource(R.string.ob_start_tour) else stringResource(R.string.ob_next),
                 onClick = { if (last) onFinish() else onNext() },
                 modifier = Modifier.fillMaxWidth(),
+                trailingIcon = if (last) null else Icons.AutoMirrored.Outlined.ArrowForward,
             )
             if (last) {
                 Spacer(Modifier.height(48.dp))

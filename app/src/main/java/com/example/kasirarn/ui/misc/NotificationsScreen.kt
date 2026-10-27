@@ -32,6 +32,7 @@ import androidx.compose.material.icons.outlined.Backup
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.Inventory2
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.NotificationsOff
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -104,7 +105,18 @@ fun NotificationsScreen(onBack: () -> Unit) {
     val items by vm.items.collectAsStateWithLifecycle()
     val settings by vm.settings.collectAsStateWithLifecycle()
     val fmt = LocalFmt.current
+    val context = LocalContext.current
     var showSettings by remember { mutableStateOf(false) }
+    var canPost by remember { mutableStateOf(vm.canPost()) }
+    var denied by remember { mutableStateOf(false) }
+    LifecycleResumeEffect(Unit) {
+        canPost = vm.canPost()
+        onPauseOrDispose { }
+    }
+    val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        canPost = vm.canPost()
+        denied = !granted
+    }
     val hasUnread = items.any { !it.dibaca }
 
     Scaffold(
@@ -114,32 +126,93 @@ fun NotificationsScreen(onBack: () -> Unit) {
                 stringResource(R.string.notif_title),
                 onBack,
                 actions = {
-                    IconButton(onClick = vm::markAllRead, enabled = hasUnread) {
-                        Icon(Icons.Outlined.DoneAll, contentDescription = stringResource(R.string.notif_mark_all))
-                    }
-                    IconButton(onClick = { showSettings = true }, modifier = Modifier.coachTarget(CoachId.NOTIF_SETTINGS)) {
+                    com.example.kasirarn.ui.components.TonalIconAction(
+                        onClick = { showSettings = true },
+                        modifier = Modifier.coachTarget(CoachId.NOTIF_SETTINGS),
+                    ) {
                         Icon(Icons.Outlined.Tune, contentDescription = stringResource(R.string.notif_settings))
                     }
                 },
             )
         },
     ) { padding ->
-        if (items.isEmpty()) {
-            Column(Modifier.fillMaxSize().padding(padding), verticalArrangement = Arrangement.Center) {
-                EmptyState(
-                    icon = Icons.Outlined.Notifications,
-                    title = stringResource(R.string.notif_empty_title),
-                    body = stringResource(R.string.notif_empty_body),
-                )
+        LazyColumn(
+            Modifier.fillMaxSize().padding(padding),
+            contentPadding = PaddingValues(start = Spacing.lg, end = Spacing.lg, top = Spacing.sm, bottom = Spacing.xl),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            if (!canPost) {
+                item(key = "permission") {
+                    val scheme = MaterialTheme.colorScheme
+                    ArnCard(Modifier.fillMaxWidth(), container = scheme.tertiaryContainer, contentPadding = PaddingValues(Spacing.lg)) {
+                        Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.md)) {
+                                Box(Modifier.size(40.dp).clip(CircleShape).background(scheme.tertiary), contentAlignment = Alignment.Center) {
+                                    Icon(Icons.Outlined.NotificationsOff, contentDescription = null, tint = scheme.onTertiary, modifier = Modifier.size(22.dp))
+                                }
+                                Text(
+                                    stringResource(R.string.notif_permission_title),
+                                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                                    color = scheme.onTertiaryContainer,
+                                )
+                            }
+                            Text(
+                                stringResource(if (denied) R.string.notif_permission_denied else R.string.notif_permission_body),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = scheme.onTertiaryContainer,
+                            )
+                            androidx.compose.material3.Button(
+                                onClick = {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && vm.needsRuntimePermission() && !denied) {
+                                        permission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                                    } else {
+                                        context.startActivity(
+                                            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                                .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                                        )
+                                    }
+                                },
+                                shape = androidx.compose.foundation.shape.RoundedCornerShape(50),
+                                colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = scheme.tertiary, contentColor = scheme.onTertiary),
+                            ) {
+                                Text(
+                                    stringResource(if (vm.needsRuntimePermission() && !denied) R.string.notif_permission_allow else R.string.notif_permission_open_settings),
+                                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                                )
+                            }
+                        }
+                    }
+                }
             }
-        } else {
-            LazyColumn(
-                Modifier.fillMaxSize().padding(padding),
-                contentPadding = PaddingValues(bottom = Spacing.xl),
-            ) {
+            if (items.isEmpty()) {
+                item(key = "empty") {
+                    EmptyState(
+                        icon = Icons.Outlined.Notifications,
+                        title = stringResource(R.string.notif_empty_title),
+                        body = stringResource(R.string.notif_empty_body),
+                    )
+                }
+            } else {
+                item(key = "head") {
+                    Row(Modifier.fillMaxWidth().padding(top = Spacing.xs), verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            stringResource(R.string.notif_latest),
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
+                            modifier = Modifier.weight(1f),
+                        )
+                        if (hasUnread) {
+                            Text(
+                                stringResource(R.string.notif_mark_all),
+                                style = MaterialTheme.typography.labelMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.clip(MaterialTheme.shapes.extraSmall).clickable(onClick = vm::markAllRead).padding(vertical = 6.dp, horizontal = 4.dp),
+                            )
+                        }
+                    }
+                }
                 items(items, key = { it.id }) { n ->
                     NotificationRow(n, fmt.dateTime(n.waktu)) { vm.markRead(n.id) }
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                 }
             }
         }
@@ -155,32 +228,32 @@ private fun NotificationRow(n: NotificationEntity, time: String, onClick: () -> 
     val scheme = MaterialTheme.colorScheme
     val (icon, bg, fg) = when (n.jenis) {
         NotifType.LOW_STOCK -> Triple(Icons.Outlined.WarningAmber, scheme.tertiaryContainer, scheme.onTertiaryContainer)
-        NotifType.OUT_OF_STOCK -> Triple(Icons.Outlined.Inventory2, scheme.errorContainer, scheme.onErrorContainer)
+        NotifType.OUT_OF_STOCK -> Triple(Icons.Outlined.WarningAmber, scheme.errorContainer, scheme.onErrorContainer)
         else -> Triple(Icons.Outlined.Backup, scheme.secondaryContainer, scheme.onSecondaryContainer)
     }
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .background(if (n.dibaca) scheme.background else scheme.surfaceContainerLow)
-            .clickable(onClick = onClick)
-            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
-        verticalAlignment = Alignment.Top,
+    val unread = !n.dibaca
+    androidx.compose.material3.Surface(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+        color = if (com.example.kasirarn.ui.theme.isDarkScheme()) (if (unread) scheme.surfaceContainerHigh else scheme.surfaceContainerLow) else (if (unread) scheme.surfaceContainerLowest else scheme.surfaceContainerLow),
+        border = if (unread) null else androidx.compose.foundation.BorderStroke(1.dp, scheme.outlineVariant.copy(alpha = 0.7f)),
     ) {
-        Box(Modifier.size(40.dp).clip(CircleShape).background(bg), contentAlignment = Alignment.Center) {
-            Icon(icon, contentDescription = null, tint = fg, modifier = Modifier.size(20.dp))
-        }
-        Spacer(Modifier.width(Spacing.md))
-        Column(Modifier.weight(1f)) {
-            Text(
-                n.judul,
-                style = if (n.dibaca) MaterialTheme.typography.titleSmall else MaterialTheme.typography.titleSmall.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
-            )
-            Text(n.isi, style = MaterialTheme.typography.bodyMedium, color = scheme.onSurfaceVariant)
-            Spacer(Modifier.height(Spacing.xs))
-            Text(time, style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
-        }
-        if (!n.dibaca) {
-            Box(Modifier.padding(top = 6.dp, start = Spacing.sm).size(8.dp).clip(CircleShape).background(scheme.primary))
+        Row(Modifier.padding(Spacing.lg), verticalAlignment = Alignment.Top) {
+            com.example.kasirarn.ui.components.IconTile(icon, bg, fg, size = 44.dp, corner = 14.dp, iconSize = 22.dp)
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                    if (unread) Box(Modifier.size(8.dp).clip(CircleShape).background(scheme.primary))
+                    Text(
+                        n.judul,
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(time, style = MaterialTheme.typography.labelSmall, color = scheme.onSurfaceVariant)
+                }
+                Text(n.isi, style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
+            }
         }
     }
 }

@@ -37,6 +37,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.kasirarn.R
 import com.example.kasirarn.ui.components.ArnCard
+import com.example.kasirarn.ui.components.HeroCard
+import com.example.kasirarn.ui.components.IconTile
 import com.example.kasirarn.ui.components.ArnTopBar
 import com.example.kasirarn.ui.components.PrimaryButton
 import com.example.kasirarn.ui.nav.containerViewModel
@@ -55,36 +57,36 @@ fun GuideListScreen(onBack: () -> Unit, onStartTopic: (String) -> Unit, onStartT
             Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(horizontal = Spacing.lg),
             verticalArrangement = Arrangement.spacedBy(Spacing.sm),
         ) {
-            // Tutorial interaktif: kartu berwarna di bagian atas.
-            Surface(
-                shape = RoundedCornerShape(24.dp),
-                color = scheme.primaryContainer,
+            val (heroBg, heroText) = com.example.kasirarn.ui.components.heroColors()
+            // Tutorial interaktif: kartu sorotan di bagian atas.
+            HeroCard(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(Spacing.xl),
                 onClick = {
                     vm.setStage(OnboardingStage.TOUR)
                     onStartTour()
                 },
-                modifier = Modifier.fillMaxWidth(),
             ) {
-                Row(Modifier.padding(Spacing.xl), verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text(
                             stringResource(R.string.guide_interactive_title),
-                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
-                            color = scheme.onPrimaryContainer,
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold),
+                            color = heroText,
                         )
                         Spacer(Modifier.height(Spacing.xs))
                         Text(
                             stringResource(R.string.guide_interactive_body),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = scheme.onPrimaryContainer.copy(alpha = 0.85f),
+                            color = heroText.copy(alpha = 0.88f),
                         )
                     }
                     Spacer(Modifier.width(Spacing.md))
                     Box(
-                        Modifier.size(44.dp).background(scheme.primary, RoundedCornerShape(50)),
+                        Modifier.size(46.dp).background(heroText, RoundedCornerShape(50)),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Icon(Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = stringResource(R.string.ob_start_tour), tint = scheme.onPrimary)
+                        Icon(Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = stringResource(R.string.ob_start_tour), tint = heroBg)
                     }
                 }
             }
@@ -100,23 +102,23 @@ fun GuideListScreen(onBack: () -> Unit, onStartTopic: (String) -> Unit, onStartT
                 if (topics.isEmpty()) return@forEach
                 Text(
                     stringResource(section.labelRes),
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = scheme.primary,
                     modifier = Modifier.padding(top = Spacing.sm),
                 )
-                topics.forEach { topic ->
+                topics.forEachIndexed { index, topic ->
                     val stepCount = GuideScripts[topic.id]?.size ?: 0
+                    val (tileBg, tileFg) = when (index % 3) {
+                        0 -> scheme.primaryContainer to scheme.onPrimaryContainer
+                        1 -> scheme.tertiaryContainer to scheme.onTertiaryContainer
+                        else -> scheme.secondaryContainer to scheme.onSecondaryContainer
+                    }
                     ArnCard(Modifier.fillMaxWidth(), onClick = { onStartTopic(topic.id) }, contentPadding = PaddingValues(Spacing.lg)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                Modifier.size(44.dp).background(scheme.primaryContainer, RoundedCornerShape(14.dp)),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Icon(topic.icon, contentDescription = null, tint = scheme.onPrimaryContainer, modifier = Modifier.size(24.dp))
-                            }
+                            IconTile(topic.icon, tileBg, tileFg, size = 52.dp, corner = 16.dp, iconSize = 26.dp)
                             Spacer(Modifier.width(Spacing.lg))
-                            Column(Modifier.weight(1f)) {
-                                Text(stringResource(topic.titleRes), style = MaterialTheme.typography.titleSmall)
+                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                Text(stringResource(topic.titleRes), style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.ExtraBold))
                                 Text(
                                     stringResource(topic.summaryRes),
                                     style = MaterialTheme.typography.bodySmall,
@@ -125,11 +127,14 @@ fun GuideListScreen(onBack: () -> Unit, onStartTopic: (String) -> Unit, onStartT
                                 Text(
                                     stringResource(R.string.guide_topic_steps, stepCount),
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = scheme.primary,
-                                    modifier = Modifier.padding(top = 2.dp),
+                                    color = scheme.onPrimaryContainer,
+                                    modifier = Modifier
+                                        .padding(top = 4.dp)
+                                        .background(scheme.primaryContainer, RoundedCornerShape(50))
+                                        .padding(horizontal = 8.dp, vertical = 2.dp),
                                 )
                             }
-                            Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = scheme.onSurfaceVariant)
+                            Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = scheme.onSurface)
                         }
                     }
                 }

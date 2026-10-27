@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -27,6 +28,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.draw.clip
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -132,12 +137,10 @@ fun IngredientsTab(
             Column {
                 SummaryStrip(ui)
                 Spacer(Modifier.height(Spacing.md))
-                ArnField(
+                com.example.kasirarn.ui.components.SearchPill(
                     value = ui.query,
                     onValueChange = onQuery,
-                    label = stringResource(R.string.ingredient_search),
-                    trailing = { Icon(Icons.Outlined.Search, contentDescription = null) },
-                    imeAction = androidx.compose.ui.text.input.ImeAction.Search,
+                    placeholder = stringResource(R.string.ingredient_search),
                 )
             }
         }
@@ -151,10 +154,31 @@ fun IngredientsTab(
             }
         }
         items(ui.items, key = { it.id }) { ing ->
-            ArnCard(onClick = { onOpen(ing.id) }, contentPadding = PaddingValues(Spacing.lg)) {
+            val scheme = MaterialTheme.colorScheme
+            val level = ing.level()
+            val (tileBg, tileFg) = when (level) {
+                StockLevel.OK -> scheme.secondaryContainer to scheme.onSecondaryContainer
+                StockLevel.LOW -> scheme.tertiaryContainer to scheme.onTertiaryContainer
+                StockLevel.OUT -> scheme.errorContainer to scheme.onErrorContainer
+            }
+            ArnCard(onClick = { onOpen(ing.id) }, contentPadding = PaddingValues(Spacing.md)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
+                    com.example.kasirarn.ui.components.IconTile(
+                        icon = Icons.Outlined.Inventory2,
+                        container = tileBg,
+                        content = tileFg,
+                        size = 46.dp,
+                        corner = 23.dp,
+                        iconSize = 22.dp,
+                    )
+                    Spacer(Modifier.width(Spacing.md))
                     Column(Modifier.weight(1f)) {
-                        Text(ing.nama, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(
+                            ing.nama,
+                            style = MaterialTheme.typography.titleSmall.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
                         Spacer(Modifier.height(2.dp))
                         Text(
                             stringResource(R.string.ingredient_value, fmt.money(ing.nilaiStok.coerceAtLeast(0))),
@@ -166,10 +190,10 @@ fun IngredientsTab(
                     Column(horizontalAlignment = Alignment.End) {
                         Text(
                             fmt.quantity(ing.stokDasar, ing.dim()),
-                            style = MaterialTheme.typography.titleSmall.merge(MoneyStyle),
+                            style = MaterialTheme.typography.titleSmall.merge(MoneyStyle).copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
                         )
                         Spacer(Modifier.height(Spacing.xs))
-                        StockLevelPill(ing.level())
+                        StockLevelPill(level)
                     }
                 }
             }
@@ -213,26 +237,44 @@ fun StockPolicyDialog(current: StockPolicy, onSelect: (StockPolicy) -> Unit, onD
 
 @Composable
 private fun SummaryStrip(ui: IngredientsUi) {
-    ArnCard(modifier = Modifier.fillMaxWidth()) {
-        Column {
-            Text(
-                stringResource(R.string.ingredient_stock_value),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            MoneyText(ui.totalValue, style = MaterialTheme.typography.headlineSmall)
-            Spacer(Modifier.height(Spacing.xs))
-            val low = ui.lowCount + ui.outCount
-            Text(
-                if (low == 0) {
-                    pluralStringResource(R.plurals.ingredient_count, ui.totalCount, ui.totalCount)
-                } else {
-                    pluralStringResource(R.plurals.ingredient_count, ui.totalCount, ui.totalCount) + " · " +
-                        stringResource(R.string.ingredient_need_attention, low)
-                },
-                style = MaterialTheme.typography.bodyMedium,
-                color = if (low == 0) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.tertiary,
-            )
+    val onHero = com.example.kasirarn.ui.components.heroColors().second
+    com.example.kasirarn.ui.components.HeroCard(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 18.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text(
+                    stringResource(R.string.ingredient_stock_value),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = onHero.copy(alpha = 0.85f),
+                )
+                MoneyText(
+                    ui.totalValue,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = onHero,
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold,
+                    shrinkToFit = true,
+                )
+                val low = ui.lowCount + ui.outCount
+                Text(
+                    if (low == 0) {
+                        pluralStringResource(R.plurals.ingredient_count, ui.totalCount, ui.totalCount)
+                    } else {
+                        pluralStringResource(R.plurals.ingredient_count, ui.totalCount, ui.totalCount) + " · " +
+                            stringResource(R.string.ingredient_need_attention, low)
+                    },
+                    style = MaterialTheme.typography.labelMedium,
+                    color = onHero.copy(alpha = 0.85f),
+                )
+            }
+            Spacer(Modifier.width(Spacing.md))
+            Box(
+                Modifier.size(48.dp).clip(androidx.compose.foundation.shape.CircleShape).background(onHero.copy(alpha = 0.16f)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(Icons.Outlined.AccountBalanceWallet, contentDescription = null, tint = onHero)
+            }
         }
     }
 }

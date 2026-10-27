@@ -34,6 +34,23 @@ class Fmt(val language: AppLanguage, val currency: String = "Rp") {
         return (if (value < 0) "-" else "") + currency + " " + abs
     }
 
+    /** Uang ringkas untuk kartu sempit: "Rp 612rb", "Rp 7,16jt" (bahasa Inggris: "Rp 612k", "Rp 7.16M"). */
+    fun moneyShort(value: Long): String {
+        val abs = Math.abs(value)
+        val sign = if (value < 0) "-" else ""
+        val (unit, million, thousand) = if (language == AppLanguage.ID) Triple("", "jt", "rb") else Triple("", "M", "k")
+        fun trimmed(v: Double): String {
+            val text = "%.2f".format(Locale.US, v).trimEnd('0').trimEnd('.')
+            return text.replace('.', decimalSeparator)
+        }
+        val body = when {
+            abs >= 1_000_000 -> trimmed(abs / 1_000_000.0) + million
+            abs >= 1_000 -> (abs / 1_000).toString() + thousand
+            else -> abs.toString()
+        }
+        return sign + currency + " " + unit + body
+    }
+
     /** Angka uang tanpa simbol, untuk isian. Kosong bila nol. */
     fun moneyInput(value: Long): String = if (value == 0L) "" else number(value)
 

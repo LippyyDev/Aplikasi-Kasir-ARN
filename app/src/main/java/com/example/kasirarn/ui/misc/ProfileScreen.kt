@@ -144,48 +144,50 @@ fun ProfileFields(vm: ProfileViewModel, showCurrency: Boolean = true, modifier: 
         if (uri != null) vm.pickLogo(uri)
     }
     Column(modifier, verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                Modifier
-                    .size(88.dp)
-                    .coachTarget(CoachId.PROFILE_LOGO)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer)
-                    .clickable(role = Role.Button) {
-                        picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                    },
-                contentAlignment = Alignment.Center,
-            ) {
-                if (vm.logo != null) {
-                    MenuImage(photo = vm.logo, name = vm.name, modifier = Modifier.fillMaxSize(), shape = CircleShape)
-                } else {
-                    Icon(
-                        Icons.Outlined.AddPhotoAlternate,
-                        contentDescription = stringResource(R.string.profile_logo_add),
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.size(32.dp),
-                    )
-                }
-            }
-            Spacer(Modifier.width(Spacing.lg))
-            Column {
-                Text(stringResource(R.string.profile_logo), style = MaterialTheme.typography.titleSmall)
-                Text(
-                    stringResource(R.string.profile_logo_hint),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                if (vm.logo != null) {
-                    TextButton(onClick = vm::removeLogo) { Text(stringResource(R.string.profile_logo_remove)) }
-                }
-            }
-        }
         if (showCurrency) {
             Text(
                 stringResource(R.string.profile_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+        com.example.kasirarn.ui.components.ArnCard(Modifier.fillMaxWidth()) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    Modifier
+                        .size(88.dp)
+                        .coachTarget(CoachId.PROFILE_LOGO)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .clickable(role = Role.Button) {
+                            picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (vm.logo != null) {
+                        MenuImage(photo = vm.logo, name = vm.name, modifier = Modifier.fillMaxSize(), shape = CircleShape)
+                    } else {
+                        Icon(
+                            Icons.Outlined.AddPhotoAlternate,
+                            contentDescription = stringResource(R.string.profile_logo_add),
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                            modifier = Modifier.size(32.dp),
+                        )
+                    }
+                }
+                Spacer(Modifier.width(Spacing.lg))
+                Column {
+                    Text(stringResource(R.string.profile_logo), style = MaterialTheme.typography.titleSmall)
+                    Text(
+                        stringResource(R.string.profile_logo_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    if (vm.logo != null) {
+                        TextButton(onClick = vm::removeLogo) { Text(stringResource(R.string.profile_logo_remove)) }
+                    }
+                }
+            }
         }
         ArnField(vm.name, { vm.name = it.take(60) }, stringResource(R.string.profile_name), modifier = Modifier.coachTarget(CoachId.PROFILE_NAME))
         ArnField(vm.address, { vm.address = it.take(120) }, stringResource(R.string.profile_address), singleLine = false, minLines = 2)

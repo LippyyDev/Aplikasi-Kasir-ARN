@@ -26,6 +26,10 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
+import androidx.compose.material.icons.outlined.SouthEast
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -143,16 +147,19 @@ fun ExpensesContent(ui: ExpensesUi, onRowClick: (ExpenseRow) -> Unit, onLoadMore
         horizontalArrangement = Arrangement.spacedBy(Spacing.md),
         verticalArrangement = Arrangement.spacedBy(Spacing.md),
     ) {
-        if (fin != null) {
-            item { ProfitCard(fin) }
-            item { CashFlowCard(fin) }
+        if (report != null) {
+            item(span = full) { ExpenseHero(report.total, fin?.netProfit) }
         }
         if (report != null && report.byCategory.isNotEmpty()) {
             item(span = full) {
                 ReportCard(stringResource(R.string.expenses_by_category)) {
-                    DonutWithLegend(report.byCategory.map { Slice(it.label, it.amount, fmt.money(it.amount)) })
+                    com.example.kasirarn.ui.components.StackedShareBar(report.byCategory.map { Slice(it.label, it.amount, fmt.money(it.amount)) })
                 }
             }
+        }
+        if (fin != null) {
+            item { ProfitCard(fin) }
+            item { CashFlowCard(fin) }
         }
         item(span = full) { SectionLabel(stringResource(R.string.expenses_list)) }
         if (ui.rows.isEmpty()) {
@@ -171,9 +178,18 @@ fun ExpensesContent(ui: ExpensesUi, onRowClick: (ExpenseRow) -> Unit, onLoadMore
                 contentPadding = PaddingValues(Spacing.lg),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
+                    com.example.kasirarn.ui.components.IconTile(
+                        icon = Icons.Outlined.SouthEast,
+                        container = MaterialTheme.colorScheme.errorContainer,
+                        content = MaterialTheme.colorScheme.onErrorContainer,
+                        size = 44.dp,
+                        corner = 22.dp,
+                        iconSize = 20.dp,
+                    )
+                    Spacer(Modifier.width(Spacing.md))
                     Column(Modifier.weight(1f)) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
-                            Text(row.kategoriNama, style = MaterialTheme.typography.titleSmall)
+                            Text(row.kategoriNama, style = MaterialTheme.typography.titleSmall.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold))
                             when (row.sumber) {
                                 ExpenseSource.RESTOCK -> StatusPill(stringResource(R.string.expenses_source_restock), Tone.NEUTRAL)
                                 ExpenseSource.LOSS -> StatusPill(stringResource(R.string.expenses_source_loss), Tone.WARN)
@@ -186,7 +202,7 @@ fun ExpensesContent(ui: ExpensesUi, onRowClick: (ExpenseRow) -> Unit, onLoadMore
                             maxLines = 2,
                         )
                     }
-                    MoneyText(row.nominal, style = MaterialTheme.typography.titleSmall)
+                    MoneyText(row.nominal, style = MaterialTheme.typography.titleSmall, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold)
                 }
             }
         }
@@ -197,27 +213,49 @@ fun ExpensesContent(ui: ExpensesUi, onRowClick: (ExpenseRow) -> Unit, onLoadMore
 }
 
 @Composable
+private fun ExpenseHero(total: Long, netProfit: Long?) {
+    val (bg, fg, _) = reportHeroColors()
+    val fmt = LocalFmt.current
+    com.example.kasirarn.ui.components.HeroCard(Modifier.fillMaxWidth(), container = bg, contentColor = fg) {
+        Column(verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
+            Text(stringResource(R.string.expenses_total), style = MaterialTheme.typography.labelLarge, color = fg.copy(alpha = 0.7f))
+            MoneyText(total, style = MaterialTheme.typography.displaySmall, color = fg, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold, shrinkToFit = true)
+            if (netProfit != null) {
+                Text(
+                    stringResource(R.string.expenses_net_chip, fmt.money(netProfit)),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier
+                        .clip(androidx.compose.foundation.shape.RoundedCornerShape(50))
+                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                        .padding(horizontal = 10.dp, vertical = 5.dp),
+                )
+            }
+        }
+    }
+}
+
+@Composable
 private fun ProfitCard(fin: Financials) {
     val loss = fin.netProfit < 0
     val scheme = MaterialTheme.colorScheme
-    val container = if (loss) scheme.errorContainer else scheme.secondaryContainer
-    val onContainer = if (loss) scheme.onErrorContainer else scheme.onSecondaryContainer
-    ArnCard(Modifier.fillMaxWidth().coachTarget(CoachId.REPORT_SUMMARY), container = container, contentPadding = PaddingValues(Spacing.xl)) {
+    val onContainer = scheme.onSurface
+    ArnCard(Modifier.fillMaxWidth().coachTarget(CoachId.REPORT_SUMMARY), contentPadding = PaddingValues(Spacing.xl)) {
         Column {
-            Text(stringResource(R.string.profit_net), style = MaterialTheme.typography.labelLarge, color = onContainer.copy(alpha = 0.85f))
-            MoneyText(fin.netProfit, style = MaterialTheme.typography.displaySmall, color = onContainer, shrinkToFit = true)
+            Text(stringResource(R.string.profit_net), style = MaterialTheme.typography.labelLarge, color = scheme.onSurfaceVariant)
+            MoneyText(fin.netProfit, style = MaterialTheme.typography.headlineLarge, color = if (loss) scheme.error else scheme.secondary, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold, shrinkToFit = true)
             Spacer(Modifier.height(Spacing.md))
             HorizontalDivider(color = onContainer.copy(alpha = 0.2f))
             Spacer(Modifier.height(Spacing.sm))
-            LineRow(stringResource(R.string.income_net), fin.netSales, color = onContainer, labelColor = onContainer.copy(alpha = 0.85f))
-            LineRow(stringResource(R.string.profit_cogs), -fin.cogs, color = onContainer, labelColor = onContainer.copy(alpha = 0.85f))
+            LineRow(stringResource(R.string.income_net), fin.netSales, color = onContainer, labelColor = scheme.onSurfaceVariant)
+            LineRow(stringResource(R.string.profit_cogs), -fin.cogs, color = onContainer, labelColor = scheme.onSurfaceVariant)
             LineRow(stringResource(R.string.income_gross_profit), fin.grossProfit, bold = true, color = onContainer, labelColor = onContainer)
-            LineRow(stringResource(R.string.profit_operating), -fin.operating, color = onContainer, labelColor = onContainer.copy(alpha = 0.85f))
+            LineRow(stringResource(R.string.profit_operating), -fin.operating, color = onContainer, labelColor = scheme.onSurfaceVariant)
             Spacer(Modifier.height(Spacing.sm))
             Text(
                 stringResource(R.string.profit_note),
                 style = MaterialTheme.typography.bodySmall,
-                color = onContainer.copy(alpha = 0.8f),
+                color = scheme.onSurfaceVariant,
             )
         }
     }

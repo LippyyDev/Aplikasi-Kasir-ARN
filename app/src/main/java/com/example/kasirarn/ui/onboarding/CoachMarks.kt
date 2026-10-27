@@ -22,6 +22,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -69,7 +72,7 @@ import kotlin.math.roundToInt
 /** Bagian aplikasi yang bisa disorot oleh tutorial. */
 enum class CoachId {
     // Bilah navigasi
-    TAB_CASHIER, TAB_MANAGE, TAB_REPORTS, TAB_MORE,
+    TAB_DASHBOARD, TAB_CASHIER, TAB_MANAGE, TAB_REPORTS, TAB_MORE,
     // Kasir
     HOME_SEARCH, HOME_CATEGORIES, HOME_MENU, HOME_CART, HOME_BELL, HOME_SAMPLE,
     // Kelola
@@ -224,7 +227,7 @@ fun CoachOverlay(
     val target: Rect? = if (onScreen) raw!!.translate(-origin.x, -origin.y).inflate(pad) else null
     val animated by animateRectAsState(target ?: Rect.Zero, label = "coach")
     val shown = if (target != null) animated else null
-    val ring = MaterialTheme.colorScheme.primaryContainer
+    val ring = MaterialTheme.colorScheme.primary
     // Selama sasaran belum ketemu dan belum habis waktu tunggu, hanya layar gelap yang tampil agar tidak berkedip.
     val showCard = !(missing && !waited)
 
@@ -275,36 +278,66 @@ fun CoachOverlay(
                     .width(with(density) { cardWidthPx.toDp() }.coerceAtLeast(200.dp))
                     .onSizeChanged { cardSize = it },
                 shape = MaterialTheme.shapes.large,
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                tonalElevation = 6.dp,
-                shadowElevation = 8.dp,
+                color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                shadowElevation = 12.dp,
             ) {
-                Column(Modifier.padding(Spacing.lg), verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                     Text(
                         stringResource(R.string.tour_step, safeIndex + 1, steps.size),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
                         color = MaterialTheme.colorScheme.primary,
                     )
-                    Text(stringResource(step.title), style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        stringResource(step.title),
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                    )
                     Text(
                         stringResource(step.text),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                    Spacer(Modifier.height(Spacing.xs))
+                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp), modifier = Modifier.padding(vertical = Spacing.xs)) {
+                        steps.indices.forEach { i ->
+                            Box(
+                                Modifier
+                                    .height(6.dp)
+                                    .width(if (i == safeIndex) 22.dp else 6.dp)
+                                    .background(
+                                        if (i == safeIndex) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
+                                        androidx.compose.foundation.shape.RoundedCornerShape(3.dp),
+                                    ),
+                            )
+                        }
+                    }
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         if (!last) {
-                            TextButton(onClick = onFinish) { Text(stringResource(R.string.ob_skip)) }
+                            TextButton(onClick = onFinish) {
+                                Text(stringResource(R.string.ob_skip), color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                            }
                         }
                         Spacer(Modifier.weight(1f))
                         if (safeIndex > 0) {
                             TextButton(onClick = { goTo(safeIndex - 1, -1) }) { Text(stringResource(R.string.action_back)) }
                             Spacer(Modifier.width(Spacing.xs))
                         }
-                        PrimaryButton(
-                            text = stringResource(if (last) R.string.ob_done else R.string.ob_next),
+                        androidx.compose.material3.Button(
                             onClick = { if (last) onFinish() else goTo(safeIndex + 1, 1) },
-                        )
+                            shape = androidx.compose.foundation.shape.RoundedCornerShape(50),
+                            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 22.dp, vertical = 12.dp),
+                        ) {
+                            Text(
+                                stringResource(if (last) R.string.ob_done else R.string.ob_next),
+                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                            )
+                            if (!last) {
+                                Spacer(Modifier.width(Spacing.sm))
+                                androidx.compose.material3.Icon(
+                                    androidx.compose.material.icons.Icons.AutoMirrored.Outlined.ArrowForward,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp),
+                                )
+                            }
+                        }
                     }
                 }
             }

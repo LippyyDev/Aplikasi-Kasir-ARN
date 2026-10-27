@@ -43,6 +43,8 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
+import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -332,22 +334,24 @@ fun MenuEditorScreen(id: Long?, onBack: () -> Unit, onAddIngredient: () -> Unit)
                 }
             }
             item {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(Spacing.minTouch + 8.dp)
-                        .toggleable(value = vm.active, role = Role.Switch, onValueChange = { vm.active = it }),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Column(Modifier.weight(1f)) {
-                        Text(stringResource(R.string.menu_active), style = MaterialTheme.typography.bodyLarge)
-                        Text(
-                            stringResource(R.string.menu_active_hint),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                ArnCard(Modifier.fillMaxWidth()) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .toggleable(value = vm.active, role = Role.Switch, onValueChange = { vm.active = it }),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(stringResource(R.string.menu_active), style = MaterialTheme.typography.titleSmall.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold))
+                            Text(
+                                stringResource(R.string.menu_active_hint),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        Spacer(Modifier.width(Spacing.md))
+                        Switch(checked = vm.active, onCheckedChange = null)
                     }
-                    Switch(checked = vm.active, onCheckedChange = null)
                 }
             }
             item {
@@ -443,7 +447,7 @@ private fun PhotoPicker(photo: String?, name: String, onPick: () -> Unit, onRemo
                 .clickable(role = Role.Button, onClick = onPick),
         ) {
             if (photo != null) {
-                MenuImage(photo = photo, name = name, modifier = Modifier.fillMaxSize(), shape = MaterialTheme.shapes.medium)
+                MenuImage(photo = photo, name = name, modifier = Modifier.fillMaxSize(), shape = MaterialTheme.shapes.large)
                 IconButton(
                     onClick = onRemove,
                     modifier = Modifier.align(Alignment.TopEnd).padding(Spacing.sm),
@@ -455,14 +459,18 @@ private fun PhotoPicker(photo: String?, name: String, onPick: () -> Unit, onRemo
             } else {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    shape = MaterialTheme.shapes.medium,
-                    color = MaterialTheme.colorScheme.surfaceContainer,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                    shape = MaterialTheme.shapes.large,
+                    color = MaterialTheme.colorScheme.primaryContainer,
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                        Icon(Icons.Outlined.AddPhotoAlternate, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(32.dp))
-                        Spacer(Modifier.height(Spacing.sm))
-                        Text(stringResource(R.string.menu_photo_add), style = MaterialTheme.typography.titleSmall)
+                        Box(
+                            Modifier.size(52.dp).clip(androidx.compose.foundation.shape.CircleShape).background(MaterialTheme.colorScheme.primary),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(Icons.Outlined.AddPhotoAlternate, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(26.dp))
+                        }
+                        Spacer(Modifier.height(Spacing.md))
+                        Text(stringResource(R.string.menu_photo_add), style = MaterialTheme.typography.titleSmall.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold))
                         Text(
                             stringResource(R.string.menu_photo_hint),
                             style = MaterialTheme.typography.bodySmall,
@@ -482,42 +490,34 @@ private fun PhotoPicker(photo: String?, name: String, onPick: () -> Unit, onRemo
 private fun CostSummary(price: Long, cost: Long, complete: Boolean, hasRecipe: Boolean) {
     val margin = price - cost
     val pct = if (price > 0) (margin * 100 + price / 2) / price else 0
-    ArnCard(Modifier.fillMaxWidth()) {
-        Column {
-            Text(stringResource(R.string.cost_title), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Spacer(Modifier.height(Spacing.sm))
+    val scheme = MaterialTheme.colorScheme
+    Surface(Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.medium, color = scheme.tertiaryContainer, contentColor = scheme.onTertiaryContainer) {
+        Column(Modifier.padding(Spacing.lg)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Column {
-                    Text(stringResource(R.string.cost_hpp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    MoneyText(cost, style = MaterialTheme.typography.titleLarge)
+                    Text(stringResource(R.string.cost_hpp), style = MaterialTheme.typography.labelMedium)
+                    MoneyText(cost, style = MaterialTheme.typography.headlineSmall, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text(stringResource(R.string.cost_margin), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.cost_margin), style = MaterialTheme.typography.labelMedium)
                     MoneyText(
                         margin,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = if (margin < 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondary,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold,
+                        color = if (margin < 0) scheme.error else scheme.secondary,
                     )
-                    Text("$pct%", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("$pct%", style = MaterialTheme.typography.labelMedium)
                 }
             }
             if (hasRecipe && !complete) {
                 Spacer(Modifier.height(Spacing.md))
                 StatusPill(stringResource(R.string.menu_cost_incomplete), Tone.WARN)
                 Spacer(Modifier.height(Spacing.xs))
-                Text(
-                    stringResource(R.string.cost_incomplete_hint),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                Text(stringResource(R.string.cost_incomplete_hint), style = MaterialTheme.typography.bodySmall)
             }
             if (!hasRecipe) {
                 Spacer(Modifier.height(Spacing.sm))
-                Text(
-                    stringResource(R.string.cost_no_recipe),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                Text(stringResource(R.string.cost_no_recipe), style = MaterialTheme.typography.bodySmall)
             }
         }
     }

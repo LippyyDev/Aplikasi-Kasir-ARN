@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Payments
+import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -116,60 +118,29 @@ fun IncomeContent(ui: IncomeUi, onLoadMore: () -> Unit, onOpenTransaction: (Long
                 )
             }
         } else {
-            item(span = full) { HeroCard(report) }
-            item(span = full) {
-                if (wide) {
-                    StatRow {
-                        StatTile(stringResource(R.string.income_gross), report.summary.subtotal, Modifier.weight(1f))
-                        StatTile(stringResource(R.string.income_discount), report.summary.discount, Modifier.weight(1f))
-                        StatTile(stringResource(R.string.income_cogs), report.cogs, Modifier.weight(1f))
-                        StatTile(
-                            stringResource(R.string.income_gross_profit), report.grossProfit, Modifier.weight(1f),
-                            color = MaterialTheme.colorScheme.secondary, negativeAllowed = true,
-                        )
-                    }
-                } else {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
-                        StatRow {
-                            StatTile(stringResource(R.string.income_gross), report.summary.subtotal, Modifier.weight(1f))
-                            StatTile(stringResource(R.string.income_discount), report.summary.discount, Modifier.weight(1f))
-                        }
-                        StatRow {
-                            StatTile(stringResource(R.string.income_cogs), report.cogs, Modifier.weight(1f))
-                            StatTile(
-                                stringResource(R.string.income_gross_profit), report.grossProfit, Modifier.weight(1f),
-                                color = MaterialTheme.colorScheme.secondary, negativeAllowed = true,
-                            )
-                        }
-                    }
-                }
-            }
-            item(span = full) {
-                Text(
-                    stringResource(R.string.income_gross_profit_note),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
             item(span = full) {
                 val bars = buildBars(report.trend, period?.range ?: com.example.kasirarn.data.repo.TimeRange(0, 1), report.hourly, fmt.locale)
-                ReportCard(stringResource(if (report.hourly) R.string.income_trend_hour else R.string.income_trend_day)) {
-                    TrendBarChart(
-                        bars = bars,
-                        formatValue = { fmt.money(it) },
-                        description = stringResource(R.string.income_trend_desc, fmt.money(report.summary.total)),
+                HeroCard(report, bars, fmt.money(report.summary.total))
+            }
+            item(span = full) { IncomeMetrics(report, period?.range) }
+            item(span = full) {
+                ReportCard(stringResource(R.string.income_detail)) {
+                    LineRow(stringResource(R.string.income_gross), report.summary.subtotal)
+                    LineRow(stringResource(R.string.income_discount), -report.summary.discount)
+                    LineRow(stringResource(R.string.income_cogs), -report.cogs)
+                    LineRow(stringResource(R.string.income_gross_profit), report.grossProfit, bold = true, negativeIsError = true)
+                    Spacer(Modifier.height(Spacing.xs))
+                    Text(
+                        stringResource(R.string.income_gross_profit_note),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
             if (report.topMenus.isNotEmpty()) {
-                item {
-                    ReportCard(stringResource(R.string.income_top_menus), Modifier.fillMaxHeight()) {
-                        RankedBars(
-                            report.topMenus.map {
-                                RankRow(it.name, it.qty, stringResource(R.string.income_sold_qty, it.qty), fmt.money(it.revenue))
-                            },
-                        )
-                    }
+                item(span = full) { SectionLabel(stringResource(R.string.income_top_menus)) }
+                item(span = full) {
+                    com.example.kasirarn.ui.components.TopMenuList(report.topMenus, short = false)
                 }
             }
             if (report.byCategory.isNotEmpty()) {
@@ -208,21 +179,69 @@ fun IncomeContent(ui: IncomeUi, onLoadMore: () -> Unit, onOpenTransaction: (Long
     }
 }
 
+/** Warna kartu sorotan laporan: cokelat tua di tema terang, jingga tua di tema gelap. */
 @Composable
-private fun HeroCard(report: IncomeReport) {
-    val onHero = MaterialTheme.colorScheme.onPrimaryContainer
-    ArnCard(Modifier.fillMaxWidth().coachTarget(CoachId.REPORT_SUMMARY), container = MaterialTheme.colorScheme.primaryContainer, contentPadding = PaddingValues(Spacing.xl)) {
-        Column {
-            Text(stringResource(R.string.income_net), style = MaterialTheme.typography.labelLarge, color = onHero.copy(alpha = 0.85f))
-            MoneyText(report.summary.total, style = MaterialTheme.typography.displaySmall, color = onHero, shrinkToFit = true)
-            Spacer(Modifier.height(Spacing.xs))
-            val fmt = LocalFmt.current
+fun reportHeroColors(): Triple<androidx.compose.ui.graphics.Color, androidx.compose.ui.graphics.Color, androidx.compose.ui.graphics.Color> {
+    val scheme = MaterialTheme.colorScheme
+    return if (com.example.kasirarn.ui.theme.isDarkScheme()) {
+        Triple(scheme.primaryContainer, scheme.onPrimaryContainer, scheme.primary)
+    } else {
+        Triple(scheme.inverseSurface, scheme.inverseOnSurface, scheme.inversePrimary)
+    }
+}
+
+@Composable
+private fun HeroCard(report: IncomeReport, bars: List<com.example.kasirarn.ui.components.ChartBar>, totalText: String) {
+    val (bg, fg, accent) = reportHeroColors()
+    val fmt = LocalFmt.current
+    com.example.kasirarn.ui.components.HeroCard(
+        Modifier.fillMaxWidth().coachTarget(CoachId.REPORT_SUMMARY),
+        container = bg,
+        contentColor = fg,
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(Spacing.md)) {
+            Text(stringResource(R.string.income_net), style = MaterialTheme.typography.labelLarge, color = fg.copy(alpha = 0.7f))
+            MoneyText(report.summary.total, style = MaterialTheme.typography.displaySmall, color = fg, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold, shrinkToFit = true)
             Text(
                 pluralStringResource(R.plurals.transaction_count, report.summary.txCount, report.summary.txCount) +
-                    " · " + stringResource(R.string.income_average, fmt.money(report.average)),
-                style = MaterialTheme.typography.bodyMedium,
-                color = onHero.copy(alpha = 0.85f),
+                    " \u00b7 " + stringResource(R.string.income_average, fmt.money(report.average)),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                modifier = Modifier
+                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(50))
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .padding(horizontal = 10.dp, vertical = 5.dp),
             )
+            com.example.kasirarn.ui.components.TrendAreaChart(
+                bars = bars,
+                lineColor = accent,
+                labelColor = fg.copy(alpha = 0.7f),
+                description = stringResource(R.string.income_trend_desc, totalText),
+            )
+        }
+    }
+}
+
+@Composable
+private fun IncomeMetrics(report: IncomeReport, range: com.example.kasirarn.data.repo.TimeRange?) {
+    val s = MaterialTheme.colorScheme
+    val fmt = LocalFmt.current
+    val days = range?.let { ((it.to - it.from) / 86_400_000L).coerceAtLeast(1L) } ?: 1L
+    val margin = if (report.summary.total > 0) (report.grossProfit * 100 / report.summary.total) else 0L
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+        MetricTile(stringResource(R.string.income_gross_profit), fmt.moneyShort(report.grossProfit), stringResource(R.string.menu_margin, margin.toString()), s.secondaryContainer, s.onSecondaryContainer, Modifier.weight(1f))
+        MetricTile(stringResource(R.string.dash_transactions), report.summary.txCount.toString(), stringResource(R.string.income_per_day, (report.summary.txCount / days).toString()), s.tertiaryContainer, s.onTertiaryContainer, Modifier.weight(1f))
+        MetricTile(stringResource(R.string.dash_average), fmt.moneyShort(report.average), stringResource(R.string.income_per_receipt), s.primaryContainer, s.onPrimaryContainer, Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun MetricTile(label: String, value: String, sub: String, container: androidx.compose.ui.graphics.Color, content: androidx.compose.ui.graphics.Color, modifier: Modifier) {
+    androidx.compose.material3.Surface(modifier, shape = androidx.compose.foundation.shape.RoundedCornerShape(22.dp), color = container, contentColor = content) {
+        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(label, style = MaterialTheme.typography.labelMedium, maxLines = 1)
+            Text(value, style = MaterialTheme.typography.titleMedium.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold), maxLines = 1)
+            Text(sub, style = MaterialTheme.typography.labelSmall, maxLines = 1)
         }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "name": "ARN Kasir - perbaiki kolom pencarian",
+  "id": "arn-kasir-perbaiki-pencarian",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page"
+}
